@@ -1,19 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-    NativeModules, Text,
-    View
-} from 'react-native';
-
 import { Heading, NativeBaseProvider } from 'native-base';
+import React, { useCallback, useEffect, useState } from 'react';
+import { NativeModules, Text, View } from 'react-native';
 import { EstablishmentApi, LoginApi, MenuApi, ProductTypeApi, ProductsApi, PublicationApi, UserApi } from './client';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
@@ -193,13 +182,9 @@ function App(): JSX.Element {
                 </AuthContext.Provider>
                 :
                 <View style={{ width: '100%', height: '100%' }}>
-                    <View style={{ flex: 4, flexDirection: 'row', alignItems: "center", justifyContent: "center", backgroundColor: COLORS.appBackground, paddingTop: 50 }}>
-                        {/* <Text style={{ color: PALLET.pastel_blue, fontSize: 70, marginRight: 20 }}>C</Text>
-                        <Text style={{ color: PALLET.pastel_yellow, fontSize: 70, marginRight: 20 }}>O</Text>
-                        <Text style={{ color: PALLET.pastel_green, fontSize: 70, marginRight: 20 }}>B</Text>
-                        <Text style={{ color: PALLET.pastel_pink, fontSize: 70 }}>O</Text> */}
+                    <View style={{ flex: 4, flexDirection: 'row', alignItems: "center", backgroundColor: COLORS.appBackground, paddingTop: 50 }}>
                         <NativeBaseProvider>
-                            <Heading style={{ color: COLORS.button, fontSize: 50, paddingTop: 50 }}>{i18n.t('appName').toUpperCase()}</Heading>
+                            <Heading style={{ color: COLORS.button, fontSize: 50, paddingTop: 50, alignSelf: 'center' }}>{i18n.t('appName').toUpperCase()}</Heading>
                         </NativeBaseProvider>
                     </View>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 30, flexDirection: 'row', backgroundColor: COLORS.appBackground }}>
