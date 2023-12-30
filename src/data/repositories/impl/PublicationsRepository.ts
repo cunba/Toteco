@@ -1,25 +1,24 @@
-import { ProductDTO } from "../../../client";
 import { SessionStoreFactory } from "../../../infrastructure/data/SessionStoreFactory";
 import { TotecoApi } from "../../../infrastructure/data/TotecoApiClient";
 import { TotecoBaseRepository } from "../../../infrastructure/data/repositories/TotecoBaseRepository";
 import { ErrorResponse } from "../../../infrastructure/exceptions/ErrorResponse";
-import { ProductDataDTO } from "../../model/Product";
-import { IProductsApi } from "../IProductsApi";
+import { PublicationDataDTO } from "../../model/Publication";
+import { IPublicationsApi } from "../IPublicationsApi";
 import { LoginRepository } from "./LoginRepository";
 
 
-export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
+export class PublicationsRepository extends TotecoBaseRepository<IPublicationsApi> {
 
     static tries = 0
 
     constructor() {
-        super(TotecoApi.ProductsApi, false)
+        super(TotecoApi.PublicationsApi, false)
     }
 
-    async saveProduct(productDTO: ProductDTO) {
+    async savePublication(body: PublicationDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.saveProduct(productDTO)
+            const result = await client.savePublication(body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -30,20 +29,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.saveProduct(productDTO)
+                    PublicationsRepository.tries++
+                    this.savePublication(body)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async updateProduct(id: number, body: ProductDataDTO) {
+    async updatePublication(id: number, body: PublicationDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.updateProduct(id, body)
+            const result = await client.updatePublication(id, body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -54,20 +53,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.updateProduct(id, body)
+                    PublicationsRepository.tries++
+                    this.updatePublication(id, body)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async deleteProductById(id: number) {
+    async updatePublicationPriceAndScore(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.deleteProductById(id)
+            const result = await client.updatePublicationPriceAndScore(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -78,20 +77,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.deleteProductById(id)
+                    PublicationsRepository.tries++
+                    this.updatePublicationPriceAndScore(id)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getAllProducts() {
+    async deletePublication(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getAllProducts()
+            const result = await client.deletePublication(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -102,20 +101,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getAllProducts()
+                    PublicationsRepository.tries++
+                    this.deletePublication(id)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductById(id: number) {
+    async getAllPublications() {
         try {
             const client = await this.apiClient
-            const result = await client.getProductById(id)
+            const result = await client.getAllPublications()
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -126,20 +125,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductById(id)
+                    PublicationsRepository.tries++
+                    this.getAllPublications()
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByDate(date: number) {
+    async getPublicationById(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByDate(date)
+            const result = await client.getPublicationById(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -150,20 +149,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByDate(date)
+                    PublicationsRepository.tries++
+                    this.getPublicationById(id)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByDateBetween(minDate: number, maxDate: number) {
+    async getPublicationByDate(date: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByDateBetween(minDate, maxDate)
+            const result = await client.getPublicationByDate(date)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -174,20 +173,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByDateBetween(minDate, maxDate)
+                    PublicationsRepository.tries++
+                    this.getPublicationByDate(date)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByInMenu(inMenu: boolean) {
+    async getPublicationByDateBetween(minDate: number, maxDate: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByInMenu(inMenu)
+            const result = await client.getPublicationByDateBetween(minDate, maxDate)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -198,20 +197,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByInMenu(inMenu)
+                    PublicationsRepository.tries++
+                    this.getPublicationByDateBetween(minDate, maxDate)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async updateProductsPrice(id: number, price: number) {
+    async getPublicationByDateBetweenAndPriceBetweenAndScoreBetween(minDate: number, maxDate: number, minPrice: number, maxPrice: number, minScore: number, maxScore: number) {
         try {
             const client = await this.apiClient
-            const result = await client.updateProductsPrice(id, price)
+            const result = await client.getPublicationByDateBetweenAndPriceBetweenAndScoreBetween(minDate, maxDate, minPrice, maxPrice, minScore, maxScore)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -222,20 +221,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.updateProductsPrice(id, price)
+                    PublicationsRepository.tries++
+                    this.getPublicationByDateBetweenAndPriceBetweenAndScoreBetween(minDate, maxDate, minPrice, maxPrice, minScore, maxScore)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByPrice(price: number) {
+    async getPublicationByPrice(price: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByPrice(price)
+            const result = await client.getPublicationByPrice(price)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -246,20 +245,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByPrice(price)
+                    PublicationsRepository.tries++
+                    this.getPublicationByPrice(price)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByPriceBetween(minPrice: number, maxPrice: number) {
+    async getPublicationByPriceBetween(minPrice: number, maxPrice: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByPriceBetween(minPrice, maxPrice)
+            const result = await client.getPublicationByPriceBetween(minPrice, maxPrice)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -270,20 +269,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByPriceBetween(minPrice, maxPrice)
+                    PublicationsRepository.tries++
+                    this.getPublicationByPriceBetween(minPrice, maxPrice)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async updateProductsScore(id: number, score: number) {
+    async getPublicationsByScore(score: number) {
         try {
             const client = await this.apiClient
-            const result = await client.updateProductsScore(id, score)
+            const result = await client.getPublicationsByScore(score)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -294,20 +293,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.updateProductsScore(id, score)
+                    PublicationsRepository.tries++
+                    this.getPublicationsByScore(score)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByScore(score: number) {
+    async getPublicationByScoreBetween(minScore: number, maxScore: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByScore(score)
+            const result = await client.getPublicationByScoreBetween(minScore, maxScore)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -318,20 +317,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByScore(score)
+                    PublicationsRepository.tries++
+                    this.getPublicationByScoreBetween(minScore, maxScore)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByScoreBetween(minScore: number, maxScore: number) {
+    async getPublicationByEstablishmentId(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByScoreBetween(minScore, maxScore)
+            const result = await client.getPublicationByEstablishmentId(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -342,20 +341,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByScoreBetween(minScore, maxScore)
+                    PublicationsRepository.tries++
+                    this.getPublicationByEstablishmentId(id)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByTypeId(typeId: number) {
+    async getPublicationByUserId(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByTypeId(typeId)
+            const result = await client.getPublicationByUserId(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -366,20 +365,20 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByTypeId(typeId)
+                    PublicationsRepository.tries++
+                    this.getPublicationByUserId(id)
                 }
             } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }
     }
 
-    async getProductsByMenuId(menuId: number) {
+    async getPublicationByProductType(type: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getProductsByMenuId(menuId)
+            const result = await client.getPublicationByProductType(type)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -390,35 +389,11 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
                     throw jwtResponse
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByMenuId(menuId)
+                    PublicationsRepository.tries++
+                    this.getPublicationByProductType(type)
                 }
             } else {
-                ProductsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getProductsByPublicationId(publicationId: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getProductsByPublicationId(publicationId)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
-                    this.getProductsByPublicationId(publicationId)
-                }
-            } else {
-                ProductsRepository.tries = 0
+                PublicationsRepository.tries = 0
                 throw e
             }
         }

@@ -13,11 +13,18 @@ import {
     View
 } from 'react-native';
 
+import { Heading, NativeBaseProvider } from 'native-base';
+import { EstablishmentApi, LoginApi, MenuApi, ProductTypeApi, ProductsApi, PublicationApi, UserApi } from './client';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
 import { SIZES } from './config/Sizes';
 import { commonStyles } from './config/Styles';
+import { JwtRequestData } from './data/model/Jwt';
+import { UserDataDTO } from './data/model/User';
+import { LoginRepository } from './data/repositories/impl/LoginRepository';
+import { UsersRepository } from './data/repositories/impl/UsersRepository';
 import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
+import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
 import { navigate, navigationRef } from './infrastructure/navigation/RootNavigation';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
@@ -25,8 +32,26 @@ import { SignUpViewModel } from './viewmodels/SignUpViewModel';
 import { LoginView } from './views/login/LoginView';
 import { SignUpView } from './views/signup/SignUpView';
 
+TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentApi)
+TotecosApiClient.register(TotecoApi.LoginApi, new LoginApi)
+TotecosApiClient.register(TotecoApi.MenusApi, new MenuApi)
+TotecosApiClient.register(TotecoApi.ProductTypesApi, new ProductTypeApi)
+TotecosApiClient.register(TotecoApi.ProductsApi, new ProductsApi)
+TotecosApiClient.register(TotecoApi.PublicationsApi, new PublicationApi)
+TotecosApiClient.register(TotecoApi.UsersApi, new UserApi)
+
 let locale: string = PLATFORM === 'ios' ? NativeModules.SettingsManager.settings.AppleLocale : NativeModules.I18nManager.localeIdentifier;
+locale.length > 2 ? i18n.changeLanguage(locale.substring(0, 2)) : i18n.changeLanguage(locale)
+if (locale === undefined) {
+    // iOS 13 workaround, take first of AppleLanguages array  ["en", "en-NZ"]
+    locale = NativeModules.SettingsManager.settings.AppleLanguages[0]
+    if (locale === undefined) {
+        locale = "en" // default language
+    }
+}
+
 export const AuthContext = React.createContext<any>({});
+
 const Stack = createNativeStackNavigator();
 const COLORS = COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT
 
@@ -84,10 +109,10 @@ function App(): JSX.Element {
             if (isLogged) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
                 let userToken = ''
-                // if (credentials && credentials.password && credentials.email) {
-                //     const response: any = await new LoginRepository().login(credentials.email!, credentials.password!)
-                //     userToken = response.token!
-                // }
+                if (credentials && credentials.password && credentials.username) {
+                    const response: any = await new LoginRepository().login(credentials)
+                    userToken = response.token!
+                }
                 dispatch({ type: 'RESTORE_TOKEN', token: userToken });
             }
 
@@ -100,25 +125,23 @@ function App(): JSX.Element {
 
     const authContext = React.useMemo(
         () => ({
-            signIn: async (email: string, password: string) => {
-                // const response = await new LoginRepository().login(email, password)
-                // SessionStoreFactory.getSessionStore().setToken(response.token!);
-                // SessionStoreFactory.getSessionStore().setCredentials({ email: email, password: password } as ICredentials)
-                // const user = await new UserRepository().getByEmail(email)
+            signIn: async (username: string, password: string) => {
+                const credentials = new JwtRequestData(username, password)
+                const response = await new LoginRepository().login(credentials)
+                SessionStoreFactory.getSessionStore().setToken(response.token);
+                SessionStoreFactory.getSessionStore().setCredentials({ username: username, password: password } as JwtRequestData)
+                // const user = await new UsersRepository().getCurrentUser()
                 // SessionStoreFactory.getSessionStore().setUser(user)
-                // const disband = await new DisbandRepository().getByUserId(user!.id!)
-                // SessionStoreFactory.getSessionStore().setDisband(disband![0])
-                dispatch({ type: 'SIGN_IN', token: '' });
+                dispatch({ type: 'SIGN_IN', token: response.token });
             },
             signOut: () => {
-                // SessionStoreFactory.getSessionStore().setToken('');
-                // SessionStoreFactory.getSessionStore().setCredentials(undefined)
-                // SessionStoreFactory.getSessionStore().setUser(undefined);
-                // SessionStoreFactory.getSessionStore().setDisband(undefined);
+                SessionStoreFactory.getSessionStore().setToken('');
+                SessionStoreFactory.getSessionStore().setCredentials(undefined)
+                SessionStoreFactory.getSessionStore().setUser(undefined);
                 dispatch({ type: 'SIGN_OUT' });
             },
-            signUp: async (user: any) => {
-                // await new UserRepository().save(user)
+            signUp: async (user: UserDataDTO) => {
+                await new UsersRepository().saveUser(user)
             }
         }),
         [],
@@ -175,7 +198,9 @@ function App(): JSX.Element {
                         <Text style={{ color: PALLET.pastel_yellow, fontSize: 70, marginRight: 20 }}>O</Text>
                         <Text style={{ color: PALLET.pastel_green, fontSize: 70, marginRight: 20 }}>B</Text>
                         <Text style={{ color: PALLET.pastel_pink, fontSize: 70 }}>O</Text> */}
-                        {/* <Title style={{ color: COLORS.touchables, fontSize: 50, paddingTop: 50 }}>{i18n.t('appName').toUpperCase()}</Title> */}
+                        <NativeBaseProvider>
+                            <Heading style={{ color: COLORS.button, fontSize: 50, paddingTop: 50 }}>{i18n.t('appName').toUpperCase()}</Heading>
+                        </NativeBaseProvider>
                     </View>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 30, flexDirection: 'row', backgroundColor: COLORS.appBackground }}>
                         <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.text_button, paddingRight: 10 }]}>{i18n.t('init')}</Text>

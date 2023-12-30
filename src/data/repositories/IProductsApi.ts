@@ -1,32 +1,40 @@
-import { IRepository } from "../../infrastructure/data/repositories/IRepository"
-import { ErrorResponse } from "../../infrastructure/exceptions/ErrorResponse"
 import { ProductData, ProductDataDTO } from "../model/Product"
 
 
-export interface IProductsApi extends IRepository<ProductData, ProductDataDTO> {
+export interface IProductsApi {
 
-    findByDate(date: number): Promise<ProductData[] | ErrorResponse>
+    deleteProductById(id: number): Promise<string>
 
-    findBetweenDates(minDate: number, maxDate: number): Promise<ProductData[] | ErrorResponse>
+    getAllProducts(): Promise<ProductData[]>
 
-    findInMenu(inMenu: boolean): Promise<ProductData[] | ErrorResponse>
+    getProductById(id: number): Promise<ProductData>
 
-    updatePrice(id: number, price: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByDate(date: number): Promise<ProductData[]>
 
-    findByPrice(price: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByDateBetween(minDate: number, maxDate: number): Promise<ProductData[]>
 
-    findBetweenPrices(minPrice: number, maxPrice: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByInMenu(inMenu: boolean): Promise<ProductData[]>
 
-    updateScore(id: number, score: number): Promise<ProductData[] | ErrorResponse>
+    updateProductsPrice(id: number, price: number): Promise<ProductData[]>
 
-    findByScore(score: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByPrice(price: number): Promise<ProductData[]>
 
-    findBetweenScores(minScore: number, maxScore: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByPriceBetween(minPrice: number, maxPrice: number): Promise<ProductData[]>
 
-    findByType(typeId: number): Promise<ProductData[] | ErrorResponse>
+    updateProductsScore(id: number, score: number): Promise<ProductData[]>
 
-    findByMenu(menuId: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByScore(score: number): Promise<ProductData[]>
 
-    findByPublication(publicationId: number): Promise<ProductData[] | ErrorResponse>
+    getProductsByScoreBetween(minScore: number, maxScore: number): Promise<ProductData[]>
+
+    getProductsByTypeId(typeId: number): Promise<ProductData[]>
+
+    getProductsByMenuId(menuId: number): Promise<ProductData[]>
+
+    getProductsByPublicationId(publicationId: number): Promise<ProductData[]>
+
+    saveProduct(body: ProductDataDTO): Promise<ProductData>
+
+    updateProduct(id: number, body: ProductDataDTO): Promise<ProductData>
 
 }
