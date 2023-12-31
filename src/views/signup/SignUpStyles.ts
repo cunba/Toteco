@@ -1,40 +1,29 @@
 import { StyleSheet } from 'react-native';
-import { COLORS_DARK, COLORS_LIGHT } from '../../config/Colors';
-import { COLOR_MODE } from '../../config/Constants';
 import { SIZES } from '../../config/Sizes';
-
-const COLORS = COLOR_MODE === 'light' ? COLORS_LIGHT : COLORS_DARK
 
 export const signUpStyles = StyleSheet.create({
     title: {
         textAlign: 'center',
         fontSize: SIZES.title,
-        color: COLORS.text,
         paddingBottom: 20
     },
     textinput: {
         fontSize: SIZES.text,
         width: 200,
         height: 40,
-        color: COLORS.text,
-        paddingLeft: 20,
-        borderColor: 'grey',
-        borderWidth: 1,
-        borderRadius: 5
+        paddingLeft: 20
     },
     button: {
         textAlign: 'center',
         fontSize: SIZES.text_touchables,
         width: 300,
         paddingVertical: 10,
-        backgroundColor: COLORS.button,
-        borderRadius: 3
+        borderRadius: 10
     },
     textRecover: {
         textAlign: 'center',
         fontSize: SIZES.text,
         paddingTop: 10,
-        color: COLORS.text
     },
     containerInput: {
         flexDirection: 'row',
@@ -47,7 +36,11 @@ export const signUpStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: 200
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: 'grey',
+        width: 300,
+        marginBottom: 20
     },
     picker: {
         borderColor: 'grey',

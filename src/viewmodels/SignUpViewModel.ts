@@ -1,14 +1,18 @@
 import { makeAutoObservable } from "mobx"
+import { UserDataDTO } from "../data/model/User"
+import { dateFormat } from "../utils/datetimeFormatterHelper"
 
 export class SignUpViewModel {
 
+    username?: string
     email?: string
     password?: string
     name?: string
     surname?: string
-    birthday?: Date = new Date()
+    birthDate?: Date = new Date()
     repeatPassword?: string
-    // @observable user?: UserDTO
+
+    user?: UserDataDTO
 
     constructor() {
         makeAutoObservable(this)
@@ -21,6 +25,11 @@ export class SignUpViewModel {
     setEmail(email: string) {
         this.email = email
         return this.email
+    }
+
+    setUsername(username: string) {
+        this.username = username
+        return this.username
     }
 
     setPassword(password: string) {
@@ -39,8 +48,8 @@ export class SignUpViewModel {
     }
 
     setBirthday(birthday: Date) {
-        this.birthday = birthday
-        return this.birthday
+        this.birthDate = birthday
+        return this.birthDate
     }
 
     setRepeatPassword(repeatPassword: string) {
@@ -49,16 +58,17 @@ export class SignUpViewModel {
     }
 
     setUser() {
-        // const user: UserDTO = {
-        //     name: this.name!,
-        //     surname: this.surname!,
-        //     birthday: dateFormat(this.birthday!, "dd-MM-yyyy"),
-        //     email: this.email!,
-        //     password: this.password!,
-        //     role: "USER"
-        // }
+        const user: UserDataDTO = new UserDataDTO(
+            this.username,
+            this.name!,
+            this.surname!,
+            dateFormat(this.birthDate!, "dd-MM-yyyy"),
+            this.email!,
+            this.password!,
+            "USER"
+        )
 
-        // this.user = user
+        this.user = user
     }
 
     isPasswordValid() {
@@ -71,6 +81,13 @@ export class SignUpViewModel {
     isRepeatPasswordValid() {
         if (this.password) {
             return this.password.trim().length > 0
+        }
+        else { return false }
+    }
+
+    isUsernameValid() {
+        if (this.username) {
+            return this.username.trim().length > 0
         }
         else { return false }
     }

@@ -4,9 +4,9 @@ import { SIZES } from "./Sizes";
 export const commonStyles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
+        // justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingTop: 10
+        paddingTop: 50
     },
     spinner: {
         paddingBottom: 15,
@@ -15,7 +15,8 @@ export const commonStyles = StyleSheet.create({
     title: {
         textAlign: 'center',
         fontSize: SIZES.title,
-        width: '100%',
+        // width: '100%',
+        flex: 1,
         marginTop: -10
     },
     titleToolbar: {

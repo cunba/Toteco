@@ -97,14 +97,14 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
             <NativeBaseProvider>
                 <View style={[formStyles.container, { backgroundColor: COLORS.background }]}>
                     <View style={loginStyles.titleView}>
-                        <Heading style={[loginStyles.header, { color: COLORS.touchable }]}>{i18n.t('appName').toUpperCase()}</Heading>
+                        <Heading style={[loginStyles.header, { color: COLORS.text }]}>{i18n.t('login.title')}</Heading>
                     </View>
                     <View style={loginStyles.formView}>
                         <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                             <Input
                                 style={[formStyles.textinput, { color: COLORS.text }]}
                                 w={{ base: "75%", md: "25%" }}
-                                placeholder="Username"
+                                placeholder={i18n.t("login.label.username").toString()}
                                 onChangeText={(username) => vm.setUsername(username)}
                                 borderRadius={10}
                             />
@@ -117,7 +117,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                                         <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
                                     </Pressable>
                                 }
-                                placeholder="Password"
+                                placeholder={i18n.t("login.label.password").toString()}
                                 onChangeText={(password) => vm.setPassword(password)}
                                 borderRadius={10}
                             />
