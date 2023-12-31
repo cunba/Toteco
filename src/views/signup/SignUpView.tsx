@@ -1,7 +1,8 @@
 import { Icon, Input, NativeBaseProvider, Stack } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Appearance, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
@@ -20,6 +21,8 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     const [month, setMonth] = useState('01')
     const [year, setYear] = useState('2022')
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
+    const [showPassword, setShowPassword] = useState(false)
+    const [showRepeatPassword, setShowRepeatPassword] = useState(false)
 
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
@@ -49,7 +52,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             Alert.alert(i18n.t('sign_up.success'))
                             navigate(ROUTES.LOGIN, null)
                         } catch (w: any) {
-                            setErrorMessage(i18n.t('sign_up.error.udefined')!);
+                            setErrorMessage(i18n.t('sign_up.error.undefined')!);
                         }
                         setHideErrorMessage(false);
                         setShowSpinner(false)
@@ -116,6 +119,12 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             placeholder={i18n.t('sign_up.password.label').toString()}
                             onChangeText={(password) => vm.setPassword(password)}
                             borderRadius={10}
+                            type={showPassword ? "text" : "password"}
+                            InputRightElement={
+                                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                                    <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                </Pressable>
+                            }
                         />
                         <Input
                             style={[signUpStyles.textinput, { color: COLORS.text }]}
@@ -123,6 +132,12 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             placeholder={i18n.t('sign_up.repeat_password.label').toString()}
                             onChangeText={(password) => vm.setRepeatPassword(password)}
                             borderRadius={10}
+                            type={showRepeatPassword ? "text" : "password"}
+                            InputRightElement={
+                                <Pressable onPress={() => setShowRepeatPassword(!showPassword)}>
+                                    <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                </Pressable>
+                            }
                         />
                     </Stack>
                     <View style={signUpStyles.containerInputDate}>
