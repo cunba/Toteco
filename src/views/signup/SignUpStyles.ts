@@ -24,7 +24,7 @@ export const signUpStyles = StyleSheet.create({
     },
     button: {
         textAlign: 'center',
-        fontSize: SIZES.text_button,
+        fontSize: SIZES.text_touchables,
         width: 300,
         paddingVertical: 10,
         backgroundColor: COLORS.button,

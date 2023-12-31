@@ -1,16 +1,16 @@
 import { makeAutoObservable } from "mobx"
 
 export class LoginViewModel {
-    email?: string = ""
+    username?: string = ""
     password?: string = ""
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    setEmail(email: string) {
-        this.email = email
-        return this.email
+    setUsername(username: string) {
+        this.username = username
+        return this.username
     }
 
     setPassword(password: string) {
@@ -26,8 +26,8 @@ export class LoginViewModel {
     }
 
     isEmailValid() {
-        if (this.email) {
-            return this.email.trim().length > 0
+        if (this.username) {
+            return this.username.trim().length > 0
         }
         else { return false }
     }

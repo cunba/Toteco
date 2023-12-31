@@ -42,7 +42,6 @@ if (locale === undefined) {
 export const AuthContext = React.createContext<any>({});
 
 const Stack = createNativeStackNavigator();
-const COLORS = COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT
 
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
@@ -141,6 +140,12 @@ function App(): JSX.Element {
         loadDataCallback();
     }, [loadDataCallback]);
 
+    const [COLOR, setCurrentColor] = useState(COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT);
+
+    useEffect(() => {
+        setCurrentColor(COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT)
+    }, [])
+
     return (
         <>
             {!loading ?
@@ -182,13 +187,13 @@ function App(): JSX.Element {
                 </AuthContext.Provider>
                 :
                 <View style={{ width: '100%', height: '100%' }}>
-                    <View style={{ flex: 4, flexDirection: 'row', alignItems: "center", backgroundColor: COLORS.appBackground, paddingTop: 50 }}>
+                    <View style={{ flex: 4, flexDirection: 'row', alignItems: "center", backgroundColor: COLOR.background, paddingTop: 50 }}>
                         <NativeBaseProvider>
-                            <Heading style={{ color: COLORS.button, fontSize: 50, paddingTop: 50, alignSelf: 'center' }}>{i18n.t('appName').toUpperCase()}</Heading>
+                            <Heading style={{ color: COLOR.touchable, fontSize: 50, paddingTop: 50, alignSelf: 'center' }}>{i18n.t('appName').toUpperCase()}</Heading>
                         </NativeBaseProvider>
                     </View>
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 30, flexDirection: 'row', backgroundColor: COLORS.appBackground }}>
-                        <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.text_button, paddingRight: 10 }]}>{i18n.t('init')}</Text>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 30, flexDirection: 'row', backgroundColor: COLOR.background }}>
+                        <Text style={[commonStyles.text, { color: COLOR.text, fontSize: SIZES.text_touchables, paddingRight: 10 }]}>{i18n.t('init')}</Text>
                     </View>
                 </View>
             }

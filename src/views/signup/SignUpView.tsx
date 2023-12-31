@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Appearance, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AuthContext } from "../../App";
-import { COLORS_LIGHT } from "../../config/Colors";
-import { ROUTES } from "../../config/Constants";
+import Toolbar from "../../components/Toolbar/Toolbar";
+import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
+import { COLOR_MODE, ROUTES } from "../../config/Constants";
 import { commonStyles } from "../../config/Styles";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { SignUpViewModel } from "../../viewmodels/SignUpViewModel";
 import { signUpStyles } from "./SignUpStyles";
-import Toolbar from "../../components/Toolbar/Toolbar";
 
 export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -18,10 +18,14 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     const [day, setDay] = useState('01')
     const [month, setMonth] = useState('01')
     const [year, setYear] = useState('2022')
+    const [COLORS, setCurrentColor] = useState(COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT);
+
+    Appearance.addChangeListener(() => {
+        console.log(COLOR_MODE)
+        setCurrentColor(COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT)
+    })
 
     const { signUp } = React.useContext(AuthContext)
-
-    const COLORS = COLORS_LIGHT
 
     useEffect(() => {
         vm.constructorFunctions()
@@ -80,7 +84,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
             <Toolbar
                 isIconLeft={true}
                 iconLeft={iconLeftProps}
-                color={COLORS.button}
+                color={COLORS.touchable}
                 isIconRight={false}
             />
             <View style={commonStyles.container}>
@@ -172,7 +176,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                 ) : null}
 
                 {showSpinner ?
-                    <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.button} />
+                    <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
                     :
                     <TouchableOpacity style={signUpStyles.button} onPress={doSignUp} >
                         <Text style={commonStyles.textButton}>{i18n.t('sign_up.title')}</Text>

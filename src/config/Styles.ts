@@ -1,16 +1,11 @@
 import { StyleSheet } from "react-native";
-import { COLORS_DARK, COLORS_LIGHT } from "./Colors";
-import { COLOR_MODE } from "./Constants";
 import { SIZES } from "./Sizes";
-
-const COLORS = COLOR_MODE === 'light' ? COLORS_LIGHT : COLORS_DARK
 
 export const commonStyles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: COLORS.appBackground,
         paddingTop: 10
     },
     spinner: {
@@ -20,29 +15,24 @@ export const commonStyles = StyleSheet.create({
     title: {
         textAlign: 'center',
         fontSize: SIZES.title,
-        color: COLORS.text,
         width: '100%',
         marginTop: -10
     },
     titleToolbar: {
         textAlign: 'center',
-        fontSize: 25,
-        color: COLORS.textButtons
+        fontSize: 25
     },
     text: {
         textAlign: 'center',
-        fontSize: SIZES.text,
-        color: COLORS.text,
+        fontSize: SIZES.text
     },
     textButton: {
         textAlign: 'center',
-        fontSize: SIZES.text_button,
-        color: COLORS.textButtons,
+        fontSize: SIZES.text_touchables
     },
     textInOut: {
         textAlign: 'center',
         fontSize: SIZES.text,
-        color: COLORS.text,
         paddingBottom: 5,
     },
     containerOptions: {
@@ -85,36 +75,29 @@ export const commonStyles = StyleSheet.create({
 
 export const formStyles = StyleSheet.create({
     container: {
-        flex: 1,
+        width: '100%',
+        height: '100%',
+        flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: COLORS.appBackground,
+        alignItems: 'center'
     },
     title: {
         textAlign: 'center',
         fontSize: SIZES.title,
-        color: COLORS.text,
         paddingBottom: 20
     },
     textinput: {
-        fontSize: SIZES.text,
+        fontSize: SIZES.text_input,
         width: 300,
         height: 40,
-        color: COLORS.button,
-        paddingLeft: 20,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 10,
-        marginBottom: 10,
-        backgroundColor: COLORS.button
+        paddingLeft: 20
     },
     button: {
         textAlign: 'center',
-        fontSize: SIZES.text_button,
+        fontSize: SIZES.text_touchables,
         width: 300,
         paddingVertical: 10,
-        backgroundColor: COLORS.button,
-        borderRadius: 3,
+        borderRadius: 10,
         marginBottom: 10
     }
 })
