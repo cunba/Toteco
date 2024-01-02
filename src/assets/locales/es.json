@@ -37,5 +37,9 @@
     "sign_up.success": "Compruebe el email para completar el registro",
     "sign_up.day.label": "DD",
     "sign_up.month.label": "MM",
-    "sign_up.year.label": "YYYY"
+    "sign_up.year.label": "YYYY",
+
+    "recovery.code": "Código de recuperación",
+    "recovery.password": "Contraseña",
+    "recovery.repeat_password": "Repite contraseña"
 }

@@ -16,9 +16,13 @@ import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
 import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
 import { navigate, navigationRef } from './infrastructure/navigation/RootNavigation';
+import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
+import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
+import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
+import { RecoveryView } from './views/recovery/RecoveryView';
 import { SignUpView } from './views/signup/SignUpView';
 
 TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentApi)
@@ -45,6 +49,8 @@ const Stack = createNativeStackNavigator();
 
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
+const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
+const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 
 function App(): JSX.Element {
     const [loading, setLoading] = useState<boolean>(true)
@@ -162,11 +168,12 @@ function App(): JSX.Element {
                                 <>
                                     <Stack.Screen
                                         name={ROUTES.HOME}
-                                        component={SignUpScreen}
+                                        component={HomeScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>
                             }
+                            { }
                             <Stack.Screen
                                 name={ROUTES.SIGN_UP}
                                 component={SignUpScreen}
@@ -176,12 +183,12 @@ function App(): JSX.Element {
 								name={ROUTES.SEND_EMAIL}
 								component={SendEmailScreen}
 								options={{ headerShown: false }}
-							/>
-							<Stack.Screen
-								name={ROUTES.RECOVERY}
-								component={RecoveryScreen}
-								options={{ headerShown: false }}
 							/> */}
+                            <Stack.Screen
+                                name={ROUTES.RECOVERY}
+                                component={RecoveryScreen}
+                                options={{ headerShown: false }}
+                            />
                         </Stack.Navigator>
                     </NavigationContainer>
                 </AuthContext.Provider>

@@ -102,14 +102,14 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                     <View style={loginStyles.formView}>
                         <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                             <Input
-                                style={[formStyles.textinput, { color: COLORS.text }]}
+                                style={[formStyles.input, { color: COLORS.text }]}
                                 w={{ base: "75%", md: "25%" }}
                                 placeholder={i18n.t("login.label.username").toString()}
                                 onChangeText={(username) => vm.setUsername(username)}
                                 borderRadius={10}
                             />
                             <Input
-                                style={[formStyles.textinput, { color: COLORS.text }]}
+                                style={[formStyles.input, { color: COLORS.text }]}
                                 w={{ base: "75%", md: "25%" }}
                                 type={showPassword ? "text" : "password"}
                                 InputRightElement={

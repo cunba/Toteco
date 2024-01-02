@@ -6,7 +6,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
-import { commonStyles } from "../../config/Styles";
+import { commonStyles, formStyles } from "../../config/Styles";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -80,41 +80,81 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
         <>
             <NativeBaseProvider>
                 <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                    <TouchableOpacity onPress={() => back()} style={{ alignSelf: 'flex-start' }}>
-                        <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
-                    </TouchableOpacity>
-                    <Text style={[signUpStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
+                    <View style={signUpStyles.toolbar}>
+                        <TouchableOpacity onPress={() => back()} style={signUpStyles.toolbarButton}>
+                            <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
+                        </TouchableOpacity>
+                        <Text style={[signUpStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
+                        <Text style={{ flex: 1 }}></Text>
+                    </View>
                     <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                         <Input
-                            style={[signUpStyles.textinput, { color: COLORS.text }]}
+                            style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.username.label').toString()}
                             onChangeText={(name) => vm.setName(name)}
                             borderRadius={10}
                         />
                         <Input
-                            style={[signUpStyles.textinput, { color: COLORS.text }]}
+                            style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.name.label').toString()}
                             onChangeText={(name) => vm.setName(name)}
                             borderRadius={10}
                         />
                         <Input
-                            style={[signUpStyles.textinput, { color: COLORS.text }]}
+                            style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.surname.label').toString()}
                             onChangeText={(surname) => vm.setSurname(surname)}
                             borderRadius={10}
                         />
                         <Input
-                            style={[signUpStyles.textinput, { color: COLORS.text }]}
+                            style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.email.label').toString()}
                             onChangeText={(email) => vm.setEmail(email)}
                             borderRadius={10}
                         />
+                    </Stack>
+                    <View style={signUpStyles.containerInputDate}>
                         <Input
-                            style={[signUpStyles.textinput, { color: COLORS.text }]}
+                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                            w={{ base: "25%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.day.label').toString()}
+                            onChangeText={(day) => setDay(day)}
+                            borderRadius={10}
+                            keyboardType="numeric"
+                            dataDetectorTypes={'calendarEvent'}
+                            borderWidth={0}
+                        />
+                        <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
+                        <Input
+                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                            w={{ base: "25%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.month.label').toString()}
+                            onChangeText={(month) => setMonth(month)}
+                            borderRadius={10}
+                            keyboardType="numeric"
+                            dataDetectorTypes={'calendarEvent'}
+                            borderWidth={0}
+                        />
+                        <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
+                        <Input
+                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                            w={{ base: "25%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.year.label').toString()}
+                            onChangeText={(year) => setYear(year)}
+                            borderRadius={10}
+                            keyboardType="numeric"
+                            dataDetectorTypes={'calendarEvent'}
+                            borderWidth={0}
+                        />
+                        <Text ></Text>
+                    </View>
+                    <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.password.label').toString()}
                             onChangeText={(password) => vm.setPassword(password)}
@@ -127,7 +167,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             }
                         />
                         <Input
-                            style={[signUpStyles.textinput, { color: COLORS.text }]}
+                            style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.repeat_password.label').toString()}
                             onChangeText={(password) => vm.setRepeatPassword(password)}
@@ -140,41 +180,6 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             }
                         />
                     </Stack>
-                    <View style={signUpStyles.containerInputDate}>
-                        <Input
-                            style={[signUpStyles.textinput, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.day.label').toString()}
-                            onChangeText={(day) => setDay(day)}
-                            borderRadius={10}
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                        />
-                        <Text style={[commonStyles.title, { paddingTop: 10, paddingBottom: 5, color: COLORS.text }]}>/</Text>
-                        <Input
-                            style={[signUpStyles.textinput, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.month.label').toString()}
-                            onChangeText={(month) => setMonth(month)}
-                            borderRadius={10}
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                        />
-                        <Text style={[commonStyles.title, { paddingTop: 10, paddingBottom: 5, color: COLORS.text }]}>/</Text>
-                        <Input
-                            style={[signUpStyles.textinput, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.year.label').toString()}
-                            onChangeText={(year) => setYear(year)}
-                            borderRadius={10}
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                        />
-                        <Text ></Text>
-                    </View>
 
                     {!hideErrorMessage ? (
                         <View style={{ alignItems: 'center' }}>
@@ -187,7 +192,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                     {showSpinner ?
                         <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
                         :
-                        <TouchableOpacity style={[signUpStyles.button, { backgroundColor: COLORS.touchable }]} onPress={doSignUp} >
+                        <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={doSignUp} >
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('sign_up.title')}</Text>
                         </TouchableOpacity>
                     }

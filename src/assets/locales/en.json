@@ -5,6 +5,7 @@
     "ok": "Ok",
     "continue": "Continue",
     "back": "Back",
+
     "login.title": "Sign in",
     "login.button": "Sign in",
     "login.label.username": "Username",
@@ -17,6 +18,7 @@
     "login.recover_password": "Have you forgotten your password?",
     "login.sign_up": "Don't you have an account? Sign up ",
     "login.here": "here",
+
     "sign_up.title": "Sign up",
     "sign_up.username.label": "Username",
     "sign_up.name.label": "Name",
@@ -34,5 +36,9 @@
     "sign_up.success": "Check your email to complete the sign up",
     "sign_up.day.label": "DD",
     "sign_up.month.label": "MM",
-    "sign_up.year.label": "YYYY"
+    "sign_up.year.label": "YYYY",
+
+    "recovery.code": "Recovery code",
+    "recovery.password": "Password",
+    "recovery.repeat_password": "Repeat password"
 }

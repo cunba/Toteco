@@ -16,8 +16,7 @@ export const commonStyles = StyleSheet.create({
         textAlign: 'center',
         fontSize: SIZES.title,
         // width: '100%',
-        flex: 1,
-        marginTop: -10
+        flex: 1
     },
     titleToolbar: {
         textAlign: 'center',
@@ -87,7 +86,7 @@ export const formStyles = StyleSheet.create({
         fontSize: SIZES.title,
         paddingBottom: 20
     },
-    textinput: {
+    input: {
         fontSize: SIZES.text_input,
         width: 300,
         height: 40,
