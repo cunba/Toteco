@@ -18,27 +18,27 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { ErrorResponse } from '../models';
-import { Product } from '../models';
-import { ProductDTO } from '../models';
+import { Menu } from '../models';
+import { MenuDTO } from '../models';
 /**
- * ProductsApi - axios parameter creator
+ * MenusApi - axios parameter creator
  * @export
  */
-export const ProductsApiAxiosParamCreator = function (configuration?: Configuration) {
+export const MenusApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Delete product
-         * @param {string} id Product ID
+         * @summary Delete menu
+         * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        delete2: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        delete3: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling delete2.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling delete3.');
             }
-            const localVarPath = `/products/{id}`
+            const localVarPath = `/menus/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -77,12 +77,12 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Delete all products
+         * @summary Delete all menus
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteAll2: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/products`;
+        deleteAll3: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/menus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -120,12 +120,12 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get all products
+         * @summary Get all menus
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAll2: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/products`;
+        getAll3: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/menus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -154,66 +154,17 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get product by ID
-         * @param {string} id Product ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getById2: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getById2.');
-            }
-            const localVarPath = `/products/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Get products by menu
+         * @summary Get menu by ID
          * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getByMenu: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getById3: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getByMenu.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling getById3.');
             }
-            const localVarPath = `/products/menu/{id}`
+            const localVarPath = `/menus/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -252,66 +203,17 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get products by publication
-         * @param {string} id Menu ID
+         * @summary Save menu
+         * @param {MenuDTO} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getByPublication: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling getByPublication.');
-            }
-            const localVarPath = `/products/publication/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Save product
-         * @param {ProductDTO} body 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        save2: async (body: ProductDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        save3: async (body: MenuDTO, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling save2.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling save3.');
             }
-            const localVarPath = `/products`;
+            const localVarPath = `/menus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -353,22 +255,22 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Update product
-         * @param {ProductDTO} body 
-         * @param {string} id Product ID
+         * @summary Update menu
+         * @param {MenuDTO} body 
+         * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update2: async (body: ProductDTO, id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        update3: async (body: MenuDTO, id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling update2.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling update3.');
             }
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling update2.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling update3.');
             }
-            const localVarPath = `/products/{id}`
+            const localVarPath = `/menus/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -413,74 +315,20 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * ProductsApi - functional programming interface
+ * MenusApi - functional programming interface
  * @export
  */
-export const ProductsApiFp = function(configuration?: Configuration) {
+export const MenusApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Delete product
-         * @param {string} id Product ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async delete2(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Product>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).delete2(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Delete all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteAll2(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).deleteAll2(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAll2(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Product>>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).getAll2(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get product by ID
-         * @param {string} id Product ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getById2(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Product>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).getById2(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Get products by menu
+         * @summary Delete menu
          * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getByMenu(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Product>>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).getByMenu(id, options);
+        async delete3(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Menu>>> {
+            const localVarAxiosArgs = await MenusApiAxiosParamCreator(configuration).delete3(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -488,13 +336,39 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get products by publication
+         * @summary Delete all menus
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteAll3(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
+            const localVarAxiosArgs = await MenusApiAxiosParamCreator(configuration).deleteAll3(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Get all menus
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAll3(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Menu>>>> {
+            const localVarAxiosArgs = await MenusApiAxiosParamCreator(configuration).getAll3(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Get menu by ID
          * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getByPublication(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Product>>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).getByPublication(id, options);
+        async getById3(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Menu>>> {
+            const localVarAxiosArgs = await MenusApiAxiosParamCreator(configuration).getById3(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -502,13 +376,13 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Save product
-         * @param {ProductDTO} body 
+         * @summary Save menu
+         * @param {MenuDTO} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async save2(body: ProductDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Product>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).save2(body, options);
+        async save3(body: MenuDTO, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Menu>>> {
+            const localVarAxiosArgs = await MenusApiAxiosParamCreator(configuration).save3(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -516,14 +390,14 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update product
-         * @param {ProductDTO} body 
-         * @param {string} id Product ID
+         * @summary Update menu
+         * @param {MenuDTO} body 
+         * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async update2(body: ProductDTO, id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
-            const localVarAxiosArgs = await ProductsApiAxiosParamCreator(configuration).update2(body, id, options);
+        async update3(body: MenuDTO, id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
+            const localVarAxiosArgs = await MenusApiAxiosParamCreator(configuration).update3(body, id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -533,185 +407,143 @@ export const ProductsApiFp = function(configuration?: Configuration) {
 };
 
 /**
- * ProductsApi - factory interface
+ * MenusApi - factory interface
  * @export
  */
-export const ProductsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const MenusApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
          * 
-         * @summary Delete product
-         * @param {string} id Product ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async delete2(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Product>> {
-            return ProductsApiFp(configuration).delete2(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Delete all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async deleteAll2(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-            return ProductsApiFp(configuration).deleteAll2(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get all products
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getAll2(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Product>>> {
-            return ProductsApiFp(configuration).getAll2(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get product by ID
-         * @param {string} id Product ID
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getById2(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Product>> {
-            return ProductsApiFp(configuration).getById2(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Get products by menu
+         * @summary Delete menu
          * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getByMenu(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Product>>> {
-            return ProductsApiFp(configuration).getByMenu(id, options).then((request) => request(axios, basePath));
+        async delete3(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Menu>> {
+            return MenusApiFp(configuration).delete3(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get products by publication
+         * @summary Delete all menus
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteAll3(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
+            return MenusApiFp(configuration).deleteAll3(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get all menus
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAll3(options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Menu>>> {
+            return MenusApiFp(configuration).getAll3(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get menu by ID
          * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getByPublication(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Product>>> {
-            return ProductsApiFp(configuration).getByPublication(id, options).then((request) => request(axios, basePath));
+        async getById3(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Menu>> {
+            return MenusApiFp(configuration).getById3(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Save product
-         * @param {ProductDTO} body 
+         * @summary Save menu
+         * @param {MenuDTO} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async save2(body: ProductDTO, options?: AxiosRequestConfig): Promise<AxiosResponse<Product>> {
-            return ProductsApiFp(configuration).save2(body, options).then((request) => request(axios, basePath));
+        async save3(body: MenuDTO, options?: AxiosRequestConfig): Promise<AxiosResponse<Menu>> {
+            return MenusApiFp(configuration).save3(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Update product
-         * @param {ProductDTO} body 
-         * @param {string} id Product ID
+         * @summary Update menu
+         * @param {MenuDTO} body 
+         * @param {string} id Menu ID
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async update2(body: ProductDTO, id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-            return ProductsApiFp(configuration).update2(body, id, options).then((request) => request(axios, basePath));
+        async update3(body: MenuDTO, id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
+            return MenusApiFp(configuration).update3(body, id, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * ProductsApi - object-oriented interface
+ * MenusApi - object-oriented interface
  * @export
- * @class ProductsApi
+ * @class MenusApi
  * @extends {BaseAPI}
  */
-export class ProductsApi extends BaseAPI {
+export class MenusApi extends BaseAPI {
     /**
      * 
-     * @summary Delete product
-     * @param {string} id Product ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public async delete2(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Product>> {
-        return ProductsApiFp(this.configuration).delete2(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Delete all products
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public async deleteAll2(options?: AxiosRequestConfig) : Promise<AxiosResponse<string>> {
-        return ProductsApiFp(this.configuration).deleteAll2(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get all products
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public async getAll2(options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<Product>>> {
-        return ProductsApiFp(this.configuration).getAll2(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get product by ID
-     * @param {string} id Product ID
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ProductsApi
-     */
-    public async getById2(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Product>> {
-        return ProductsApiFp(this.configuration).getById2(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary Get products by menu
+     * @summary Delete menu
      * @param {string} id Menu ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ProductsApi
+     * @memberof MenusApi
      */
-    public async getByMenu(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<Product>>> {
-        return ProductsApiFp(this.configuration).getByMenu(id, options).then((request) => request(this.axios, this.basePath));
+    public async delete3(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Menu>> {
+        return MenusApiFp(this.configuration).delete3(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary Get products by publication
+     * @summary Delete all menus
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MenusApi
+     */
+    public async deleteAll3(options?: AxiosRequestConfig) : Promise<AxiosResponse<string>> {
+        return MenusApiFp(this.configuration).deleteAll3(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary Get all menus
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MenusApi
+     */
+    public async getAll3(options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<Menu>>> {
+        return MenusApiFp(this.configuration).getAll3(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary Get menu by ID
      * @param {string} id Menu ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ProductsApi
+     * @memberof MenusApi
      */
-    public async getByPublication(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Array<Product>>> {
-        return ProductsApiFp(this.configuration).getByPublication(id, options).then((request) => request(this.axios, this.basePath));
+    public async getById3(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<Menu>> {
+        return MenusApiFp(this.configuration).getById3(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary Save product
-     * @param {ProductDTO} body 
+     * @summary Save menu
+     * @param {MenuDTO} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ProductsApi
+     * @memberof MenusApi
      */
-    public async save2(body: ProductDTO, options?: AxiosRequestConfig) : Promise<AxiosResponse<Product>> {
-        return ProductsApiFp(this.configuration).save2(body, options).then((request) => request(this.axios, this.basePath));
+    public async save3(body: MenuDTO, options?: AxiosRequestConfig) : Promise<AxiosResponse<Menu>> {
+        return MenusApiFp(this.configuration).save3(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary Update product
-     * @param {ProductDTO} body 
-     * @param {string} id Product ID
+     * @summary Update menu
+     * @param {MenuDTO} body 
+     * @param {string} id Menu ID
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ProductsApi
+     * @memberof MenusApi
      */
-    public async update2(body: ProductDTO, id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<string>> {
-        return ProductsApiFp(this.configuration).update2(body, id, options).then((request) => request(this.axios, this.basePath));
+    public async update3(body: MenuDTO, id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<string>> {
+        return MenusApiFp(this.configuration).update3(body, id, options).then((request) => request(this.axios, this.basePath));
     }
 }
