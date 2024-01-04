@@ -1,9 +1,10 @@
+import { DrawerContent, createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Heading, NativeBaseProvider } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
-import { NativeModules, Text, View } from 'react-native';
-import { EstablishmentApi, LoginApi, MenuApi, ProductTypeApi, ProductsApi, PublicationApi, UserApi } from './client';
+import { Dimensions, NativeModules, Text, View } from 'react-native';
+import { EstablishmentsApi, LoginApi, MenusApi, ProductsApi, PublicationsApi, UsersApi } from './client';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
 import { SIZES } from './config/Sizes';
@@ -25,13 +26,12 @@ import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
 import { SignUpView } from './views/signup/SignUpView';
 
-TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentApi)
+TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentsApi)
 TotecosApiClient.register(TotecoApi.LoginApi, new LoginApi)
-TotecosApiClient.register(TotecoApi.MenusApi, new MenuApi)
-TotecosApiClient.register(TotecoApi.ProductTypesApi, new ProductTypeApi)
+TotecosApiClient.register(TotecoApi.MenusApi, new MenusApi)
 TotecosApiClient.register(TotecoApi.ProductsApi, new ProductsApi)
-TotecosApiClient.register(TotecoApi.PublicationsApi, new PublicationApi)
-TotecosApiClient.register(TotecoApi.UsersApi, new UserApi)
+TotecosApiClient.register(TotecoApi.PublicationsApi, new PublicationsApi)
+TotecosApiClient.register(TotecoApi.UsersApi, new UsersApi)
 
 let locale: string = PLATFORM === 'ios' ? NativeModules.SettingsManager.settings.AppleLocale : NativeModules.I18nManager.localeIdentifier;
 locale.length > 2 ? i18n.changeLanguage(locale.substring(0, 2)) : i18n.changeLanguage(locale)
@@ -45,12 +45,39 @@ if (locale === undefined) {
 
 export const AuthContext = React.createContext<any>({});
 
-const Stack = createNativeStackNavigator();
-
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
 const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
+
+const Stack = createStackNavigator();
+
+const Drawer = createDrawerNavigator();
+const drawerContent = (props: any) => <DrawerContent {...props} />;
+
+const NavigationDrawer = () => {
+    const { width } = Dimensions.get('window');
+
+    return (
+        <Drawer.Navigator
+            screenOptions={{
+                swipeEdgeWidth: width * 0.8,
+                headerShown: false
+            }}
+            initialRouteName={ROUTES.HOME}
+            drawerContent={drawerContent}
+            backBehavior={'history'}
+        >
+            <Drawer.Screen
+                options={{
+                    title: i18n.t('home.title'),
+                }}
+                name={ROUTES.HOME}
+                component={HomeScreen}
+            />
+        </Drawer.Navigator>
+    );
+};
 
 function App(): JSX.Element {
     const [loading, setLoading] = useState<boolean>(true)
@@ -124,8 +151,10 @@ function App(): JSX.Element {
                 const response = await new LoginRepository().login(credentials)
                 SessionStoreFactory.getSessionStore().setToken(response.token);
                 SessionStoreFactory.getSessionStore().setCredentials({ username: username, password: password } as JwtRequestData)
-                // const user = await new UsersRepository().getCurrentUser()
-                // SessionStoreFactory.getSessionStore().setUser(user)
+
+                const user = await new UsersRepository().getUserLogged()
+                SessionStoreFactory.getSessionStore().setUser(user)
+
                 dispatch({ type: 'SIGN_IN', token: response.token });
             },
             signOut: () => {
@@ -135,7 +164,7 @@ function App(): JSX.Element {
                 dispatch({ type: 'SIGN_OUT' });
             },
             signUp: async (user: UserDataDTO) => {
-                await new UsersRepository().saveUser(user)
+                await new UsersRepository().save(user)
             }
         }),
         [],
@@ -159,36 +188,32 @@ function App(): JSX.Element {
                     <NavigationContainer ref={navigationRef}>
                         <Stack.Navigator>
                             {!state.userToken || state.userToken.length === 0 ? (
-                                <Stack.Screen
-                                    name={ROUTES.LOGIN}
-                                    component={LoginScreen}
-                                    options={{ headerShown: false }}
-                                />
-                            ) :
                                 <>
                                     <Stack.Screen
-                                        name={ROUTES.HOME}
-                                        component={HomeScreen}
+                                        name={ROUTES.LOGIN}
+                                        component={LoginScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.SIGN_UP}
+                                        component={SignUpScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.RECOVERY}
+                                        component={RecoveryScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>
-                            }
-                            { }
-                            <Stack.Screen
-                                name={ROUTES.SIGN_UP}
-                                component={SignUpScreen}
-                                options={{ headerShown: false }}
-                            />
-                            {/* <Stack.Screen
-								name={ROUTES.SEND_EMAIL}
-								component={SendEmailScreen}
-								options={{ headerShown: false }}
-							/> */}
-                            <Stack.Screen
-                                name={ROUTES.RECOVERY}
-                                component={RecoveryScreen}
-                                options={{ headerShown: false }}
-                            />
+                            ) : (
+                                <>
+                                    <Stack.Screen
+                                        name={ROUTES.HOME}
+                                        component={NavigationDrawer}
+                                        options={{ headerShown: false }}
+                                    />
+                                </>
+                            )}
                         </Stack.Navigator>
                     </NavigationContainer>
                 </AuthContext.Provider>

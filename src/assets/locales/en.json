@@ -40,5 +40,7 @@
 
     "recovery.code": "Recovery code",
     "recovery.password": "Password",
-    "recovery.repeat_password": "Repeat password"
+    "recovery.repeat_password": "Repeat password",
+
+    "home.title": "Home"
 }

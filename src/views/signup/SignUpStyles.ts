@@ -26,7 +26,6 @@ export const signUpStyles = StyleSheet.create({
     toolbar: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        // alignItems: 'baseline',
         paddingBottom: 20
     },
     toolbarButton: {

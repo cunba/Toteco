@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
-    "@react-navigation/native-stack": "^6.9.17",
+    "@react-navigation/stack": "^6.3.20",
     "axios": "^1.6.3",
     "i18next": "^23.7.12",
     "i18next-browser-languagedetector": "^7.2.0",
@@ -25,9 +26,13 @@
     "react": "18.2.0",
     "react-i18next": "^14.0.0",
     "react-native": "0.73.1",
+    "react-native-gesture-handler": "^2.14.0",
+    "react-native-paper": "^5.11.6",
+    "react-native-reanimated": "^3.6.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.29.0",
     "react-native-svg": "^12.1.1",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-vector-icons": "^10.0.3"
   },
   "devDependencies": {

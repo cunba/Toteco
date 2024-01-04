@@ -93,21 +93,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
             const result = await client.save(body)
             return result
         } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    UsersRepository.tries++
-                    this.save(body)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
+            throw e
         }
     }
 

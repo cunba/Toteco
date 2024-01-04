@@ -15,9 +15,10 @@
 import { Configuration } from "./configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
-import globalAxios, { AxiosRequestConfig, AxiosInstance } from 'axios';
+import globalAxios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import 'react-native-url-polyfill/auto';
 
-export const BASE_PATH = "http://localhost:8081".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost:3000".replace(/\/+$/, "");
 
 /**
  *

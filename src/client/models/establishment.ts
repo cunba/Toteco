@@ -13,9 +13,6 @@
  */
 
 import { Publication } from './publication';
-import {
-    Publication,
-} from ".";
 
 /**
  * 

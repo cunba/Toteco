@@ -14,9 +14,6 @@
 
 import { Menu } from './menu';
 import { Publication } from './publication';
-import {
-    Menu,Publication,
-} from ".";
 
 /**
  * 

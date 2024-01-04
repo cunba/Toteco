@@ -10,6 +10,7 @@ export const COLORS_DARK = {
     text_touchable: 'black',
     touchable: PALLET.orange,
     background: 'black',
+    background_second: PALLET.green,
     shadow: '#151515'
 }
 
@@ -18,5 +19,6 @@ export const COLORS_LIGHT = {
     text_touchable: 'black',
     touchable: PALLET.orange,
     background: 'white',
+    background_second: PALLET.green,
     shadow: '#151515'
 }

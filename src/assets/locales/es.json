@@ -41,5 +41,7 @@
 
     "recovery.code": "Código de recuperación",
     "recovery.password": "Contraseña",
-    "recovery.repeat_password": "Repite contraseña"
+    "recovery.repeat_password": "Repite contraseña",
+
+    "home.title": "Home"
 }

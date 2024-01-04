@@ -9,6 +9,7 @@ import i18n from "../../infrastructure/localization/i18n";
 import { back } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { RecoveryViewModel } from "../../viewmodels/RecoveryViewModel";
+import { recoveryStyles } from "./RecoveryStyles";
 
 export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -26,10 +27,13 @@ export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
         <>
             <NativeBaseProvider>
                 <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                    <TouchableOpacity onPress={() => back()} style={{ alignSelf: 'flex-start' }}>
-                        <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
-                    </TouchableOpacity>
-                    <Text style={[commonStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
+                    <View style={recoveryStyles.toolbar}>
+                        <TouchableOpacity onPress={() => back()} style={recoveryStyles.toolbarButton}>
+                            <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
+                        </TouchableOpacity>
+                        <Text style={[recoveryStyles.titleToolbar, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
+                        <Text style={{ flex: 1 }}></Text>
+                    </View>
                     <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}

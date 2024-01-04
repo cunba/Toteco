@@ -31,6 +31,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
             try {
                 await signIn(vm.username, vm.password);
                 setShowSpinner(false);
+                navigate(ROUTES.HOME, null)
             } catch (w: any) {
                 if (w.status) {
                     selectErrorMessage(3);

@@ -19,7 +19,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.save(productDTO)
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -43,7 +43,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.update(id, body)
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -67,7 +67,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.delete(id)
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -91,7 +91,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getAll()
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -115,7 +115,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getById(id)
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -139,7 +139,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getByMenu(menuId)
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -163,7 +163,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getByPublication(publicationId)
-            return result
+            return result.data
         } catch (e) {
             if (LoginRepository.tries < 1) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()

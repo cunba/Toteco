@@ -42,16 +42,19 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
         if (vm.isValid()) {
             setHideErrorMessage(true)
             if (yearNumber <= new Date().getFullYear() && monthNumber <= 12 && dayNumber <= 31) {
+                vm.setBirthday(new Date(yearNumber, monthNumber, dayNumber).getTime())
+
                 if (vm.password === vm.repeatPassword) {
                     if (vm.passwordLength()) {
                         setShowSpinner(true)
                         try {
                             vm.setUser()
-                            await signUp('');
+                            await signUp(vm.user);
                             setShowSpinner(false);
                             Alert.alert(i18n.t('sign_up.success'))
                             navigate(ROUTES.LOGIN, null)
                         } catch (w: any) {
+                            console.log(w)
                             setErrorMessage(i18n.t('sign_up.error.undefined')!);
                         }
                         setHideErrorMessage(false);
@@ -92,7 +95,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
                             placeholder={i18n.t('sign_up.username.label').toString()}
-                            onChangeText={(name) => vm.setName(name)}
+                            onChangeText={(username) => vm.setUsername(username)}
                             borderRadius={10}
                         />
                         <Input

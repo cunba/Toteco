@@ -16,7 +16,7 @@ export class LoginRepository extends TotecoBaseRepository<ILoginApi> {
         try {
             const client = await this.apiClient
             const result = await client.login(jwtRequest)
-            return result
+            return result.data
         } catch (e) {
             throw e
         }

@@ -4,7 +4,6 @@ import { SIZES } from "./Sizes";
 export const commonStyles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: 50
     },
@@ -17,10 +16,6 @@ export const commonStyles = StyleSheet.create({
         fontSize: SIZES.title,
         // width: '100%',
         flex: 1
-    },
-    titleToolbar: {
-        textAlign: 'center',
-        fontSize: 25
     },
     text: {
         textAlign: 'center',
@@ -70,6 +65,20 @@ export const commonStyles = StyleSheet.create({
         left: 10,
         paddingHorizontal: 5,
         zIndex: 50
+    },
+    titleToolbar: {
+        textAlign: 'center',
+        fontSize: SIZES.title,
+        flex: 2
+    },
+    toolbar: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        paddingBottom: 20
+    },
+    toolbarButton: {
+        alignSelf: 'center',
+        flex: 1
     }
 })
 

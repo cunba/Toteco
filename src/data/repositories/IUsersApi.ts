@@ -1,25 +1,26 @@
+import { AxiosResponse } from "axios"
 import { IGlobalRepository } from "../../infrastructure/data/repositories/IGlobalRespository"
 import { UserData, UserDataDTO } from "../model/User"
 
 
 export interface IUsersApi extends IGlobalRepository<UserData, UserDataDTO> {
 
-    getByUsername(username: string): Promise<UserData[]>
+    getByUsername(username: string): Promise<AxiosResponse<UserData[]>>
 
-    getByEmail(email: string): Promise<UserData[]>
+    getByEmail(email: string): Promise<AxiosResponse<UserData[]>>
 
-    getRecoveryCode(id: string): Promise<number>
+    getRecoveryCode(id: string): Promise<AxiosResponse<number>>
 
-    getUserLogged(): Promise<UserData>
+    getUserLogged(): Promise<AxiosResponse<UserData>>
 
-    activate(id: number): Promise<string>
+    activate(id: number): Promise<AxiosResponse<string>>
 
-    disable(id: number): Promise<string>
+    disable(id: number): Promise<AxiosResponse<string>>
 
-    updateMoneySpent(id: number): Promise<string>
+    updateMoneySpent(id: number): Promise<AxiosResponse<string>>
 
-    updatePassword(id: number): Promise<string>
+    updatePassword(id: number): Promise<AxiosResponse<string>>
 
-    updatePublicationsNumber(id: number): Promise<string>
+    updatePublicationsNumber(id: number): Promise<AxiosResponse<string>>
 
 }

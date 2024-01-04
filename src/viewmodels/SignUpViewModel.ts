@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx"
 import { UserDataDTO } from "../data/model/User"
-import { dateFormat } from "../utils/datetimeFormatterHelper"
 
 export class SignUpViewModel {
 
@@ -9,7 +8,7 @@ export class SignUpViewModel {
     password?: string
     name?: string
     surname?: string
-    birthDate?: Date = new Date()
+    birthDate?: number = new Date().getTime()
     repeatPassword?: string
 
     user?: UserDataDTO
@@ -47,7 +46,7 @@ export class SignUpViewModel {
         return this.surname
     }
 
-    setBirthday(birthday: Date) {
+    setBirthday(birthday: number) {
         this.birthDate = birthday
         return this.birthDate
     }
@@ -59,10 +58,10 @@ export class SignUpViewModel {
 
     setUser() {
         const user: UserDataDTO = new UserDataDTO(
-            this.username,
+            this.username!,
             this.name!,
             this.surname!,
-            dateFormat(this.birthDate!, "dd-MM-yyyy"),
+            this.birthDate!,
             this.email!,
             this.password!,
             "USER"

@@ -15,9 +15,6 @@
 import { Establishment } from './establishment';
 import { Product } from './product';
 import { UserModel } from './user-model';
-import {
-    Establishment,Product,UserModel,
-} from ".";
 
 /**
  * 
