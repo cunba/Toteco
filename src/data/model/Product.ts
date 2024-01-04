@@ -1,20 +1,20 @@
-import { Product, ProductDTO, Publication, Type } from "../../client";
+import { Product, ProductDTO, Publication } from "../../client";
 import { MenuData } from "./Menu";
 
 export class ProductData implements Product {
 
     constructor(
-        public id?: number,
-        public type?: Type,
-        public date?: string,
+        public id: string,
+        public name: string,
+        public inMenu: boolean,
+        public score: number,
         public price?: number,
-        public score?: number,
         public menu?: MenuData,
         public publication?: Publication
     ) {
         this.id = id
-        this.type = type
-        this.date = date
+        this.name = name
+        this.inMenu = inMenu
         this.price = price
         this.score = score
         this.menu = menu
@@ -25,14 +25,14 @@ export class ProductData implements Product {
 export class ProductDataDTO implements ProductDTO {
 
     constructor(
-        public typeId?: number,
-        public inMenu?: boolean,
-        public price?: number,
-        public score?: number,
-        public menuId?: number,
-        public publicationId?: number
+        public name: string,
+        public inMenu: boolean,
+        public score: number,
+        public menuId: string,
+        public publicationId: string,
+        public price?: number
     ) {
-        this.typeId = typeId
+        this.name = name
         this.inMenu = inMenu
         this.price = price
         this.score = score

@@ -15,10 +15,10 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         super(TotecoApi.EstablishmentsApi, false)
     }
 
-    async saveEstablishment(body: EstablishmentDataDTO) {
+    async save(body: EstablishmentDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.saveEstablishment(body)
+            const result = await client.save(body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -30,7 +30,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     EstablishmentsRepository.tries++
-                    this.saveEstablishment(body)
+                    this.save(body)
                 }
             } else {
                 EstablishmentsRepository.tries = 0
@@ -39,10 +39,10 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         }
     }
 
-    async updateEstablishment(id: number, body: EstablishmentDataDTO) {
+    async update(id: string, body: EstablishmentDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.updateEstablishment(id, body)
+            const result = await client.update(id, body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -54,7 +54,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     EstablishmentsRepository.tries++
-                    this.updateEstablishment(id, body)
+                    this.update(id, body)
                 }
             } else {
                 EstablishmentsRepository.tries = 0
@@ -63,10 +63,10 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         }
     }
 
-    async updateEstablishmentScore(id: number) {
+    async delete(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.updateEstablishmentScore(id)
+            const result = await client.delete(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -78,7 +78,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     EstablishmentsRepository.tries++
-                    this.updateEstablishmentScore(id)
+                    this.delete(id)
                 }
             } else {
                 EstablishmentsRepository.tries = 0
@@ -87,10 +87,10 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         }
     }
 
-    async deleteEstablishmentById(id: number) {
+    async getAll() {
         try {
             const client = await this.apiClient
-            const result = await client.deleteEstablishment(id)
+            const result = await client.getAll()
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -102,7 +102,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     EstablishmentsRepository.tries++
-                    this.deleteEstablishmentById(id)
+                    this.getAll()
                 }
             } else {
                 EstablishmentsRepository.tries = 0
@@ -111,10 +111,10 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         }
     }
 
-    async getAllEstablishments() {
+    async getById(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getAllEstablishments()
+            const result = await client.getById(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -126,7 +126,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     EstablishmentsRepository.tries++
-                    this.getAllEstablishments()
+                    this.getById(id)
                 }
             } else {
                 EstablishmentsRepository.tries = 0
@@ -135,10 +135,10 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         }
     }
 
-    async getEstablishmentById(id: number) {
+    async getByName(name: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getEstablishmentById(id)
+            const result = await client.getByName(name)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -150,151 +150,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     EstablishmentsRepository.tries++
-                    this.getEstablishmentById(id)
-                }
-            } else {
-                EstablishmentsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getEstablishmentsByDate(date: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getEstablishmentByDate(date)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    EstablishmentsRepository.tries++
-                    this.getEstablishmentsByDate(date)
-                }
-            } else {
-                EstablishmentsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getEstablishmentsByDateBetween(minDate: number, maxDate: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getEstablishmentByDateBetween(minDate, maxDate)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    EstablishmentsRepository.tries++
-                    this.getEstablishmentsByDateBetween(minDate, maxDate)
-                }
-            } else {
-                EstablishmentsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getEstablishmentsByOpen(open: boolean) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getEstablishmentByOpen(open)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    EstablishmentsRepository.tries++
-                    this.getEstablishmentsByOpen(open)
-                }
-            } else {
-                EstablishmentsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getEstablishmentByName(name: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getEstablishmentByName(name)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    EstablishmentsRepository.tries++
-                    this.getEstablishmentByName(name)
-                }
-            } else {
-                EstablishmentsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getEstablishmentsByScore(score: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getEstablishmentByScore(score)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    EstablishmentsRepository.tries++
-                    this.getEstablishmentsByScore(score)
-                }
-            } else {
-                EstablishmentsRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getEstablishmentsByScoreBetween(minScore: number, maxScore: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getEstablishmentByScoreBetween(minScore, maxScore)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    EstablishmentsRepository.tries++
-                    this.getEstablishmentsByScoreBetween(minScore, maxScore)
+                    this.getByName(name)
                 }
             } else {
                 EstablishmentsRepository.tries = 0

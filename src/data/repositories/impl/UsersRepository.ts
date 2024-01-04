@@ -15,10 +15,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         super(TotecoApi.UsersApi, false)
     }
 
-    async activateUser(id: number) {
+    async activate(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.activateUser(id)
+            const result = await client.activate(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -30,7 +30,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.activateUser(id)
+                    this.activate(id)
                 }
             } else {
                 UsersRepository.tries = 0
@@ -39,10 +39,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async disableUser(id: number) {
+    async disable(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.disableUser(id)
+            const result = await client.disable(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -54,7 +54,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.disableUser(id)
+                    this.disable(id)
                 }
             } else {
                 UsersRepository.tries = 0
@@ -63,10 +63,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async getUserById(id: number) {
+    async getById(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getUserById(id)
+            const result = await client.getById(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -78,7 +78,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.getUserById(id)
+                    this.getById(id)
                 }
             } else {
                 UsersRepository.tries = 0
@@ -87,10 +87,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async saveUser(body: UserDataDTO) {
+    async save(body: UserDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.saveUser(body)
+            const result = await client.save(body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -102,7 +102,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.saveUser(body)
+                    this.save(body)
                 }
             } else {
                 UsersRepository.tries = 0
@@ -111,10 +111,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async updateUserMoneySpent(id: number) {
+    async updateMoneySpent(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.updateUserMoneySpent(id)
+            const result = await client.updateMoneySpent(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -126,7 +126,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.updateUserMoneySpent(id)
+                    this.updateMoneySpent(id)
                 }
             } else {
                 UsersRepository.tries = 0
@@ -135,10 +135,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async updateUserPassword(id: number) {
+    async updatePassword(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.updateUserPassword(id)
+            const result = await client.updatePassword(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -150,7 +150,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.updateUserPassword(id)
+                    this.updatePassword(id)
                 }
             } else {
                 UsersRepository.tries = 0
@@ -159,10 +159,10 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async updateUserPublicationNumber(id: number) {
+    async updatePublicationsNumber(id: number) {
         try {
             const client = await this.apiClient
-            const result = await client.updateUserPublicationNumber(id)
+            const result = await client.updatePublicationsNumber(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -174,7 +174,103 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     UsersRepository.tries++
-                    this.updateUserPublicationNumber(id)
+                    this.updatePublicationsNumber(id)
+                }
+            } else {
+                UsersRepository.tries = 0
+                throw e
+            }
+        }
+    }
+
+    async getByUsername(username: string) {
+        try {
+            const client = await this.apiClient
+            const result = await client.getByUsername(username)
+            return result
+        } catch (e) {
+            if (LoginRepository.tries < 1) {
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const jwtResponse = await new LoginRepository().login(credentials!)
+
+                if (jwtResponse instanceof ErrorResponse) {
+                    throw jwtResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
+                    UsersRepository.tries++
+                    this.getByUsername(username)
+                }
+            } else {
+                UsersRepository.tries = 0
+                throw e
+            }
+        }
+    }
+
+    async getByEmail(email: string) {
+        try {
+            const client = await this.apiClient
+            const result = await client.getByEmail(email)
+            return result
+        } catch (e) {
+            if (LoginRepository.tries < 1) {
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const jwtResponse = await new LoginRepository().login(credentials!)
+
+                if (jwtResponse instanceof ErrorResponse) {
+                    throw jwtResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
+                    UsersRepository.tries++
+                    this.getByEmail(email)
+                }
+            } else {
+                UsersRepository.tries = 0
+                throw e
+            }
+        }
+    }
+
+    async getRecoveryCode(id: string) {
+        try {
+            const client = await this.apiClient
+            const result = await client.getRecoveryCode(id)
+            return result
+        } catch (e) {
+            if (LoginRepository.tries < 1) {
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const jwtResponse = await new LoginRepository().login(credentials!)
+
+                if (jwtResponse instanceof ErrorResponse) {
+                    throw jwtResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
+                    UsersRepository.tries++
+                    this.getRecoveryCode(id)
+                }
+            } else {
+                UsersRepository.tries = 0
+                throw e
+            }
+        }
+    }
+
+    async getUserLogged() {
+        try {
+            const client = await this.apiClient
+            const result = await client.getUserLogged()
+            return result
+        } catch (e) {
+            if (LoginRepository.tries < 1) {
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const jwtResponse = await new LoginRepository().login(credentials!)
+
+                if (jwtResponse instanceof ErrorResponse) {
+                    throw jwtResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
+                    UsersRepository.tries++
+                    this.getUserLogged()
                 }
             } else {
                 UsersRepository.tries = 0

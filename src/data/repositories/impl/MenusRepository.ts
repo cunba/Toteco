@@ -15,10 +15,10 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         super(TotecoApi.MenusApi, false)
     }
 
-    async saveMenu(body: MenuDataDTO) {
+    async save(body: MenuDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.saveMenu(body)
+            const result = await client.save(body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -30,7 +30,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     MenusRepository.tries++
-                    this.saveMenu(body)
+                    this.save(body)
                 }
             } else {
                 MenusRepository.tries = 0
@@ -39,10 +39,10 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         }
     }
 
-    async updateMenu(id: number, body: MenuDataDTO) {
+    async update(id: string, body: MenuDataDTO) {
         try {
             const client = await this.apiClient
-            const result = await client.updateMenu(id, body)
+            const result = await client.update(id, body)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -54,7 +54,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     MenusRepository.tries++
-                    this.updateMenu(id, body)
+                    this.update(id, body)
                 }
             } else {
                 MenusRepository.tries = 0
@@ -63,10 +63,10 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         }
     }
 
-    async deleteMenuById(id: number) {
+    async deleteById(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.deleteMenu(id)
+            const result = await client.delete(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -78,7 +78,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     MenusRepository.tries++
-                    this.deleteMenuById(id)
+                    this.deleteById(id)
                 }
             } else {
                 MenusRepository.tries = 0
@@ -87,10 +87,30 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         }
     }
 
-    async getAllMenus() {
+    async deleteAll() {
         try {
             const client = await this.apiClient
-            const result = await client.getAllMenus()
+            const result = await client.deleteAll()
+            return result
+        } catch (e) {
+            if (LoginRepository.tries < 1) {
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const jwtResponse = await new LoginRepository().login(credentials!)
+
+                SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
+                MenusRepository.tries++
+                this.deleteAll()
+            } else {
+                MenusRepository.tries = 0
+                throw e
+            }
+        }
+    }
+
+    async getAll() {
+        try {
+            const client = await this.apiClient
+            const result = await client.getAll()
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -102,7 +122,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     MenusRepository.tries++
-                    this.getAllMenus()
+                    this.getAll()
                 }
             } else {
                 MenusRepository.tries = 0
@@ -111,10 +131,10 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         }
     }
 
-    async getMenuById(id: number) {
+    async getById(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getMenuById(id)
+            const result = await client.getById(id)
             return result
         } catch (e) {
             if (LoginRepository.tries < 1) {
@@ -126,151 +146,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
                     MenusRepository.tries++
-                    this.getMenuById(id)
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getMenusByDate(date: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getMenuByDate(date)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
-                    this.getMenusByDate(date)
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getMenusByDateBetween(minDate: number, maxDate: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getMenuByDateBetween(minDate, maxDate)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
-                    this.getMenusByDateBetween(minDate, maxDate)
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getMenusByPrice(price: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getMenuByPrice(price)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
-                    this.getMenusByPrice(price)
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getMenusByPriceBetween(minPrice: number, maxPrice: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getMenuByPriceBetween(minPrice, maxPrice)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
-                    this.getMenusByPriceBetween(minPrice, maxPrice)
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getMenusByScore(score: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getMenuByScore(score)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
-                    this.getMenusByScore(score)
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getMenusByScoreBetween(minScore: number, maxScore: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getMenuByScoreBetween(minScore, maxScore)
-            return result
-        } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
-                    this.getMenusByScoreBetween(minScore, maxScore)
+                    this.getById(id)
                 }
             } else {
                 MenusRepository.tries = 0

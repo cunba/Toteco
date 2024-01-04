@@ -1,20 +1,25 @@
+import { IGlobalRepository } from "../../infrastructure/data/repositories/IGlobalRespository"
 import { UserData, UserDataDTO } from "../model/User"
 
 
-export interface IUsersApi {
+export interface IUsersApi extends IGlobalRepository<UserData, UserDataDTO> {
 
-    activateUser(id: number): Promise<string>
+    getByUsername(username: string): Promise<UserData[]>
 
-    disableUser(id: number): Promise<string>
+    getByEmail(email: string): Promise<UserData[]>
 
-    getUserById(id: number): Promise<UserData>
+    getRecoveryCode(id: string): Promise<number>
 
-    saveUser(body: UserDataDTO): Promise<UserData>
+    getUserLogged(): Promise<UserData>
 
-    updateUserMoneySpent(id: number): Promise<string>
+    activate(id: number): Promise<string>
 
-    updateUserPassword(id: number): Promise<string>
+    disable(id: number): Promise<string>
 
-    updateUserPublicationNumber(id: number): Promise<string>
+    updateMoneySpent(id: number): Promise<string>
+
+    updatePassword(id: number): Promise<string>
+
+    updatePublicationsNumber(id: number): Promise<string>
 
 }
