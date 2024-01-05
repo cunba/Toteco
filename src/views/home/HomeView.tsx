@@ -1,5 +1,5 @@
 import { DrawerActions } from "@react-navigation/native";
-import { Icon, NativeBaseProvider } from "native-base";
+import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Appearance, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -70,11 +70,15 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Icon as={<AntDesign name='setting' />} size={SIZES.icons_small} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 5 }} />
+                        {vm.user!.image === '' ?
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                            :
+                            <Image size={10} borderRadius={100} source={{ uri: vm.user!.image }} alt="Alternate Text" />
+                        }
                     </View>
                 ),
                 title: 'settings',
-                onPress: () => console.log('entra a settings'),
+                onPress: () => console.log('entra a profile'),
                 color: COLORS.touchable
                 // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
             },
@@ -87,7 +91,6 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 title: 'sign-out',
                 onPress: () => signOut(),
                 color: COLORS.touchable
-                // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
             },
             // {} as MultiLevelFabButtonInnerItem
         ]

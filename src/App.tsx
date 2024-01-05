@@ -153,7 +153,7 @@ function App(): JSX.Element {
                 SessionStoreFactory.getSessionStore().setCredentials({ username: username, password: password } as JwtRequestData)
 
                 const user = await new UsersRepository().getUserLogged()
-                SessionStoreFactory.getSessionStore().setUser(user)
+                SessionStoreFactory.getSessionStore().setUser(user?.data)
 
                 dispatch({ type: 'SIGN_IN', token: response.token });
             },
