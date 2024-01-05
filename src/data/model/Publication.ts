@@ -9,8 +9,8 @@ export class PublicationData implements Publication {
         public totalScore: number,
         public user: UserData,
         public establishment: EstablishmentData,
+        public image?: string,
         public created?: number,
-        public photo?: string[],
         public products?: Product[]
     ) {
         this.id = id
@@ -19,7 +19,7 @@ export class PublicationData implements Publication {
         this.user = user
         this.establishment = establishment
         this.created = created
-        this.photo = photo
+        this.image = image
         this.products = products
     }
 }
@@ -30,11 +30,11 @@ export class PublicationDataDTO implements PublicationDTO {
         public totalPrice: number,
         public userId: string,
         public establishmentId: string,
-        public photo?: string[]
+        public image?: string
     ) {
         this.totalScore = totalScore
         this.totalPrice = totalPrice
-        this.photo = photo
+        this.image = image
         this.userId = userId
         this.establishmentId = establishmentId
     }

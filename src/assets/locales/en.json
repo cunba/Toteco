@@ -37,6 +37,10 @@
     "sign_up.day.label": "DD",
     "sign_up.month.label": "MM",
     "sign_up.year.label": "YYYY",
+    "sign_up.alert.title": "Pick image",
+    "sign_up.alert.camera": "Take picture",
+    "sign_up.alert.gallery": "Take from the gallery",
+    "sign_up.alert.cancel": "Cancel",
 
     "recovery.code": "Recovery code",
     "recovery.password": "Password",

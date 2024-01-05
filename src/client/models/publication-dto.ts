@@ -12,9 +12,6 @@
  * Do not edit the class manually.
  */
 
-import {
-    
-} from ".";
 
 /**
  * Publication transfer object
@@ -25,10 +22,10 @@ import {
 export interface PublicationDTO {
 
     /**
-     * @type {Array<string>}
+     * @type {string}
      * @memberof PublicationDTO
      */
-    photo?: Array<string>;
+    image?: string;
 
     /**
      * @type {string}

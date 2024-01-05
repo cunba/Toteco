@@ -10,6 +10,7 @@ export class SignUpViewModel {
     surname?: string
     birthDate?: number = new Date().getTime()
     repeatPassword?: string
+    profileImage?: string
 
     user?: UserDataDTO
 
@@ -62,12 +63,17 @@ export class SignUpViewModel {
             this.name!,
             this.surname!,
             this.birthDate!,
+            this.profileImage ?? '',
             this.email!,
             this.password!,
             "USER"
         )
 
         this.user = user
+    }
+
+    async setImage(image: string) {
+        this.profileImage = image
     }
 
     isPasswordValid() {

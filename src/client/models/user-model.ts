@@ -62,6 +62,12 @@ export interface UserModel {
      * @type {string}
      * @memberof UserModel
      */
+    image: string;
+
+    /**
+     * @type {string}
+     * @memberof UserModel
+     */
     password: string;
 
     /**

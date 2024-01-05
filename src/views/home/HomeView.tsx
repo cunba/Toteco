@@ -28,11 +28,6 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
 
     const { signOut } = React.useContext(AuthContext)
 
-    const renderIcons = () => {
-
-        return
-    }
-
     const handlerButton = () => {
 
     }

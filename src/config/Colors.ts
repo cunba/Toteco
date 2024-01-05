@@ -7,7 +7,7 @@ const PALLET = {
 
 export const COLORS_DARK = {
     text: 'white',
-    text_touchable: 'white',
+    text_touchable: 'black',
     touchable: PALLET.orange,
     background: 'black',
     background_second: PALLET.green,
@@ -16,7 +16,7 @@ export const COLORS_DARK = {
 
 export const COLORS_LIGHT = {
     text: 'black',
-    text_touchable: 'black',
+    text_touchable: 'white',
     touchable: PALLET.orange,
     background: 'white',
     background_second: PALLET.green,

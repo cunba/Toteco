@@ -49,10 +49,10 @@ export interface Publication {
     totalScore: number;
 
     /**
-     * @type {Array<string>}
+     * @type {string}
      * @memberof Publication
      */
-    photo?: Array<string>;
+    image?: string;
 
     /**
      * @type {UserModel}

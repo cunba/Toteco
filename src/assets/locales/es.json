@@ -38,6 +38,10 @@
     "sign_up.day.label": "DD",
     "sign_up.month.label": "MM",
     "sign_up.year.label": "YYYY",
+    "sign_up.alert.title": "Elegir imagen",
+    "sign_up.alert.camera": "Tomar foto",
+    "sign_up.alert.gallery": "Elegir de la galería",
+    "sign_up.alert.cancel": "Cancelar",
 
     "recovery.code": "Código de recuperación",
     "recovery.password": "Contraseña",

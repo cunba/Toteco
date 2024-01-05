@@ -1,6 +1,7 @@
-import { Icon, Input, NativeBaseProvider, Stack } from "native-base";
+import { Icon, Image, Input, NativeBaseProvider, Stack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
@@ -23,6 +24,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
     const [showPassword, setShowPassword] = useState(false)
     const [showRepeatPassword, setShowRepeatPassword] = useState(false)
+    const [imageUri, setImageUri] = useState('')
 
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
@@ -76,7 +78,57 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
             setErrorMessage(i18n.t('sign_up.error.fields')!);
             setHideErrorMessage(false);
         }
+    }
 
+    const camera = async () => {
+        const result = await launchCamera({
+            mediaType: 'photo',
+            cameraType: 'front',
+            includeBase64: false,
+            saveToPhotos: true
+        })
+        if (result.assets) {
+            setImageUri(result.assets[0].uri!)
+            vm.setImage(result.assets[0].base64!)
+        }
+        console.log(result)
+    }
+
+    const gallery = async () => {
+        const result = await launchImageLibrary({
+            mediaType: 'photo',
+            includeBase64: false,
+            selectionLimit: 1
+        })
+        if (result.assets) {
+            setImageUri(result.assets![0].uri!)
+            vm.setImage(result.assets[0].uri!)
+        }
+    }
+
+    const pickImageAlert = () => {
+        Alert.alert(
+            i18n.t('sign_up.alert.title'),
+            '',
+            [
+                {
+                    text: i18n.t('sign_up.alert.camera'),
+                    onPress: camera,
+                    style: 'default'
+                },
+                {
+                    text: i18n.t('sign_up.alert.gallery'),
+                    onPress: gallery
+                },
+                {
+                    text: i18n.t('sign_up.alert.cancel'),
+                    style: 'cancel'
+                },
+            ],
+            {
+                cancelable: true
+            }
+        )
     }
 
     return (
@@ -90,6 +142,13 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                         <Text style={[signUpStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
                         <Text style={{ flex: 1 }}></Text>
                     </View>
+                    <TouchableOpacity style={{ marginBottom: 20 }} onPress={pickImageAlert}>
+                        {imageUri === '' ?
+                            <Image size={150} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                            :
+                            <Image size={150} borderRadius={100} source={{ uri: imageUri }} alt="Alternate Text" />
+                        }
+                    </TouchableOpacity>
                     <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}

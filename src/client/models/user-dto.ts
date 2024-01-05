@@ -12,9 +12,6 @@
  * Do not edit the class manually.
  */
 
-import {
-    
-} from ".";
 
 /**
  * User transfer object
@@ -53,6 +50,12 @@ export interface UserDTO {
      * @memberof UserDTO
      */
     email: string;
+
+    /**
+     * @type {string}
+     * @memberof UserDTO
+     */
+    image: string;
 
     /**
      * @type {string}
