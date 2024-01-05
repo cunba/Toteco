@@ -1,6 +1,6 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
-import { Appearance, View } from "react-native";
+import { Appearance, ScrollView, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -10,6 +10,7 @@ import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/M
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles } from "../../config/Styles";
+import i18n from "../../infrastructure/localization/i18n";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { HomeViewModel } from "../../viewmodels/HomeViewModel";
 import { homeStyles } from "./HomeStyles";
@@ -95,8 +96,11 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     return (
         <>
             <NativeBaseProvider>
-                <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                </View>
+                <ScrollView contentContainerStyle={[commonStyles.container, { backgroundColor: COLORS.background }]}>
+                    <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadow }]}>
+                        <Text style={[commonStyles.title, { color: COLORS.touchable }]}>{i18n.t('app_name').toUpperCase()}</Text>
+                    </View>
+                </ScrollView>
                 <MultiLevelFabButton {...options} />
             </NativeBaseProvider>
         </>
