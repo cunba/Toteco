@@ -1,8 +1,6 @@
-import { DrawerActions } from "@react-navigation/native";
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
-import { Appearance, Text, TouchableOpacity, View } from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import { Appearance, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,8 +10,6 @@ import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/M
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles } from "../../config/Styles";
-import i18n from "../../infrastructure/localization/i18n";
-import { dispatch } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { HomeViewModel } from "../../viewmodels/HomeViewModel";
 import { homeStyles } from "./HomeStyles";
@@ -70,10 +66,10 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        {vm.user!.image === '' ?
+                        {vm.user?.image === '' ?
                             <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
                             :
-                            <Image size={10} borderRadius={100} source={{ uri: vm.user!.image }} alt="Alternate Text" />
+                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.image }} alt="Alternate Text" />
                         }
                     </View>
                 ),
@@ -100,13 +96,6 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
         <>
             <NativeBaseProvider>
                 <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                    <View style={commonStyles.toolbar}>
-                        <TouchableOpacity onPress={() => dispatch(DrawerActions.openDrawer())} style={commonStyles.toolbarButton}>
-                            <Icon as={<AntDesign name='menu-fold' />} size={7} mr="2" color={COLORS.touchable} />
-                        </TouchableOpacity>
-                        <Text style={[commonStyles.title, { color: COLORS.text }]}>{i18n.t('home.title')}</Text>
-                        <Text style={{ flex: 1 }}></Text>
-                    </View>
                 </View>
                 <MultiLevelFabButton {...options} />
             </NativeBaseProvider>

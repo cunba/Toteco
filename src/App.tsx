@@ -221,7 +221,7 @@ function App(): JSX.Element {
                 <View style={{ width: '100%', height: '100%' }}>
                     <View style={{ flex: 4, flexDirection: 'row', alignItems: "center", backgroundColor: COLOR.background, paddingTop: 50 }}>
                         <NativeBaseProvider>
-                            <Heading style={{ color: COLOR.touchable, fontSize: 50, paddingTop: 50, alignSelf: 'center' }}>{i18n.t('appName').toUpperCase()}</Heading>
+                            <Heading style={{ color: COLOR.touchable, fontSize: 50, paddingTop: 50, alignSelf: 'center' }}>{i18n.t('app_name').toUpperCase()}</Heading>
                         </NativeBaseProvider>
                     </View>
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 30, flexDirection: 'row', backgroundColor: COLOR.background }}>

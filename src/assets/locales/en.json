@@ -1,6 +1,6 @@
 {
     "init": "Powered by Cunba",
-    "appName": "Toteco",
+    "app_name": "Toteco",
     "cancel": "Cancel",
     "ok": "Ok",
     "continue": "Continue",
@@ -44,7 +44,5 @@
 
     "recovery.code": "Recovery code",
     "recovery.password": "Password",
-    "recovery.repeat_password": "Repeat password",
-
-    "home.title": "Home"
+    "recovery.repeat_password": "Repeat password"
 }
