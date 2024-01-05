@@ -7,7 +7,8 @@ export enum ROUTES {
     HOME = 'Home',
     DRAWER = 'Drawer',
     RECOVERY = 'Recovery',
-    SIGN_UP = 'Sign up'
+    SIGN_UP = 'Sign up',
+    ESTABLISHMENTS = 'Establishments'
 }
 
 export const PLATFORM = Platform.OS

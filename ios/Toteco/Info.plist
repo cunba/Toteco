@@ -71,6 +71,12 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Capture Image</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select image</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Add image</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

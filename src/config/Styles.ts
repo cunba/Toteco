@@ -37,27 +37,6 @@ export const commonStyles = StyleSheet.create({
         paddingRight: 60,
         paddingTop: 30,
     },
-    containerInOut: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    containerRadioButtonIn: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        height: 'auto',
-    },
-    containerRadioButtonOut: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        height: 'auto',
-        marginRight: -7
-    },
     labelContainer: {
         position: 'absolute',
         backgroundColor: '#FFF',
