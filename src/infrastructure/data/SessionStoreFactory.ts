@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { JwtRequestData } from "../../data/model/Jwt";
+import { UserData } from "../../data/model/User";
 import { dateFormat } from "../../utils/datetimeFormatterHelper";
 
 export interface SessionStore {
@@ -7,8 +8,8 @@ export interface SessionStore {
   setToken(token: string | undefined): void
   getCredentials(): Promise<JwtRequestData | undefined | null>
   setCredentials(credentials: JwtRequestData | undefined | null): void
-  getUser(): Promise<any | undefined | null>
-  setUser(user: any | undefined): void
+  getUser(): Promise<UserData | undefined | null>
+  setUser(user: UserData | undefined): void
   getDate(): Promise<string | undefined | null>
   setDate(): void
   getRecoverPassword(): Promise<boolean | undefined | null>

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { SIZES } from "./Sizes";
 
 export const commonStyles = StyleSheet.create({
@@ -13,9 +13,7 @@ export const commonStyles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        fontSize: SIZES.title,
-        // width: '100%',
-        flex: 1
+        fontSize: SIZES.title
     },
     text: {
         textAlign: 'center',
@@ -48,7 +46,7 @@ export const commonStyles = StyleSheet.create({
     titleToolbar: {
         textAlign: 'center',
         fontSize: SIZES.title,
-        flex: 2
+        flex: 5
     },
     toolbar: {
         flexDirection: 'row',
@@ -88,5 +86,50 @@ export const formStyles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginBottom: 10
+    }
+})
+
+export const stylesRicyclerList = StyleSheet.create({
+    recyclerListViewContainer: {
+        flex: 6,
+        paddingTop: 10
+    },
+    emptyList: {
+        paddingTop: 20,
+        textAlign: 'center',
+        fontSize: SIZES.text
+    },
+    recyclerListView: {
+        maxHeight: Dimensions.get('screen').height * 0.2,
+        height: 40,
+        width: Dimensions.get('screen').width
+    },
+    rowCellContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 40
+    },
+    rowCellContainerCalendar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '95%',
+        paddingLeft: '10%'
+    },
+    card: {
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 10,
+        height: 70,
+        width: "90%",
+        flexDirection: 'row',
+        alignSelf: "center",
+    },
+    containerOptions: {
+        width: '18%',
+        height: 70,
+        marginVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })

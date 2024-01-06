@@ -45,5 +45,13 @@
 
     "recovery.code": "Código de recuperación",
     "recovery.password": "Contraseña",
-    "recovery.repeat_password": "Repite contraseña"
+    "recovery.repeat_password": "Repite contraseña",
+
+    "add_publication.title": "Añadir publicación",
+    "add_publication.establishment.label": "Selecciona establecimiento",
+    "add_publication.establishment.score": "Puntuación del establecimiento",
+    "add_publication.product.label": "Añadir producto",
+    "add_publication.total_score": "Puntuación total: ",
+    "add_publication.total_price": "Precio total: ",
+    "add_publication.total.label": "Total"
 }

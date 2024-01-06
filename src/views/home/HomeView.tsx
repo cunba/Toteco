@@ -8,9 +8,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
 import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/MultiLevelFabButton";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
+import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles } from "../../config/Styles";
 import i18n from "../../infrastructure/localization/i18n";
+import { navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { HomeViewModel } from "../../viewmodels/HomeViewModel";
 import { homeStyles } from "./HomeStyles";
@@ -26,7 +28,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     const { signOut } = React.useContext(AuthContext)
 
     const handlerButton = () => {
-
+        navigate(ROUTES.ADD_PUBLICATION, null)
     }
 
     const options = {

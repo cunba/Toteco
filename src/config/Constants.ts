@@ -8,7 +8,10 @@ export enum ROUTES {
     DRAWER = 'Drawer',
     RECOVERY = 'Recovery',
     SIGN_UP = 'Sign up',
-    ESTABLISHMENTS = 'Establishments'
+    ESTABLISHMENTS = 'Establishments',
+    ADD_PUBLICATION = 'Add publication',
+    ADD_ESTABLISHMENT = 'Add establishment',
+    ADD_PRODUCT = 'Add product'
 }
 
 export const PLATFORM = Platform.OS

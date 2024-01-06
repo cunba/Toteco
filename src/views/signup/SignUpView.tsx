@@ -1,5 +1,5 @@
 import { Icon, Image, Input, NativeBaseProvider, Stack } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -31,10 +31,6 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     })
 
     const { signUp } = React.useContext(AuthContext)
-
-    useEffect(() => {
-        vm.constructorFunctions()
-    }, [])
 
     const doSignUp = async () => {
         const yearNumber = parseInt(year)
@@ -135,11 +131,11 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
         <>
             <NativeBaseProvider>
                 <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                    <View style={signUpStyles.toolbar}>
-                        <TouchableOpacity onPress={() => back()} style={signUpStyles.toolbarButton}>
+                    <View style={commonStyles.toolbar}>
+                        <TouchableOpacity onPress={() => back()} style={commonStyles.toolbarButton}>
                             <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
                         </TouchableOpacity>
-                        <Text style={[signUpStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
+                        <Text style={[commonStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <TouchableOpacity style={{ marginBottom: 20 }} onPress={pickImageAlert}>

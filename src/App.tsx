@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Heading, NativeBaseProvider } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dimensions, NativeModules, Text, View } from 'react-native';
+import { NativeModules, Text, View } from 'react-native';
 import { EstablishmentsApi, LoginApi, MenusApi, ProductsApi, PublicationsApi, UsersApi } from './client';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
@@ -17,10 +17,12 @@ import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
 import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
 import { navigate, navigationRef } from './infrastructure/navigation/RootNavigation';
+import { AddPublicationViewModel } from './viewmodels/AddPublicationViewModel';
 import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
+import { AddPublicationView } from './views/addPublication/AddPublicationView';
 import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
@@ -48,36 +50,47 @@ export const AuthContext = React.createContext<any>({});
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
 const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
+
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
+const addPublicationViewModel = new AddPublicationViewModel()
+const AddPublicationScreen = () => <AddPublicationView vm={addPublicationViewModel} />
+// const AddEstablishmentScreen = () => <AddEstablishmentView vm={new AddPublicationViewModel()} />
 
 const Stack = createStackNavigator();
 
 const Drawer = createDrawerNavigator();
 const drawerContent = (props: any) => <DrawerContent {...props} />;
 
-const NavigationDrawer = () => {
-    const { width } = Dimensions.get('window');
+// const NavigationDrawer = () => {
+//     const { width } = Dimensions.get('window');
 
-    return (
-        <Drawer.Navigator
-            screenOptions={{
-                swipeEdgeWidth: width * 0.8,
-                headerShown: false
-            }}
-            initialRouteName={ROUTES.HOME}
-            drawerContent={drawerContent}
-            backBehavior={'history'}
-        >
-            <Drawer.Screen
-                options={{
-                    title: i18n.t('home.title'),
-                }}
-                name={ROUTES.HOME}
-                component={HomeScreen}
-            />
-        </Drawer.Navigator>
-    );
-};
+//     return (
+//         <Drawer.Navigator
+//             screenOptions={{
+//                 swipeEdgeWidth: width * 0.8,
+//                 headerShown: false
+//             }}
+//             initialRouteName={ROUTES.HOME}
+//             drawerContent={drawerContent}
+//             backBehavior={'history'}
+//         >
+//             <Drawer.Screen
+//                 options={{
+//                     title: i18n.t('home.title'),
+//                 }}
+//                 name={ROUTES.HOME}
+//                 component={HomeScreen}
+//             />
+//             <Drawer.Screen
+//                 options={{
+//                     title: i18n.t('add_publication.title'),
+//                 }}
+//                 name={ROUTES.ADD_PUBLICATION}
+//                 component={AddPublicationScreen}
+//             />
+//         </Drawer.Navigator>
+//     );
+// };
 
 function App(): JSX.Element {
     const [loading, setLoading] = useState<boolean>(true)
@@ -153,7 +166,7 @@ function App(): JSX.Element {
                 SessionStoreFactory.getSessionStore().setCredentials({ username: username, password: password } as JwtRequestData)
 
                 const user = await new UsersRepository().getUserLogged()
-                SessionStoreFactory.getSessionStore().setUser(user?.data)
+                SessionStoreFactory.getSessionStore().setUser(user)
 
                 dispatch({ type: 'SIGN_IN', token: response.token });
             },
@@ -209,7 +222,12 @@ function App(): JSX.Element {
                                 <>
                                     <Stack.Screen
                                         name={ROUTES.HOME}
-                                        component={NavigationDrawer}
+                                        component={HomeScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.ADD_PUBLICATION}
+                                        component={AddPublicationScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

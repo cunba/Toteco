@@ -16,10 +16,6 @@ export class SignUpViewModel {
 
     constructor() {
         makeAutoObservable(this)
-        this.constructorFunctions()
-    }
-
-    constructorFunctions() {
     }
 
     setEmail(email: string) {
