@@ -6,14 +6,18 @@ export class ProductData implements Product {
     constructor(
         public id: string,
         public name: string,
+        public created: number,
         public inMenu: boolean,
         public score: number,
+        public updated?: number,
         public price?: number,
-        public menu?: MenuData,
-        public publication?: Publication
+        public publication?: Publication,
+        public menu?: MenuData
     ) {
         this.id = id
         this.name = name
+        this.created = created
+        this.updated = updated
         this.inMenu = inMenu
         this.price = price
         this.score = score

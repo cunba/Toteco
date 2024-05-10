@@ -1,6 +1,6 @@
 import { TotecoApi } from "../../../infrastructure/data/TotecoApiClient";
 import { TotecoBaseRepository } from "../../../infrastructure/data/repositories/TotecoBaseRepository";
-import { JwtRequestData } from "../../model/Jwt";
+import { JwtRequestData } from "../../model/LoginData";
 import { ILoginApi } from "../ILoginApi";
 
 

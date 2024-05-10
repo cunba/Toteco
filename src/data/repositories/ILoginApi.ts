@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios"
-import { JwtRequestData, JwtResponseData } from "../model/Jwt"
+import { JwtRequestData, JwtResponseData } from "../model/LoginData"
 
 
 export interface ILoginApi {

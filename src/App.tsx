@@ -9,7 +9,7 @@ import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
 import { SIZES } from './config/Sizes';
 import { commonStyles } from './config/Styles';
-import { JwtRequestData } from './data/model/Jwt';
+import { JwtRequestData } from './data/model/LoginData';
 import { UserDataDTO } from './data/model/User';
 import { LoginRepository } from './data/repositories/impl/LoginRepository';
 import { UsersRepository } from './data/repositories/impl/UsersRepository';

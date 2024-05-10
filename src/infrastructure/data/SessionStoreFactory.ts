@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { JwtRequestData } from "../../data/model/Jwt";
+import { JwtRequestData } from "../../data/model/LoginData";
 import { UserData } from "../../data/model/User";
 import { dateFormat } from "../../utils/datetimeFormatterHelper";
 

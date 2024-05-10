@@ -1,6 +1,6 @@
-import { JwtRequest, JwtResponse } from "../../client";
+import { LoginRequest, LoginResponse } from "../../client"
 
-export class JwtRequestData implements JwtRequest {
+export class LoginRequestData implements LoginRequest {
 
     constructor(
         public username: string,
@@ -11,7 +11,7 @@ export class JwtRequestData implements JwtRequest {
     }
 }
 
-export class JwtResponseData implements JwtResponse {
+export class LoginResponseData implements LoginResponse {
 
     constructor(public token: string) {
         this.token = token

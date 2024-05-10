@@ -16,19 +16,25 @@
  * 
  *
  * @export
- * @interface EstablishmentDTO
+ * @interface RecoverAccount
  */
-export interface EstablishmentDTO {
+export interface RecoverAccount {
 
     /**
      * @type {string}
-     * @memberof EstablishmentDTO
+     * @memberof RecoverAccount
      */
-    name?: string;
+    id?: string;
 
     /**
      * @type {string}
-     * @memberof EstablishmentDTO
+     * @memberof RecoverAccount
      */
-    location?: string;
+    username?: string;
+
+    /**
+     * @type {number}
+     * @memberof RecoverAccount
+     */
+    recoveryCode?: number;
 }

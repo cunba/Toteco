@@ -1,6 +1,6 @@
-import { Publication, UserDTO, UserModel } from "../../client"
+import { RecoverAccount, UpdatePassword, User, UserDTO } from "../../client"
 
-export class UserData implements UserModel {
+export class UserData implements User {
     constructor(
         public id: string,
         public username: string,
@@ -9,15 +9,13 @@ export class UserData implements UserModel {
         public birthDate: number,
         public email: string,
         public password: string,
-        public active: boolean,
+        public created: number,
+        public isActive: boolean,
+        public moneySpent: number,
+        public publicationsNumber: number,
         public role: string,
-        public image: string,
-        public created?: number,
-        public modified?: number,
-        public recoveryCode?: number,
-        public moneySpent?: number,
-        public publicationsNumber?: number,
-        public publications?: Publication[]
+        public updated?: number,
+        public recoveryCode?: number
     ) {
         this.id = id
         this.username = username
@@ -26,15 +24,13 @@ export class UserData implements UserModel {
         this.birthDate = birthDate
         this.email = email
         this.password = password
-        this.active = active
-        this.image = image
-        this.role = role
         this.created = created
-        this.modified = modified
-        this.recoveryCode = recoveryCode
+        this.updated = updated
+        this.isActive = isActive
         this.moneySpent = moneySpent
         this.publicationsNumber = publicationsNumber
-        this.publications = publications
+        this.role = role
+        this.recoveryCode = recoveryCode
     }
 }
 
@@ -44,7 +40,6 @@ export class UserDataDTO implements UserDTO {
         public name: string,
         public surname: string,
         public birthDate: number,
-        public image: string,
         public email: string,
         public password: string,
         public role: string
@@ -53,9 +48,30 @@ export class UserDataDTO implements UserDTO {
         this.name = name
         this.surname = surname
         this.birthDate = birthDate
-        this.image = image
         this.email = email
         this.password = password
         this.role = role
+    }
+}
+
+export class RecoverAccountData implements RecoverAccount {
+    constructor(
+        public id: string,
+        public username: string,
+        public recoveryCode: number
+    ) {
+        this.id = id
+        this.username = username
+        this.recoveryCode = recoveryCode
+    }
+}
+
+export class UpdatePasswordData implements UpdatePassword {
+    constructor(
+        public id: string,
+        public password: string
+    ) {
+        this.id = id
+        this.password = password
     }
 }

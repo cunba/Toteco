@@ -118,7 +118,6 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <View style={formStyles.container}>
-                        <Text style={[formStyles.input, { color: COLORS.text }]}>{vm.establishmentScore ?? i18n.t('add_publication.establishment.score')}</Text>
                         <RecyclerListView
                             ref={(c) => { setScroll(c) }}
                             showsVerticalScrollIndicator={false}
