@@ -66,4 +66,5 @@ yarn-error.log
 /coverage
 
 package-lock.json
-Podfile.Lock
+Podfile.lock
+.vscode
