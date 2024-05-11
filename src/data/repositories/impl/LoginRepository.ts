@@ -1,6 +1,6 @@
 import { TotecoApi } from "../../../infrastructure/data/TotecoApiClient";
 import { TotecoBaseRepository } from "../../../infrastructure/data/repositories/TotecoBaseRepository";
-import { JwtRequestData } from "../../model/LoginData";
+import { LoginRequestData } from "../../model/LoginData";
 import { ILoginApi } from "../ILoginApi";
 
 
@@ -12,10 +12,10 @@ export class LoginRepository extends TotecoBaseRepository<ILoginApi> {
         super(TotecoApi.LoginApi, false)
     }
 
-    async login(jwtRequest: JwtRequestData) {
+    async login(loginRequest: LoginRequestData) {
         try {
             const client = await this.apiClient
-            const result = await client.login(jwtRequest)
+            const result = await client.login(loginRequest)
             return result.data
         } catch (e) {
             throw e

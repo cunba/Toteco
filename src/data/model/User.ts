@@ -10,6 +10,7 @@ export class UserData implements User {
         public email: string,
         public password: string,
         public created: number,
+        public photo: string,
         public isActive: boolean,
         public moneySpent: number,
         public publicationsNumber: number,
@@ -26,6 +27,7 @@ export class UserData implements User {
         this.password = password
         this.created = created
         this.updated = updated
+        this.photo = photo
         this.isActive = isActive
         this.moneySpent = moneySpent
         this.publicationsNumber = publicationsNumber
@@ -42,6 +44,7 @@ export class UserDataDTO implements UserDTO {
         public birthDate: number,
         public email: string,
         public password: string,
+        public photo: string,
         public role: string
     ) {
         this.username = username
@@ -50,6 +53,7 @@ export class UserDataDTO implements UserDTO {
         this.birthDate = birthDate
         this.email = email
         this.password = password
+        this.photo = photo
         this.role = role
     }
 }

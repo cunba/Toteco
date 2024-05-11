@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx"
-import { UserDataDTO } from "../data/model/User"
+import { makeAutoObservable } from "mobx";
+import { UserDataDTO } from "../data/model/User";
 
 export class SignUpViewModel {
 
@@ -53,15 +53,15 @@ export class SignUpViewModel {
         return this.repeatPassword
     }
 
-    setUser() {
+    async setUser() {
         const user: UserDataDTO = new UserDataDTO(
             this.username!,
             this.name!,
             this.surname!,
             this.birthDate!,
-            this.profileImage ?? '',
             this.email!,
             this.password!,
+            this.profileImage!,
             "USER"
         )
 
@@ -114,18 +114,27 @@ export class SignUpViewModel {
         else { return false }
     }
 
+    isPhotoValid() {
+        if (this.profileImage) {
+            return this.profileImage !== undefined && this.profileImage.trim().length > 0
+        }
+        else { return false }
+    }
+
     isValid() {
 
         return (
-            this.isEmailValid() === true
+            this.isEmailValid()
             &&
-            this.isPasswordValid() === true
+            this.isPasswordValid()
             &&
-            this.isNameValid() === true
+            this.isNameValid()
             &&
-            this.isSurnameValid() === true
+            this.isSurnameValid()
             &&
-            this.isRepeatPasswordValid() === true
+            this.isPhotoValid()
+            &&
+            this.isRepeatPasswordValid()
         )
     }
 

@@ -9,7 +9,7 @@ import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
 import { SIZES } from './config/Sizes';
 import { commonStyles } from './config/Styles';
-import { JwtRequestData } from './data/model/LoginData';
+import { LoginRequestData } from './data/model/LoginData';
 import { UserDataDTO } from './data/model/User';
 import { LoginRepository } from './data/repositories/impl/LoginRepository';
 import { UsersRepository } from './data/repositories/impl/UsersRepository';
@@ -27,6 +27,7 @@ import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
 import { SignUpView } from './views/signup/SignUpView';
+import "react-native-url-polyfill/auto"
 
 TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentsApi)
 TotecosApiClient.register(TotecoApi.LoginApi, new LoginApi)
@@ -160,10 +161,10 @@ function App(): JSX.Element {
     const authContext = React.useMemo(
         () => ({
             signIn: async (username: string, password: string) => {
-                const credentials = new JwtRequestData(username, password)
+                const credentials = new LoginRequestData(username, password)
                 const response = await new LoginRepository().login(credentials)
                 SessionStoreFactory.getSessionStore().setToken(response.token);
-                SessionStoreFactory.getSessionStore().setCredentials({ username: username, password: password } as JwtRequestData)
+                SessionStoreFactory.getSessionStore().setCredentials(credentials)
 
                 const user = await new UsersRepository().getUserLogged()
                 SessionStoreFactory.getSessionStore().setUser(user)
