@@ -5,7 +5,7 @@ export const addPublicationStyles = StyleSheet.create({
     publicationContainer: {
         flexDirection: 'row',
         height: 200,
-        width: '80%',
+        width: 300,
         justifyContent: 'center',
         alignContent: 'space-around',
         marginBottom: 20
@@ -23,9 +23,5 @@ export const addPublicationStyles = StyleSheet.create({
         alignContent: 'space-around',
         flexDirection: 'column',
         flex: 2
-    },
-    card: {
-        width: '80%',
-        marginBottom: 20
     }
 })

@@ -11,7 +11,7 @@ export const COLORS_DARK = {
     touchable: PALLET.orange,
     background: 'black',
     background_second: PALLET.green,
-    shadow: '#151515'
+    shadow: '#EEEEEE'
 }
 
 export const COLORS_LIGHT = {

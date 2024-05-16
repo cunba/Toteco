@@ -1,13 +1,14 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { Card } from "react-native-paper";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
-import { commonStyles, formStyles } from "../../config/Styles";
+import { commonStyles, formStyles, stylesRicyclerList } from "../../config/Styles";
+import { ProductDataDTO } from "../../data/model/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -15,11 +16,17 @@ import { AddPublicationViewModel } from "../../viewmodels/AddPublicationViewMode
 import { addPublicationStyles } from "./AddPublicationStyles";
 
 export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm }) => {
+    const [scroll, setScroll] = useState<any>()
     const [showSpinner, setShowSpinner] = useState(false)
     const [hideErrorMessage, setHideErrorMessage] = useState(true);
     const [loading, setLoading] = useState(false)
     const [imageUri, setImageUri] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
+    const [dataSource, setDataSource] = useState(
+        new DataProvider((r1, r2) => {
+            return r1 !== r2;
+        })
+    )
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
@@ -56,22 +63,40 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         }
     }
 
+    const getDataSource = (): DataProvider => {
+        return dataSource.cloneWithRows(vm.products)
+    }
+
+    const layoutProvider = new LayoutProvider(
+        index => {
+            return 0
+        },
+        (type, dim) => {
+            dim.height = 100
+            dim.width = Dimensions.get('screen').width
+        },
+    )
+
+    const rowRender = (type: any, item: ProductDataDTO) => {
+        return <Text>{'- ' + item.name + ' (' + Math.round(item.price! * 100) / 100 + '€, ' + Math.round(item.score * 10) / 10 + '/5 ⭐️'}</Text>
+    }
+
     const pickImageAlert = () => {
         Alert.alert(
-            i18n.t('add_publication.alert.title'),
+            i18n.t('sign_up.alert.title'),
             '',
             [
                 {
-                    text: i18n.t('add_publication.alert.camera'),
+                    text: i18n.t('sign_up.alert.camera'),
                     onPress: camera,
                     style: 'default'
                 },
                 {
-                    text: i18n.t('add_publication.alert.gallery'),
+                    text: i18n.t('sign_up.alert.gallery'),
                     onPress: gallery
                 },
                 {
-                    text: i18n.t('add_publication.alert.cancel'),
+                    text: i18n.t('sign_up.alert.cancel'),
                     style: 'cancel'
                 },
             ],
@@ -110,19 +135,14 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                                 </Text>
                             </View>
                         </View>
-                        <Card style={[addPublicationStyles.card, { backgroundColor: COLORS.background, shadowColor: COLORS.shadow }]}>
-                            <Card.Content>
-                                {vm.products.length === 0 ?
-                                    <Text style={{ color: COLORS.text }}>{i18n.t('add_publication.no_products')}</Text>
-                                    :
-                                    <View>
-                                        {vm.products.map(product => {
-                                            return <Text style={{ color: COLORS.text }}>{'- ' + product.name + ' (' + Math.round(product.price! * 100) / 100 + '€, ' + Math.round(product.score * 10) / 10 + '/5 ⭐️'}</Text>
-                                        })}
-                                    </View>
-                                }
-                            </Card.Content>
-                        </Card>
+                        <RecyclerListView
+                            ref={(c) => { setScroll(c) }}
+                            showsVerticalScrollIndicator={false}
+                            style={stylesRicyclerList.recyclerListView}
+                            layoutProvider={layoutProvider}
+                            dataProvider={getDataSource()}
+                            rowRenderer={rowRender}
+                        />
                         <TouchableOpacity onPress={() => navigate(ROUTES.ADD_ESTABLISHMENT, null)} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.establishment.label')}</Text>
                         </TouchableOpacity>

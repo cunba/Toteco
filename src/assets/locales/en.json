@@ -52,5 +52,10 @@
     "add_publication.product.label": "Add product",
     "add_publication.total_score": "Total score: ",
     "add_publication.total_price": "Total price: ",
-    "add_publication.total.label": "Total"
+    "add_publication.total.label": "Total",
+    "add_publication.alert.title": "Pick image",
+    "add_publication.alert.camera": "Take picture",
+    "add_publication.alert.gallery": "Take from the gallery",
+    "add_publication.alert.cancel": "Cancel",
+    "add_publication.no_products": "None products"
 }

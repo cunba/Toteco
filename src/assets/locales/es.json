@@ -53,5 +53,10 @@
     "add_publication.product.label": "Añadir producto",
     "add_publication.total_score": "Puntuación total: ",
     "add_publication.total_price": "Precio total: ",
-    "add_publication.total.label": "Total"
+    "add_publication.total.label": "Total",
+    "add_publication.alert.title": "Elegir imagen",
+    "add_publication.alert.camera": "Tomar foto",
+    "add_publication.alert.gallery": "Elegir de la galería",
+    "add_publication.alert.cancel": "Cancelar",
+    "add_Publication.no_products": "No hay productos"
 }
