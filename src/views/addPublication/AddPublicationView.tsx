@@ -37,6 +37,20 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
 
     }, [])
 
+    const camera = async () => {
+        const result = await launchCamera({
+            mediaType: 'photo',
+            cameraType: 'back',
+            includeBase64: false,
+            saveToPhotos: true
+        })
+        if (result.assets) {
+            setImageUri(result.assets[0].uri!)
+            vm.setImage(result.assets[0].uri!)
+        }
+        console.log(result)
+    }
+
     const gallery = async () => {
         const result = await launchImageLibrary({
             mediaType: 'photo',
@@ -47,20 +61,6 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
             setImageUri(result.assets![0].uri!)
             vm.setImage(result.assets[0].uri!)
         }
-    }
-
-    const camera = async () => {
-        const result = await launchCamera({
-            mediaType: 'photo',
-            cameraType: 'front',
-            includeBase64: false,
-            saveToPhotos: true
-        })
-        if (result.assets) {
-            setImageUri(result.assets[0].uri!)
-            vm.setImage(result.assets[0].base64!)
-        }
-        console.log(result)
     }
 
     const getDataSource = (): DataProvider => {
@@ -118,20 +118,12 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <View style={formStyles.container}>
-                        <RecyclerListView
-                            ref={(c) => { setScroll(c) }}
-                            showsVerticalScrollIndicator={false}
-                            style={stylesRicyclerList.recyclerListView}
-                            layoutProvider={layoutProvider}
-                            dataProvider={getDataSource()}
-                            rowRenderer={rowRender}
-                        />
                         <View style={addPublicationStyles.publicationContainer}>
                             <TouchableOpacity style={{ flex: 2 }} onPress={pickImageAlert}>
                                 {imageUri === '' ?
-                                    <Image style={{ flex: 1 }} height={300} borderRadius={10} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                                    <Image size={200} borderRadius={10} source={require("../../assets/images/no-image.jpg")} alt="No image" />
                                     :
-                                    <Image style={{ flex: 1 }} height={300} borderRadius={10} source={{ uri: imageUri }} alt="Alternate Text" />
+                                    <Image size={200} borderRadius={10} source={{ uri: imageUri }} alt="Alternate Text" />
                                 }
                             </TouchableOpacity>
                             <View style={addPublicationStyles.totalContainer}>
@@ -143,6 +135,14 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                                 </Text>
                             </View>
                         </View>
+                        <RecyclerListView
+                            ref={(c) => { setScroll(c) }}
+                            showsVerticalScrollIndicator={false}
+                            style={stylesRicyclerList.recyclerListView}
+                            layoutProvider={layoutProvider}
+                            dataProvider={getDataSource()}
+                            rowRenderer={rowRender}
+                        />
                         <TouchableOpacity onPress={() => navigate(ROUTES.ADD_ESTABLISHMENT, null)} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.establishment.label')}</Text>
                         </TouchableOpacity>

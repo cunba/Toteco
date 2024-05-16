@@ -85,7 +85,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
         })
         if (result.assets) {
             setImageUri(result.assets[0].uri!)
-            vm.setImage(result.assets[0].base64!)
+            vm.setImage(result.assets[0].uri!)
         }
         console.log(result)
     }
@@ -140,7 +140,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                     </View>
                     <TouchableOpacity style={{ marginBottom: 20 }} onPress={pickImageAlert}>
                         {imageUri === '' ?
-                            <Image size={150} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                            <Image size={150} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Default user" />
                             :
                             <Image size={150} borderRadius={100} source={{ uri: imageUri }} alt="Alternate Text" />
                         }
@@ -185,6 +185,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             keyboardType="numeric"
                             dataDetectorTypes={'calendarEvent'}
                             borderWidth={0}
+                            autoCapitalize="none"
                         />
                         <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
                         <Input
