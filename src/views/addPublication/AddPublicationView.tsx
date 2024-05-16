@@ -81,6 +81,10 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         )
     }
 
+    const modifyProduct = () => {
+
+    }
+
     return (
         <>
             <NativeBaseProvider>
@@ -117,7 +121,9 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                                     :
                                     <View>
                                         {vm.products.map(product => {
-                                            return <Text style={{ color: COLORS.text }}>{'- ' + product.name + ' (' + Math.round(product.price! * 100) / 100 + '€, ' + Math.round(product.score * 10) / 10 + '/5 ⭐️'}</Text>
+                                            return <TouchableOpacity onPress={() => modifyProduct()}>
+                                                <Text style={{ color: COLORS.text }}>{'- ' + product.name + ' (' + Math.round(product.price! * 100) / 100 + '€, ' + Math.round(product.score * 10) / 10 + '/5 ⭐️'}</Text>
+                                            </TouchableOpacity>
                                         })}
                                     </View>
                                 }
