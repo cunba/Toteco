@@ -19,6 +19,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         try {
             const client = await this.apiClient
             const result = await client.save(body)
+            EstablishmentsRepository.tries = 0
             return result.data
         } catch (e) {
             if (EstablishmentsRepository.tries < 1) {
@@ -43,6 +44,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         try {
             const client = await this.apiClient
             const result = await client.update(id, body)
+            EstablishmentsRepository.tries = 0
             return result.data
         } catch (e) {
             if (EstablishmentsRepository.tries < 1) {
@@ -67,6 +69,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         try {
             const client = await this.apiClient
             const result = await client.delete(id)
+            EstablishmentsRepository.tries = 0
             return result.data
         } catch (e) {
             if (EstablishmentsRepository.tries < 1) {
@@ -91,6 +94,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         try {
             const client = await this.apiClient
             const result = await client.getAll()
+            EstablishmentsRepository.tries = 0
             return result.data
         } catch (e) {
             if (EstablishmentsRepository.tries < 1) {
@@ -115,6 +119,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         try {
             const client = await this.apiClient
             const result = await client.getById(id)
+            EstablishmentsRepository.tries = 0
             return result.data
         } catch (e) {
             if (EstablishmentsRepository.tries < 1) {
@@ -139,6 +144,7 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
         try {
             const client = await this.apiClient
             const result = await client.getByName(name)
+            EstablishmentsRepository.tries = 0
             return result.data
         } catch (e) {
             if (EstablishmentsRepository.tries < 1) {

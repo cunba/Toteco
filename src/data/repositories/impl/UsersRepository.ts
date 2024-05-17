@@ -19,6 +19,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.activate(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -43,6 +44,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.disable(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -67,6 +69,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.getById(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -101,6 +104,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.updateMoneySpent(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -125,6 +129,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.updatePassword(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -149,6 +154,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.updatePublicationsNumber(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -173,6 +179,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.getByUsername(username)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -197,6 +204,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.getByEmail(email)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -221,6 +229,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.getRecoveryCode(id)
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {
@@ -245,6 +254,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         try {
             const client = await this.apiClient
             const result = await client.getUserLogged()
+            UsersRepository.tries = 0
             return result.data
         } catch (e) {
             if (UsersRepository.tries < 1) {

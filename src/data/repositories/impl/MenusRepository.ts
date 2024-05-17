@@ -19,6 +19,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         try {
             const client = await this.apiClient
             const result = await client.save(body)
+            MenusRepository.tries = 0
             return result.data
         } catch (e) {
             if (MenusRepository.tries < 1) {
@@ -43,6 +44,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         try {
             const client = await this.apiClient
             const result = await client.update(id, body)
+            MenusRepository.tries = 0
             return result.data
         } catch (e) {
             if (MenusRepository.tries < 1) {
@@ -67,6 +69,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         try {
             const client = await this.apiClient
             const result = await client.delete(id)
+            MenusRepository.tries = 0
             return result.data
         } catch (e) {
             if (MenusRepository.tries < 1) {
@@ -91,6 +94,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         try {
             const client = await this.apiClient
             const result = await client.deleteAll()
+            MenusRepository.tries = 0
             return result.data
         } catch (e) {
             if (MenusRepository.tries < 1) {
@@ -115,6 +119,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         try {
             const client = await this.apiClient
             const result = await client.getAll()
+            MenusRepository.tries = 0
             return result.data
         } catch (e) {
             if (MenusRepository.tries < 1) {
@@ -139,6 +144,7 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
         try {
             const client = await this.apiClient
             const result = await client.getById(id)
+            MenusRepository.tries = 0
             return result.data
         } catch (e) {
             if (MenusRepository.tries < 1) {

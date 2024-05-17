@@ -19,6 +19,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.save(body)
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {
@@ -43,6 +44,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.update(id, body)
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {
@@ -67,6 +69,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.delete(id)
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {
@@ -91,6 +94,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.getAll()
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {
@@ -115,6 +119,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.getById(id)
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {
@@ -139,6 +144,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.getByEstablishment(id)
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {
@@ -163,6 +169,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
         try {
             const client = await this.apiClient
             const result = await client.getByUser(id)
+            PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
             if (PublicationsRepository.tries < 1) {

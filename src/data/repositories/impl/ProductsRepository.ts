@@ -19,6 +19,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.save(productDTO)
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
@@ -43,6 +44,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.update(id, body)
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
@@ -67,6 +69,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.delete(id)
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
@@ -91,6 +94,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getAll()
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
@@ -115,6 +119,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getById(id)
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
@@ -139,6 +144,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getByMenu(menuId)
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
@@ -163,6 +169,7 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
         try {
             const client = await this.apiClient
             const result = await client.getByPublication(publicationId)
+            ProductsRepository.tries = 0
             return result.data
         } catch (e) {
             if (ProductsRepository.tries < 1) {
