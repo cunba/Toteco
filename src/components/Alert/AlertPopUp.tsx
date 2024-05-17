@@ -98,7 +98,6 @@ export const AlertPopUp = (config?: AlertProps) => {
     const color = config!.colorScheme
 
     const props = config ? config : defaultOptions
-    let inMenu = props.productProps?.inMenu ? props.productProps?.inMenu : false
 
     const renderMessage = () => <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
         <View style={alertPopUpStyles.alertContainer} />
@@ -179,46 +178,44 @@ export const AlertPopUp = (config?: AlertProps) => {
 
     const renderAddProduct = () => <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
         <View style={alertPopUpStyles.alertContainer} />
-        <View style={[alertPopUpStyles.containerAddProduct, { height: 'auto', backgroundColor: color.background }]}>
-            <Text style={alertPopUpStyles.title}>{i18n.t("add_product.title")}</Text>
-            <Checkbox
-                value={i18n.t("add_product.in_menu")}
-                colorScheme="orange"
-                onChange={(isSelected) => {
-                    inMenu = isSelected
-                    props.productProps!.onInMenuChange(isSelected)
-                }}
-            />
-            <Input
-                style={[formStyles.input, { color: color.text }]}
-                w={{ base: "75%", md: "25%" }}
-                placeholder={i18n.t('add_product.name').toString()}
-                onChangeText={(name) => props.productProps?.onNameChange(name)}
-                borderRadius={10}
-            />
-            <Input
-                style={[formStyles.input, { color: color.text }]}
-                w={{ base: "75%", md: "25%" }}
-                placeholder={i18n.t('add_product.score').toString()}
-                onChangeText={(score) => props.productProps?.onScoreChange(Number(score))}
-                borderRadius={10}
-                inputMode="numeric"
-                keyboardType="number-pad"
-            />
-            {
-                inMenu ?
-                    <></>
-                    :
-                    <Input
-                        style={[formStyles.input, { color: color.text }]}
-                        w={{ base: "75%", md: "25%" }}
-                        placeholder={i18n.t('add_product.price').toString()}
-                        onChangeText={(price) => props.productProps?.onPriceChange(Number(price))}
-                        borderRadius={10}
-                        keyboardType="number-pad"
-                        inputMode="numeric"
-                    />
-            }
+        <View style={[alertPopUpStyles.containerAddProduct, { backgroundColor: color.background }]}>
+            <View style={[alertPopUpStyles.titleView, { backgroundColor: color.touchable }]}>
+                <Text style={[alertPopUpStyles.title, { color: color.text_touchable }]}>{i18n.t("add_product.title").toUpperCase()}</Text>
+            </View>
+            <View style={alertPopUpStyles.productItems}>
+                <Checkbox
+                    value={i18n.t("add_product.in_menu")}
+                    colorScheme='pink'
+                    onChange={(isSelected) => props.productProps!.onInMenuChange(isSelected)}
+                >
+                    {i18n.t("add_product.in_menu")}
+                </Checkbox>
+                <Input
+                    style={[alertPopUpStyles.input, { color: color.text }]}
+                    w={{ base: "75%", md: "25%" }}
+                    placeholder={i18n.t('add_product.name').toString()}
+                    onChangeText={(name) => props.productProps?.onNameChange(name)}
+                    borderRadius={10}
+                />
+                <Input
+                    style={[alertPopUpStyles.input, { color: color.text }]}
+                    w={{ base: "75%", md: "25%" }}
+                    placeholder={i18n.t('add_product.score').toString()}
+                    onChangeText={(score) => props.productProps?.onScoreChange(Number(score))}
+                    borderRadius={10}
+                    inputMode="numeric"
+                    keyboardType="number-pad"
+                />
+                <Input
+                    style={[alertPopUpStyles.input, { color: color.text }]}
+                    w={{ base: "75%", md: "25%" }}
+                    placeholder={i18n.t('add_product.price').toString()}
+                    onChangeText={(price) => props.productProps?.onPriceChange(Number(price))}
+                    borderRadius={10}
+                    keyboardType="number-pad"
+                    inputMode="numeric"
+                />
+            </View>
             <View style={alertPopUpStyles.containerOkCancel}>
                 <TouchableOpacity
                     style={{
@@ -230,7 +227,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                         borderRightWidth: 1
                     }}
                     onPress={props.onRequestClose}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text_touchable }]}>{i18n.t("cancel")}</Text>
+                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{
@@ -240,7 +237,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                         height: '100%'
                     }}
                     onPress={props.onPressOk}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text_touchable }]}>{i18n.t("ok")}</Text>
+                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("ok")}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -249,51 +246,46 @@ export const AlertPopUp = (config?: AlertProps) => {
     const renderModifyProduct = () => <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
         <View style={alertPopUpStyles.alertContainer} />
         <View style={[alertPopUpStyles.containerModifyProduct, { height: 'auto', backgroundColor: color.background }]}>
-            <Text style={alertPopUpStyles.title}>{i18n.t("modify_product.title")}</Text>
-            <Checkbox
-                value={i18n.t("modify_produc.in_menu")}
-                colorScheme="orange"
-                onChange={(isSelected) => {
-                    inMenu = isSelected
-                    props.productProps!.onInMenuChange(isSelected)
-                }}
-                isChecked={props.productProps!.inMenu}
-            />
-            <Input
-                style={[formStyles.input, { color: color.text }]}
-                w={{ base: "75%", md: "25%" }}
-                placeholder={i18n.t('modify_product.name').toString()}
-                onChangeText={(name) => props.productProps?.onNameChange(name)}
-                borderRadius={10}
-                value={props.productProps!.name}
-                isRequired={true}
-            />
-            <Input
-                style={[formStyles.input, { color: color.text }]}
-                w={{ base: "75%", md: "25%" }}
-                placeholder={i18n.t('modify_product.score').toString()}
-                onChangeText={(score) => props.productProps?.onScoreChange(Number(score))}
-                borderRadius={10}
-                inputMode="numeric"
-                keyboardType="number-pad"
-                value={props.productProps!.score!.toString()}
-                isRequired={true}
-            />
-            {
-                inMenu ?
-                    <></>
-                    :
-                    <Input
-                        style={[formStyles.input, { color: color.text }]}
-                        w={{ base: "75%", md: "25%" }}
-                        placeholder={i18n.t('modify_product.price').toString()}
-                        onChangeText={(price) => props.productProps?.onPriceChange(Number(price))}
-                        borderRadius={10}
-                        keyboardType="number-pad"
-                        inputMode="numeric"
-                        value={props.productProps!.price!.toString()}
-                    />
-            }
+            <View style={[alertPopUpStyles.titleView, { backgroundColor: color.touchable }]}>
+                <Text style={[alertPopUpStyles.title, { color: color.text_touchable }]}>{i18n.t("modify_product.title").toUpperCase()}</Text>
+            </View>
+            <View style={alertPopUpStyles.productItems}>
+                <Checkbox
+                    value={i18n.t("modify_produc.in_menu")}
+                    onChange={(isSelected) => props.productProps!.onInMenuChange(isSelected)}
+                    isChecked={props.productProps?.inMenu}
+                />
+                <Input
+                    style={[formStyles.input, { color: color.text }]}
+                    w={{ base: "75%", md: "25%" }}
+                    placeholder={i18n.t('modify_product.name').toString()}
+                    onChangeText={(name) => props.productProps?.onNameChange(name)}
+                    borderRadius={10}
+                    value={props.productProps!.name}
+                    isRequired={true}
+                />
+                <Input
+                    style={[formStyles.input, { color: color.text }]}
+                    w={{ base: "75%", md: "25%" }}
+                    placeholder={i18n.t('modify_product.score').toString()}
+                    onChangeText={(score) => props.productProps?.onScoreChange(Number(score))}
+                    borderRadius={10}
+                    inputMode="numeric"
+                    keyboardType="number-pad"
+                    value={props.productProps?.score?.toString()}
+                    isRequired={true}
+                />
+                <Input
+                    style={[formStyles.input, { color: color.text }]}
+                    w={{ base: "75%", md: "25%" }}
+                    placeholder={i18n.t('modify_product.price').toString()}
+                    onChangeText={(price) => props.productProps?.onPriceChange(Number(price))}
+                    borderRadius={10}
+                    keyboardType="number-pad"
+                    inputMode="numeric"
+                    value={props.productProps?.price?.toString()}
+                />
+            </View>
             <View style={alertPopUpStyles.containerOkCancel}>
                 <TouchableOpacity
                     style={{
@@ -305,7 +297,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                         borderRightWidth: 1
                     }}
                     onPress={props.onRequestClose}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text_touchable }]}>{i18n.t("cancel")}</Text>
+                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("cancel")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{
@@ -315,7 +307,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                         height: '100%'
                     }}
                     onPress={props.onPressOk}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text_touchable }]}>{i18n.t("ok")}</Text>
+                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("ok")}</Text>
                 </TouchableOpacity>
             </View>
         </View>

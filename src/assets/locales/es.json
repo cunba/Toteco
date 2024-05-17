@@ -66,5 +66,9 @@
     "add_product.score": "Puntuación",
     "add_product.price": "Precio",
 
-    "modify_product.title": "Modificar producto"
+    "modify_product.title": "Modificar producto",
+    "modify_product.in_menu": "Es un producto de un menú",
+    "modify_product.name": "Nombre",
+    "modify_product.score": "Puntuación",
+    "modify_product.price": "Precio"
 }

@@ -2,9 +2,14 @@ import { Dimensions, StyleSheet } from "react-native";
 import { SIZES } from "../../config/Sizes";
 
 export const alertPopUpStyles = StyleSheet.create({
+    titleView: {
+        width: '100%',
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey'
+    },
     title: {
         textAlign: 'center',
-        fontSize: SIZES.text,
+        fontSize: SIZES.subtitle,
         padding: 10
     },
     alertContainer: {
@@ -56,12 +61,18 @@ export const alertPopUpStyles = StyleSheet.create({
     },
     containerAddProduct: {
         display: "flex",
+        
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 20,
         position: 'relative',
         borderRadius: 2,
         marginTop: '70%',
+    },
+    productItems: {
+        marginBottom: 20, 
+        marginTop: 20,
+        gap: 10
     },
     containerDelete: {
         display: "flex",
@@ -119,5 +130,11 @@ export const alertPopUpStyles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         marginBottom: 5
-    }
+    },
+    input: {
+        fontSize: SIZES.text_input,
+        width: 300,
+        height: 40,
+        paddingLeft: 20
+    },
 })

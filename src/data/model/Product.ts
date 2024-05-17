@@ -29,11 +29,11 @@ export class ProductData implements Product {
 export class ProductDataDTO implements ProductDTO {
 
     constructor(
-        public name: string,
-        public inMenu: boolean,
-        public score: number,
-        public menuId: string,
-        public publicationId: string,
+        public name?: string,
+        public inMenu?: boolean,
+        public score?: number,
+        public publicationId?: string,
+        public menuId?: string,
         public price?: number
     ) {
         this.name = name

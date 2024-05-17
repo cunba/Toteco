@@ -4,11 +4,12 @@ import { ActivityIndicator, Alert, Appearance, Text, TouchableOpacity, View } fr
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { Card } from "react-native-paper";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { AlertProps, AlertType } from "../../components/Alert";
+import { AlertPopUp, AlertProps, AlertType, AnimationType, ProductProps } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, formStyles } from "../../config/Styles";
+import { ProductDataDTO } from "../../data/model/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -22,6 +23,10 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const [imageUri, setImageUri] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const [addProduct, setAddProduct] = useState(false)
+    const [modifyProduct, setModifyProduct] = useState(false)
+    const [newProduct, setNewProduct] = useState(new ProductDataDTO())
+    const [productModified, setProductModified] = useState(new ProductDataDTO())
+    const [indexProductModified, setIndexProductModified] = useState(0)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
@@ -83,16 +88,57 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         )
     }
 
-    const modifyProduct = () => {
+    const modifyProductFunction = (product: ProductDataDTO, index: number) => {
+        setProductModified(product)
+        setIndexProductModified(index)
+        setModifyProduct(!modifyProduct)
+    }
 
+    const addProductProps: ProductProps = {
+
+        onNameChange: (name: string) => { newProduct.name = name },
+        onPriceChange: (price: number) => { newProduct.price = price },
+        onScoreChange: (score: number) => { newProduct.score = score },
+        onInMenuChange: (inMenu: boolean) => { newProduct.inMenu = inMenu }
     }
 
     const addProductOptions: AlertProps = {
         type: AlertType.ADD_PRODUCT,
         visible: addProduct,
-        onRequestClose: () => { setAddProduct(!addProduct) },
+        onRequestClose: () => setAddProduct(!addProduct),
+        onPressOk: () => {
+            vm.addProduct(newProduct)
+            setAddProduct(!addProduct)
+        },
         colorScheme: COLORS,
-        bgColor: COLORS.background
+        bgColor: COLORS.background,
+        animationType: AnimationType.FADE,
+        productProps: addProductProps
+    }
+
+    const modifyProductProps: ProductProps = {
+        name: productModified.name,
+        inMenu: productModified.inMenu,
+        price: productModified.price,
+        score: productModified.score,
+        onNameChange: (name: string) => { productModified.name = name },
+        onPriceChange: (price: number) => { productModified.price = price },
+        onScoreChange: (score: number) => { productModified.score = score },
+        onInMenuChange: (inMenu: boolean) => { productModified.inMenu = inMenu }
+    }
+
+    const modifyProductOptions: AlertProps = {
+        type: AlertType.MODIFY_PRODUCT,
+        visible: modifyProduct,
+        onRequestClose: () => setModifyProduct(!modifyProduct),
+        onPressOk: () => {
+            vm.modifyProduct(productModified, indexProductModified)
+            setModifyProduct(!modifyProduct)
+        },
+        colorScheme: COLORS,
+        bgColor: COLORS.background,
+        animationType: AnimationType.FADE,
+        productProps: modifyProductProps
     }
 
     return (
@@ -128,14 +174,12 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             {vm.products.length === 0 ?
                                 <></>
                                 :
-                                vm.products.map(product => {
-                                    return <Card
+                                vm.products.map((product, index) => {
+                                    return <Card id={index.toString()}
                                         style={[addPublicationStyles.card, { backgroundColor: COLORS.background, shadowColor: COLORS.shadow }]}
-                                        onPress={modifyProduct}>
+                                        onPress={() => modifyProductFunction(product, index)} onLongPress={() => vm.removeProduct(index)}>
                                         <Card.Content>
-                                            <TouchableOpacity onPress={() => modifyProduct()}>
-                                                <Text style={{ color: COLORS.text }}>{'- ' + product.name + ' (' + Math.round(product.price! * 100) / 100 + '€, ' + Math.round(product.score * 10) / 10 + '/5 ⭐️'}</Text>
-                                            </TouchableOpacity>
+                                            <Text style={{ color: COLORS.text }}>{product.name + ' (' + Math.round(product.price! * 100) / 100 + '€, ' + Math.round(product.score! * 10) / 10 + '/5 ☆)'}</Text>
                                         </Card.Content>
                                     </Card>
                                 })
@@ -166,6 +210,8 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         </View>
                     </View>
                 </View>
+                <AlertPopUp {...addProductOptions} />
+                <AlertPopUp {...modifyProductOptions} />
             </NativeBaseProvider>
         </>
     )

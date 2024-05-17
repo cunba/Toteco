@@ -43,7 +43,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Icon as={<Foundation name='map' />} size={SIZES.icons_small} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 5 }} />
+                        <Foundation name='map' size={SIZES.icons} color={COLORS.text_touchable} />
                     </View>
                 ),
                 title: 'establishments',
@@ -69,7 +69,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Icon as={<Ionicons name='settings-outline' />} size={SIZES.icons_small} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 3 }} />
+                        <Ionicons name='settings-outline' size={SIZES.icons} color={COLORS.text_touchable}/>
                     </View>
                 ),
                 title: 'settings',
@@ -80,7 +80,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Icon as={<FontAwesome name='sign-out' />} size={SIZES.icons_small} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 5 }} />
+                        <FontAwesome name='sign-out' size={SIZES.icons} color={COLORS.text_touchable} style={{ paddingLeft: 5 }} />
                     </View>
                 ),
                 title: 'sign-out',
