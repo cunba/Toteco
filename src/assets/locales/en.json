@@ -57,5 +57,13 @@
     "add_publication.alert.camera": "Take picture",
     "add_publication.alert.gallery": "Take from the gallery",
     "add_publication.alert.cancel": "Cancel",
-    "add_publication.no_products": "None products"
+    "add_publication.no_products": "None products",
+
+    "add_product.title": "Add product",
+    "add_product.in_menu": "Is a product from a menu",
+    "add_product.name": "Name",
+    "add_product.score": "Score",
+    "add_product.price": "Price",
+
+    "modify_product.title": "Modify product"
 }

@@ -52,7 +52,8 @@ export const commonStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         paddingBottom: 10,
-        borderBottomWidth: 1
+        borderBottomWidth: 1,
+        width: Dimensions.get('screen').width
     },
     toolbarButton: {
         alignSelf: 'center',

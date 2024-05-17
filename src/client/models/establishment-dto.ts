@@ -31,4 +31,16 @@ export interface EstablishmentDTO {
      * @memberof EstablishmentDTO
      */
     location?: string;
+
+    /**
+     * @type {boolean}
+     * @memberof EstablishmentDTO
+     */
+    isComputerAllowed?: boolean;
+
+    /**
+     * @type {string}
+     * @memberof EstablishmentDTO
+     */
+    comments?: string;
 }

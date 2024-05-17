@@ -21,15 +21,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.save(productDTO)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.save(productDTO)
                 }
             } else {
@@ -45,15 +45,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.update(id, body)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.update(id, body)
                 }
             } else {
@@ -69,15 +69,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.delete(id)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.delete(id)
                 }
             } else {
@@ -93,15 +93,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.getAll()
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.getAll()
                 }
             } else {
@@ -117,15 +117,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.getById(id)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.getById(id)
                 }
             } else {
@@ -141,15 +141,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.getByMenu(menuId)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.getByMenu(menuId)
                 }
             } else {
@@ -165,15 +165,15 @@ export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
             const result = await client.getByPublication(publicationId)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (ProductsRepository.tries < 1) {
+                ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    ProductsRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.getByPublication(publicationId)
                 }
             } else {

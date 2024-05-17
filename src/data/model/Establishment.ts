@@ -9,7 +9,9 @@ export class EstablishmentData implements Establishment {
         public created: number,
         public location: string,
         public isOpen: boolean,
+        public isComputerAllowed: boolean,
         public score: number,
+        public comments?: string,
         public updated?: number,
         public publications?: PublicationData[]
     ) {
@@ -18,6 +20,8 @@ export class EstablishmentData implements Establishment {
         this.created = created
         this.location = location
         this.isOpen = isOpen
+        this.isComputerAllowed = isComputerAllowed
+        this.comments = comments
         this.score = score
         this.publications = publications
     }
@@ -27,9 +31,13 @@ export class EstablishmentDataDTO implements EstablishmentDTO {
 
     constructor(
         public name: string,
-        public location: string
+        public location: string,
+        public isComputerAllowed: boolean,
+        public comments?: string
     ) {
         this.name = name
         this.location = location
+        this.isComputerAllowed = isComputerAllowed
+        this.comments = comments
     }
 }

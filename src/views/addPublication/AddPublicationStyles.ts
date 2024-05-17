@@ -25,7 +25,8 @@ export const addPublicationStyles = StyleSheet.create({
         flex: 2
     },
     card: {
-        width: '80%',
-        marginBottom: 20
+        maxWidth: '80%',
+        marginBottom: 20,
+        alignSelf: 'center'
     }
 })

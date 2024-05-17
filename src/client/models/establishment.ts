@@ -58,6 +58,18 @@ export interface Establishment {
     isOpen?: boolean;
 
     /**
+     * @type {boolean}
+     * @memberof Establishment
+     */
+    isComputerAllowed?: boolean;
+
+    /**
+     * @type {string}
+     * @memberof Establishment
+     */
+    comments?: string;
+
+    /**
      * @type {number}
      * @memberof Establishment
      */

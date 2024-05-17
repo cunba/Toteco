@@ -21,15 +21,15 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
             const result = await client.save(body)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (MenusRepository.tries < 1) {
+                MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.save(body)
                 }
             } else {
@@ -45,15 +45,15 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
             const result = await client.update(id, body)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (MenusRepository.tries < 1) {
+                MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.update(id, body)
                 }
             } else {
@@ -69,15 +69,15 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
             const result = await client.delete(id)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (MenusRepository.tries < 1) {
+                MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.deleteById(id)
                 }
             } else {
@@ -93,13 +93,17 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
             const result = await client.deleteAll()
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
-
-                SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
+            if (MenusRepository.tries < 1) {
                 MenusRepository.tries++
-                this.deleteAll()
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const loginResponse = await new LoginRepository().login(credentials!)
+
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    this.deleteAll()
+                }
             } else {
                 MenusRepository.tries = 0
                 throw e
@@ -113,15 +117,15 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
             const result = await client.getAll()
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (MenusRepository.tries < 1) {
+                MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.getAll()
                 }
             } else {
@@ -137,15 +141,15 @@ export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
             const result = await client.getById(id)
             return result.data
         } catch (e) {
-            if (LoginRepository.tries < 1) {
+            if (MenusRepository.tries < 1) {
+                MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const jwtResponse = await new LoginRepository().login(credentials!)
+                const loginResponse = await new LoginRepository().login(credentials!)
 
-                if (jwtResponse instanceof ErrorResponse) {
-                    throw jwtResponse
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(jwtResponse.token)
-                    MenusRepository.tries++
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.getById(id)
                 }
             } else {

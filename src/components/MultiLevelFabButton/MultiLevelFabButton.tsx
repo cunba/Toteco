@@ -58,25 +58,18 @@ export const defaultOptions: MultiLevelFabButton = {
     onLongPress: () => { console.log("") },
     children: [
         {
-            icon: <Icon name={"md-star"} size={SIZES.h1} style={multiLevelFabButtonStyles.actionButtonIcon} />,
+            icon: <Icon name={"star"} size={SIZES.h1} style={multiLevelFabButtonStyles.actionButtonIcon} />,
             title: "Favourites",
             color: COLORS.primary_light,
             position: ItemPosition.CENTER,
             onPress: () => { console.log("Favourites") }
         },
         {
-            icon: <Icon name={"md-close-outline"} size={SIZES.h1} style={multiLevelFabButtonStyles.actionButtonIcon} />,
+            icon: <Icon name={"close-outline"} size={SIZES.h1} style={multiLevelFabButtonStyles.actionButtonIcon} />,
             title: "Close",
             color: COLORS.primary_light,
             position: ItemPosition.CENTER,
             onPress: () => { console.log("Close") }
-        },
-        {
-            icon: <Icon name={"md-close-outline"} size={SIZES.h1} style={multiLevelFabButtonStyles.actionButtonIcon} />,
-            title: "Close",
-            color: COLORS.primary_light,
-            position: ItemPosition.CENTER,
-            onPress: () => { console.log("close") }
         },
     ]
 }

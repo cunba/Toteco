@@ -1,6 +1,6 @@
 import { Box, HStack, Icon, NativeBaseProvider, StatusBar } from 'native-base';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -14,6 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Zocial from 'react-native-vector-icons/Zocial';
+import { toolbarStyles } from './ToolbarStyles';
 
 export enum IconTypes {
   ANT_DESIGN = 'AntDesign',
@@ -54,8 +55,8 @@ export const Toolbar = (props: ToolbarProps) => {
       <NativeBaseProvider>
         <StatusBar backgroundColor="#3700B3" barStyle="light-content" />
         <Box safeAreaTop bg="violet.600" />
-        <HStack style={props.color ? { backgroundColor: props.color, elevation: 3 } : styles.headerHome}>
-          <HStack style={styles.position}>
+        <HStack style={props.color ? { backgroundColor: props.color, elevation: 3 } : toolbarStyles.headerHome}>
+          <HStack style={toolbarStyles.position}>
             {props.isIconLeft ?
               <TouchableOpacity
                 onPress={() => props.iconLeft!.onPress()}>
@@ -64,10 +65,10 @@ export const Toolbar = (props: ToolbarProps) => {
               : null
             }
           </HStack>
-          <HStack style={styles.textPosition}>
+          <HStack style={toolbarStyles.textPosition}>
             <Text style={props.textStyle}>{props.title} </Text>
           </HStack>
-          <HStack style={styles.position}>
+          <HStack style={toolbarStyles.position}>
             {props.isIconRight ?
               <TouchableOpacity
                 onPress={() => props.iconRight!.onPress()}>
@@ -114,17 +115,3 @@ const getIcon = (type: IconTypes, name: string, color: string) => {
       return (<Icon as={<Zocial name={name} />} size={5} mr="2" color={color} />)
   }
 }
-
-const styles = StyleSheet.create({
-  headerHome: {
-    backgroundColor: 'transparent',
-  },
-  position: {
-    paddingTop: 5,
-    maxWidth: 50,
-  },
-  textPosition: {
-    paddingTop: 5,
-    alignItems: 'center',
-  },
-});

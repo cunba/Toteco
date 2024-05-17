@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Appearance, ScrollView, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
 import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/MultiLevelFabButton";
@@ -36,11 +36,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
         size: SIZES.fabButton,
         onPress: () => !open ? handlerButton() : setOpen(false),
         onLongPress: () => setOpen(true),
-        icon: <MaterialIcons
-            name="add"
-            color={COLORS.text_touchable}
-            size={SIZES.icons}
-        />,
+        icon: <Icon as={<MaterialIcons name='add' />} size={SIZES.icons} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 5 }} />,
         bgColor: COLORS.touchable,
         color: COLORS.text,
         children: [
@@ -58,26 +54,26 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Icon as={<MaterialCommunityIcons name='account-search-outline' />} size={SIZES.icons_small} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 5 }} />
+                        {vm.user?.photo === '' ?
+                            <Image size={8} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                            :
+                            <Image size={8} borderRadius={100} source={{ uri: vm.user?.photo }} alt="Alternate Text" />
+                        }
                     </View>
                 ),
-                title: 'search',
-                onPress: () => console.log('entra a settings'),
+                title: 'profile',
+                onPress: () => console.log('entra a profile'),
                 color: COLORS.touchable
                 // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
             },
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        {vm.user?.image === '' ?
-                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
-                            :
-                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.image }} alt="Alternate Text" />
-                        }
+                        <Icon as={<Ionicons name='settings-outline' />} size={SIZES.icons_small} mr="2" color={COLORS.text_touchable} style={{ paddingLeft: 3 }} />
                     </View>
                 ),
                 title: 'settings',
-                onPress: () => console.log('entra a profile'),
+                onPress: () => console.log('entra a settings'),
                 color: COLORS.touchable
                 // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
             },
@@ -90,8 +86,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 title: 'sign-out',
                 onPress: () => signOut(),
                 color: COLORS.touchable
-            },
-            // {} as MultiLevelFabButtonInnerItem
+            }
         ]
     };
 
@@ -99,7 +94,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
         <>
             <NativeBaseProvider>
                 <ScrollView contentContainerStyle={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                    <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadow }]}>
+                    <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
                         <Text style={[commonStyles.title, { color: COLORS.touchable }]}>{i18n.t('app_name').toUpperCase()}</Text>
                     </View>
                 </ScrollView>

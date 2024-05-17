@@ -12,6 +12,6 @@ export class HomeViewModel {
     }
 
     async getUser() {
-        this.user = await SessionStoreFactory.getSessionStore().getUser()
+        // this.user = await SessionStoreFactory.getSessionStore().getUser()
     }
 }

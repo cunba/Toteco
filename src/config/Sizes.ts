@@ -6,5 +6,6 @@ export const SIZES = {
     text_touchables: 20,
     icons: 30,
     icons_small: 7,
-    fabButton: 80
+    fabButton: 80,
+    padding_buttons: 15
 }

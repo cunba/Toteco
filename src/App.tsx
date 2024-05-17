@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Heading, NativeBaseProvider } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { NativeModules, Text, View } from 'react-native';
+import "react-native-url-polyfill/auto";
 import { EstablishmentsApi, LoginApi, MenusApi, ProductsApi, PublicationsApi, UsersApi } from './client';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
@@ -27,7 +28,6 @@ import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
 import { SignUpView } from './views/signup/SignUpView';
-import "react-native-url-polyfill/auto"
 
 TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentsApi)
 TotecosApiClient.register(TotecoApi.LoginApi, new LoginApi)
@@ -165,11 +165,11 @@ function App(): JSX.Element {
                 const response = await new LoginRepository().login(credentials)
                 SessionStoreFactory.getSessionStore().setToken(response.token);
                 SessionStoreFactory.getSessionStore().setCredentials(credentials)
-
+                
                 const user = await new UsersRepository().getUserLogged()
                 SessionStoreFactory.getSessionStore().setUser(user)
-
                 dispatch({ type: 'SIGN_IN', token: response.token });
+
             },
             signOut: () => {
                 SessionStoreFactory.getSessionStore().setToken('');

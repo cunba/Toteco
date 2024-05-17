@@ -58,5 +58,13 @@
     "add_publication.alert.camera": "Tomar foto",
     "add_publication.alert.gallery": "Elegir de la galería",
     "add_publication.alert.cancel": "Cancelar",
-    "add_Publication.no_products": "No hay productos"
+    "add_Publication.no_products": "No hay productos",
+
+    "add_product.title": "Añadir producto",
+    "add_product.in_menu": "Es un producto de un menú",
+    "add_product.name": "Nombre",
+    "add_product.score": "Puntuación",
+    "add_product.price": "Precio",
+
+    "modify_product.title": "Modificar producto"
 }
