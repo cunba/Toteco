@@ -66,6 +66,11 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+		<string>front-facing-camera</string>
+		<string>camera-flash</string>
+		<string>auto-focus-camera</string>
+		<string>location-services</string>
+		<string>still-camera</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
