@@ -7,15 +7,15 @@ export const addPublicationStyles = StyleSheet.create({
         width: '90%',
         justifyContent: 'center',
         alignContent: 'space-around',
-        flex: 1,
         paddingTop: 20,
-        marginBottom: -20
+        marginBottom: 20
     },
     totalContainer: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 3
+        flex: 3,
+        height: 200
     },
     totalTextContainer: {
         justifyContent: 'center',

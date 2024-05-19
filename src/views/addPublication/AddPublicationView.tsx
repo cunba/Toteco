@@ -193,7 +193,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                     </View>
                     <View style={formStyles.container}>
                         <View style={addPublicationStyles.publicationContainer}>
-                            <TouchableOpacity style={{ flex: 2 }} onPress={pickImageAlert}>
+                            <TouchableOpacity style={{ flex: 2, height: 200}} onPress={pickImageAlert}>
                                 {imageUri === '' ?
                                     <Image size={200} borderRadius={10} source={require("../../assets/images/no-image.jpg")} alt="No image" />
                                     :

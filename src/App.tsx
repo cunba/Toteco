@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Heading, NativeBaseProvider } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { NativeModules, Text, View } from 'react-native';
+import RNLocation, { Location } from 'react-native-location';
 import "react-native-url-polyfill/auto";
 import { EstablishmentsApi, LoginApi, MenusApi, ProductsApi, PublicationsApi, UsersApi } from './client';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
@@ -47,6 +48,8 @@ if (locale === undefined) {
 }
 
 export const AuthContext = React.createContext<any>({});
+export let geolocation: Location | undefined = undefined
+let locationSubscription = undefined
 
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
@@ -55,7 +58,6 @@ const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 const addPublicationViewModel = new AddPublicationViewModel()
 const AddPublicationScreen = () => <AddPublicationView vm={addPublicationViewModel} />
-// const AddEstablishmentScreen = () => <AddEstablishmentView vm={new AddPublicationViewModel()} />
 
 const Stack = createStackNavigator();
 
@@ -165,7 +167,7 @@ function App(): JSX.Element {
                 const response = await new LoginRepository().login(credentials)
                 SessionStoreFactory.getSessionStore().setToken(response.token);
                 SessionStoreFactory.getSessionStore().setCredentials(credentials)
-                
+
                 const user = await new UsersRepository().getUserLogged()
                 SessionStoreFactory.getSessionStore().setUser(user)
                 dispatch({ type: 'SIGN_IN', token: response.token });
@@ -184,10 +186,48 @@ function App(): JSX.Element {
         [],
     );
 
-
     useEffect(() => {
         loadDataCallback();
     }, [loadDataCallback]);
+
+    useEffect(() => {
+
+        RNLocation.configure({
+            distanceFilter: 1, // Meters
+            desiredAccuracy: {
+                ios: "best",
+                android: "balancedPowerAccuracy"
+            },
+            // Android only
+            androidProvider: "auto",
+            interval: 5000, // Milliseconds
+            fastestInterval: 10000, // Milliseconds
+            maxWaitTime: 5000, // Milliseconds
+            // iOS Only
+            activityType: "other",
+            allowsBackgroundLocationUpdates: true,
+            headingFilter: 1, // Degrees
+            headingOrientation: "portrait",
+            pausesLocationUpdatesAutomatically: false,
+            showsBackgroundLocationIndicator: false,
+        })
+
+        RNLocation.requestPermission({
+            ios: "whenInUse",
+            android: {
+                detail: "coarse"
+            }
+        }).then(granted => {
+            if (granted) {
+                locationSubscription = RNLocation.subscribeToLocationUpdates(locations => {
+                    geolocation = {
+                        latitude: locations[0].latitude,
+                        longitude: locations[0].longitude
+                    } as Location
+                })
+            }
+        })
+    }, [geolocation])
 
     const [COLOR, setCurrentColor] = useState(COLOR_MODE === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 

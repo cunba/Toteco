@@ -10,7 +10,7 @@ export enum AnimationType {
     FADE = 'fade'
 }
 
-export interface AddProductModalProps {
+export interface AddEstablishmentModalProps {
     colorScheme: any
     animationType: AnimationType
     visible: boolean
@@ -22,7 +22,7 @@ export interface AddProductModalProps {
     onInMenuChange: (inMenu: boolean) => void
 }
 
-export const AddProductModal = (props: AddProductModalProps) => {
+export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
     const color = props.colorScheme
 
     return <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >

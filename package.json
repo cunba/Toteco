@@ -2,6 +2,10 @@
   "name": "Toteco",
   "version": "0.0.1",
   "private": true,
+  "platforms": [
+    "ios",
+    "android"
+  ],
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -31,6 +35,8 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.14.0",
     "react-native-image-picker": "^7.1.0",
+    "react-native-location": "^2.5.0",
+    "react-native-maps": "^1.15.1",
     "react-native-paper": "^5.11.6",
     "react-native-reanimated": "^3.6.1",
     "react-native-safe-area-context": "^3.3.2",
