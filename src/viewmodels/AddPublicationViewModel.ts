@@ -23,13 +23,6 @@ export class AddPublicationViewModel {
         this.totalPrice = 0
     }
 
-    clean() {
-        this.products = []
-        this.menus = []
-        this.totalScore = 0
-        this.totalPrice = 0
-    }
-
     setTotalScore() {
         let productScore = 0
         this.products.map(product => productScore = productScore + product.score!)
@@ -66,12 +59,15 @@ export class AddPublicationViewModel {
     }
 
     addProduct(product: ProductDataDTO) {
+        product.inMenu = product.inMenu ?? false
+        console.log(product)
         this.products.push(product)
+        console.log(this.products)
         this.setTotalScore()
         this.setTotalPrice()
     }
 
-    modifyProduct(product: ProductDataDTO, index: number) {
+    editProduct(product: ProductDataDTO, index: number) {
         this.products[index] = product
         this.setTotalScore()
         this.setTotalPrice()

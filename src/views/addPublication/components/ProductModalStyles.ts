@@ -1,7 +1,12 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { SIZES } from "../../config/Sizes";
+import { SIZES } from "../../../config/Sizes";
 
-export const alertPopUpStyles = StyleSheet.create({
+export const productModalStyles = StyleSheet.create({
+    titleView: {
+        width: '100%',
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey'
+    },
     title: {
         textAlign: 'center',
         fontSize: SIZES.subtitle,
@@ -16,53 +21,29 @@ export const alertPopUpStyles = StyleSheet.create({
         opacity: 0.7,
         position: 'absolute'
     },
-    containerOptions: {
-        display: "flex",
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        width: '100%',
-        paddingVertical: '4%',
-        borderTopWidth: 1,
-        borderBottomLeftRadius: 2,
-        borderBottomRightRadius: 2
-    },
-    containerAlertMessage: {
+    containerModifyProduct: {
         display: "flex",
         justifyContent: 'center',
         alignItems: 'center',
-        margin: '15%',
-        height: 'auto',
+        marginHorizontal: 20,
         position: 'relative',
         borderRadius: 2,
         marginTop: '70%',
     },
-    containerDelete: {
+    containerAddProduct: {
         display: "flex",
+
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 20,
-        height: 160,
+        marginHorizontal: 20,
         position: 'relative',
         borderRadius: 2,
         marginTop: '70%',
     },
-    containerAlertNoMessage: {
-        display: "flex",
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: '15%',
-        marginHorizontal: '30%',
-        position: 'relative',
-        borderRadius: 5,
-        marginTop: '70%',
-    },
-    text: {
-        textAlign: 'left',
-        fontSize: SIZES.text_touchables,
-        paddingBottom: 10,
-        paddingHorizontal: '10%'
+    productItems: {
+        marginBottom: 20,
+        marginTop: 20,
+        gap: 10
     },
     textButton: {
         textAlign: 'center',
@@ -78,5 +59,11 @@ export const alertPopUpStyles = StyleSheet.create({
         alignItems: 'center',
         borderTopColor: 'grey',
         borderTopWidth: 1,
+    },
+    input: {
+        fontSize: SIZES.text_input,
+        width: 300,
+        height: 40,
+        paddingLeft: 20
     },
 })

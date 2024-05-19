@@ -16,7 +16,9 @@ import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { AddPublicationViewModel } from "../../viewmodels/AddPublicationViewModel";
 import { addPublicationStyles } from "./AddPublicationStyles";
-import { RenderProduct, RenderProductProps } from "./RenderProduct";
+import { RenderProduct, RenderProductProps } from "./components/RenderProduct";
+import { AddProductModal, AddProductModalProps } from "./components/AddProductModal";
+import { EditProductModal, EditProductModalProps } from "./components/EditProductModal";
 
 export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -25,7 +27,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const [imageUri, setImageUri] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const [addProduct, setAddProduct] = useState(false)
-    const [modifyProduct, setModifyProduct] = useState(false)
+    const [editProduct, setEditProduct] = useState(false)
     const [newProduct, setNewProduct] = useState(new ProductDataDTO())
     const [productModified, setProductModified] = useState(new ProductDataDTO())
     const [indexProductModified, setIndexProductModified] = useState(0)
@@ -38,9 +40,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
 
-    useEffect(() => {
-        vm.clean()
-    }, [])
+    useEffect(() => { }, [])
 
     const [dataSource, setDataSource] = useState(
         new DataProvider((r1, r2) => {
@@ -113,15 +113,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         )
     }
 
-    const addProductProps: ProductProps = {
-        onNameChange: (name: string) => { newProduct.name = name },
-        onPriceChange: (price: number) => { newProduct.price = price },
-        onScoreChange: (score: number) => { newProduct.score = score },
-        onInMenuChange: (inMenu: boolean) => { newProduct.inMenu = inMenu }
-    }
-
-    const addProductOptions: AlertProps = {
-        type: AlertType.ADD_PRODUCT,
+    const addProductOptions: AddProductModalProps = {
         visible: addProduct,
         onRequestClose: () => setAddProduct(!addProduct),
         onPressOk: () => {
@@ -129,12 +121,22 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
             setAddProduct(!addProduct)
         },
         colorScheme: COLORS,
-        bgColor: COLORS.background,
         animationType: AnimationType.FADE,
-        productProps: addProductProps
+        onNameChange: (name: string) => { newProduct.name = name },
+        onPriceChange: (price: number) => { newProduct.price = price },
+        onScoreChange: (score: number) => { newProduct.score = score },
+        onInMenuChange: (inMenu: boolean) => { newProduct.inMenu = inMenu }
     }
 
-    const modifyProductProps: ProductProps = {
+    const editProductOptions: EditProductModalProps = {
+        visible: editProduct,
+        onRequestClose: () => setEditProduct(!editProduct),
+        onPressOk: () => {
+            vm.editProduct(productModified, indexProductModified)
+            setEditProduct(!editProduct)
+        },
+        colorScheme: COLORS,
+        animationType: AnimationType.FADE,
         name: productModified.name,
         inMenu: productModified.inMenu,
         price: productModified.price,
@@ -143,20 +145,6 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         onPriceChange: (price: number) => { productModified.price = price },
         onScoreChange: (score: number) => { productModified.score = score },
         onInMenuChange: (inMenu: boolean) => { productModified.inMenu = inMenu }
-    }
-
-    const modifyProductOptions: AlertProps = {
-        type: AlertType.MODIFY_PRODUCT,
-        visible: modifyProduct,
-        onRequestClose: () => setModifyProduct(!modifyProduct),
-        onPressOk: () => {
-            vm.modifyProduct(productModified, indexProductModified)
-            setModifyProduct(!modifyProduct)
-        },
-        colorScheme: COLORS,
-        bgColor: COLORS.background,
-        animationType: AnimationType.FADE,
-        productProps: modifyProductProps
     }
 
     const close = () => {
@@ -175,7 +163,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const onPressEditItem = (product: ProductDataDTO, index: number) => {
         setProductModified(product)
         setIndexProductModified(index)
-        setModifyProduct(!modifyProduct)
+        setEditProduct(!editProduct)
         close()
     }
 
@@ -236,10 +224,10 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             }
                         </View>
                         <View style={{ flex: 1 }}>
-                            <TouchableOpacity onPress={() => navigate(ROUTES.ADD_ESTABLISHMENT, null)} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
+                            <TouchableOpacity onPress={() => { navigate(ROUTES.ADD_ESTABLISHMENT, null); close() }} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
                                 <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.establishment.label')}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.background_second }]} onPress={() => setAddProduct(!addProduct)}>
+                            <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.background_second }]} onPress={() => { setAddProduct(!addProduct); close() }}>
                                 <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.product.label')}</Text>
                             </TouchableOpacity>
                             {!hideErrorMessage ? (
@@ -260,8 +248,8 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         </View>
                     </View>
                 </View>
-                <AlertPopUp {...addProductOptions} />
-                <AlertPopUp {...modifyProductOptions} />
+                <AddProductModal {...addProductOptions} />
+                <EditProductModal {...editProductOptions} />
             </NativeBaseProvider>
         </>
     )

@@ -1,9 +1,7 @@
-import { Checkbox, Input } from "native-base";
 import React from "react";
 import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import { COLORS_LIGHT } from "../../config/Colors";
 import { SIZES } from "../../config/Sizes";
-import { formStyles } from "../../config/Styles";
 import i18n from "../../infrastructure/localization/i18n";
 import { alertPopUpStyles } from "./AlertPopUpStyles";
 
@@ -11,9 +9,6 @@ export enum AlertType {
     MENU = "menu",
     MESSAGE = 'message',
     DELETE = 'delete',
-    MODIFY = "modify",
-    ADD_PRODUCT = "addProduct",
-    MODIFY_PRODUCT = "modifyProduct"
 }
 
 export enum AnimationType {
@@ -51,18 +46,6 @@ export interface AlertProps {
     onRequestClose: () => void
     message?: string
     colorScheme: any
-    productProps?: ProductProps
-}
-
-export interface ProductProps {
-    inMenu?: boolean
-    name?: string
-    price?: number
-    score?: number
-    onNameChange: (name: string) => void
-    onPriceChange: (price: number) => void
-    onScoreChange: (score: number) => void
-    onInMenuChange: (inMenu: boolean) => void
 }
 
 export interface JsMap<T> {
@@ -176,150 +159,11 @@ export const AlertPopUp = (config?: AlertProps) => {
         </View>
     </Modal>
 
-    const renderAddProduct = () => <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
-        <View style={alertPopUpStyles.alertContainer} />
-        <View style={[alertPopUpStyles.containerAddProduct, { backgroundColor: color.background }]}>
-            <View style={[alertPopUpStyles.titleView, { backgroundColor: color.touchable }]}>
-                <Text style={[alertPopUpStyles.title, { color: color.text_touchable }]}>{i18n.t("add_product.title").toUpperCase()}</Text>
-            </View>
-            <View style={alertPopUpStyles.productItems}>
-                <Checkbox
-                    value={i18n.t("add_product.in_menu")}
-                    colorScheme='pink'
-                    onChange={(isSelected) => props.productProps!.onInMenuChange(isSelected)}
-                >
-                    {i18n.t("add_product.in_menu")}
-                </Checkbox>
-                <Input
-                    style={[alertPopUpStyles.input, { color: color.text }]}
-                    w={{ base: "75%", md: "25%" }}
-                    placeholder={i18n.t('add_product.name').toString()}
-                    onChangeText={(name) => props.productProps?.onNameChange(name)}
-                    borderRadius={10}
-                />
-                <Input
-                    style={[alertPopUpStyles.input, { color: color.text }]}
-                    w={{ base: "75%", md: "25%" }}
-                    placeholder={i18n.t('add_product.score').toString()}
-                    onChangeText={(score) => props.productProps?.onScoreChange(Number(score))}
-                    borderRadius={10}
-                    inputMode="numeric"
-                    keyboardType="number-pad"
-                />
-                <Input
-                    style={[alertPopUpStyles.input, { color: color.text }]}
-                    w={{ base: "75%", md: "25%" }}
-                    placeholder={i18n.t('add_product.price').toString()}
-                    onChangeText={(price) => props.productProps?.onPriceChange(Number(price))}
-                    borderRadius={10}
-                    keyboardType="number-pad"
-                    inputMode="numeric"
-                />
-            </View>
-            <View style={alertPopUpStyles.containerOkCancel}>
-                <TouchableOpacity
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '50%',
-                        height: '100%',
-                        borderRightColor: 'grey',
-                        borderRightWidth: 1
-                    }}
-                    onPress={props.onRequestClose}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("cancel")}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '50%',
-                        height: '100%'
-                    }}
-                    onPress={props.onPressOk}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("ok")}</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    </Modal >
-
-    const renderModifyProduct = () => <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
-        <View style={alertPopUpStyles.alertContainer} />
-        <View style={[alertPopUpStyles.containerModifyProduct, { height: 'auto', backgroundColor: color.background }]}>
-            <View style={[alertPopUpStyles.titleView, { backgroundColor: color.touchable }]}>
-                <Text style={[alertPopUpStyles.title, { color: color.text_touchable }]}>{i18n.t("modify_product.title").toUpperCase()}</Text>
-            </View>
-            <View style={alertPopUpStyles.productItems}>
-                <Checkbox
-                    value={i18n.t("modify_product.in_menu").toString()}
-                    onChange={(isSelected) => props.productProps!.onInMenuChange(isSelected)}
-                    isChecked={props.productProps?.inMenu}
-                />
-                <Input
-                    style={[formStyles.input, { color: color.text }]}
-                    w={{ base: "75%", md: "25%" }}
-                    placeholder={i18n.t('modify_product.name').toString()}
-                    onChangeText={(name) => props.productProps?.onNameChange(name)}
-                    borderRadius={10}
-                    defaultValue={props.productProps!.name}
-                    isRequired={true}
-                />
-                <Input
-                    style={[formStyles.input, { color: color.text }]}
-                    w={{ base: "75%", md: "25%" }}
-                    placeholder={i18n.t('modify_product.score').toString()}
-                    onChangeText={(score) => props.productProps?.onScoreChange(Number(score))}
-                    borderRadius={10}
-                    inputMode="numeric"
-                    keyboardType="number-pad"
-                    defaultValue={props.productProps?.score?.toString()}
-                    isRequired={true}
-                />
-                <Input
-                    style={[formStyles.input, { color: color.text }]}
-                    w={{ base: "75%", md: "25%" }}
-                    placeholder={i18n.t('modify_product.price').toString()}
-                    onChangeText={(price) => props.productProps?.onPriceChange(Number(price))}
-                    borderRadius={10}
-                    keyboardType="number-pad"
-                    inputMode="numeric"
-                    defaultValue={props.productProps?.price?.toString()}
-                />
-            </View>
-            <View style={alertPopUpStyles.containerOkCancel}>
-                <TouchableOpacity
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '50%',
-                        height: '100%',
-                        borderRightColor: 'grey',
-                        borderRightWidth: 1
-                    }}
-                    onPress={props.onRequestClose}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("cancel")}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '50%',
-                        height: '100%'
-                    }}
-                    onPress={props.onPressOk}>
-                    <Text style={[alertPopUpStyles.textButton, { color: color.text }]}>{i18n.t("ok")}</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    </Modal >
-
     const options = () => {
         switch (props.type) {
             case AlertType.MESSAGE: return renderMessage()
             case AlertType.DELETE: return renderDelete()
             case AlertType.MENU: return renderMenu()
-            case AlertType.ADD_PRODUCT: return renderAddProduct()
-            case AlertType.MODIFY_PRODUCT: return renderModifyProduct()
             default: return renderMessage()
         }
     }
