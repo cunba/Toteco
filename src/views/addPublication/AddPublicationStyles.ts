@@ -1,18 +1,18 @@
 import { StyleSheet } from "react-native";
-import { SIZES } from "../../config/Sizes";
 
 export const addPublicationStyles = StyleSheet.create({
     publicationContainer: {
         flexDirection: 'row',
         height: 200,
-        width: '80%',
+        width: '90%',
         justifyContent: 'center',
         alignContent: 'space-around',
-        marginBottom: 20
+        flex: 1,
+        paddingTop: 20,
+        marginBottom: -20
     },
     totalContainer: {
         flexDirection: 'column',
-        // paddingLeft: 20,
         justifyContent: 'center',
         alignItems: 'center',
         flex: 3
@@ -25,8 +25,8 @@ export const addPublicationStyles = StyleSheet.create({
         flex: 2
     },
     card: {
-        maxWidth: '80%',
-        marginBottom: 20,
-        alignSelf: 'center'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingLeft: 10
     }
 })

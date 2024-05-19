@@ -101,8 +101,7 @@ export const stylesRicyclerList = StyleSheet.create({
         fontSize: SIZES.text
     },
     recyclerListView: {
-        maxHeight: Dimensions.get('screen').height * 0.2,
-        height: 40,
+        height: 'auto',
         width: Dimensions.get('screen').width
     },
     rowCellContainer: {
@@ -125,6 +124,7 @@ export const stylesRicyclerList = StyleSheet.create({
         width: "90%",
         flexDirection: 'row',
         alignSelf: "center",
+        borderRadius: 5
     },
     containerOptions: {
         width: '18%',

@@ -251,7 +251,7 @@ export const AlertPopUp = (config?: AlertProps) => {
             </View>
             <View style={alertPopUpStyles.productItems}>
                 <Checkbox
-                    value={i18n.t("modify_produc.in_menu")}
+                    value={i18n.t("modify_product.in_menu").toString()}
                     onChange={(isSelected) => props.productProps!.onInMenuChange(isSelected)}
                     isChecked={props.productProps?.inMenu}
                 />
@@ -261,7 +261,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                     placeholder={i18n.t('modify_product.name').toString()}
                     onChangeText={(name) => props.productProps?.onNameChange(name)}
                     borderRadius={10}
-                    value={props.productProps!.name}
+                    defaultValue={props.productProps!.name}
                     isRequired={true}
                 />
                 <Input
@@ -272,7 +272,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                     borderRadius={10}
                     inputMode="numeric"
                     keyboardType="number-pad"
-                    value={props.productProps?.score?.toString()}
+                    defaultValue={props.productProps?.score?.toString()}
                     isRequired={true}
                 />
                 <Input
@@ -283,7 +283,7 @@ export const AlertPopUp = (config?: AlertProps) => {
                     borderRadius={10}
                     keyboardType="number-pad"
                     inputMode="numeric"
-                    value={props.productProps?.price?.toString()}
+                    defaultValue={props.productProps?.price?.toString()}
                 />
             </View>
             <View style={alertPopUpStyles.containerOkCancel}>

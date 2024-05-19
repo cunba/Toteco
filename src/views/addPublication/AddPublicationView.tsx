@@ -1,20 +1,22 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { Card } from "react-native-paper";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { AlertPopUp, AlertProps, AlertType, AnimationType, ProductProps } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
-import { commonStyles, formStyles } from "../../config/Styles";
+import { commonStyles, formStyles, stylesRicyclerList } from "../../config/Styles";
 import { ProductDataDTO } from "../../data/model/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { AddPublicationViewModel } from "../../viewmodels/AddPublicationViewModel";
 import { addPublicationStyles } from "./AddPublicationStyles";
+import { RenderProduct, RenderProductProps } from "./RenderProduct";
 
 export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -27,6 +29,9 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const [newProduct, setNewProduct] = useState(new ProductDataDTO())
     const [productModified, setProductModified] = useState(new ProductDataDTO())
     const [indexProductModified, setIndexProductModified] = useState(0)
+    const [optionsVisible, setOptionsVisible] = useState(false)
+    const [scroll, setScroll] = useState<any>()
+    const [swipableRowRef, setSwipableRowRef] = useState<Swipeable[]>([])
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
@@ -34,8 +39,28 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     })
 
     useEffect(() => {
-
+        vm.clean()
     }, [])
+
+    const [dataSource, setDataSource] = useState(
+        new DataProvider((r1, r2) => {
+            return r1 !== r2;
+        })
+    )
+
+    const getDataSource = (): DataProvider => {
+        return dataSource.cloneWithRows(vm.products)
+    }
+
+    const layoutProvider = new LayoutProvider(
+        index => {
+            return 0
+        },
+        (type, dim) => {
+            dim.height = 90
+            dim.width = Dimensions.get('window').width
+        },
+    )
 
     const camera = async () => {
         const result = await launchCamera({
@@ -88,14 +113,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         )
     }
 
-    const modifyProductFunction = (product: ProductDataDTO, index: number) => {
-        setProductModified(product)
-        setIndexProductModified(index)
-        setModifyProduct(!modifyProduct)
-    }
-
     const addProductProps: ProductProps = {
-
         onNameChange: (name: string) => { newProduct.name = name },
         onPriceChange: (price: number) => { newProduct.price = price },
         onScoreChange: (score: number) => { newProduct.score = score },
@@ -141,6 +159,39 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         productProps: modifyProductProps
     }
 
+    const close = () => {
+        swipableRowRef.map((item: any) => {
+            if (item !== null) item.close()
+        })
+        setSwipableRowRef([])
+    };
+
+    const onPressTrashItem = (index: number) => {
+        setOptionsVisible(!optionsVisible)
+        vm.removeProduct(index)
+        close()
+    }
+
+    const onPressEditItem = (product: ProductDataDTO, index: number) => {
+        setProductModified(product)
+        setIndexProductModified(index)
+        setModifyProduct(!modifyProduct)
+        close()
+    }
+
+    const rowRender = (type: any, product: ProductDataDTO, index: number) => {
+        const props: RenderProductProps = {
+            onPressTrashIcon: onPressTrashItem,
+            onPressEditIcon: onPressEditItem,
+            swipableRowRef: (ref: any) => swipableRowRef.push(ref!),
+            colorScheme: COLORS,
+            product: product,
+            index: index
+        }
+
+        return (<RenderProduct {...props} />)
+    }
+
     return (
         <>
             <NativeBaseProvider>
@@ -153,36 +204,35 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <View style={formStyles.container}>
-                        <View style={{ flex: 2, paddingTop: 20 }}>
-                            <View style={addPublicationStyles.publicationContainer}>
-                                <TouchableOpacity style={{ flex: 2 }} onPress={pickImageAlert}>
-                                    {imageUri === '' ?
-                                        <Image size={200} borderRadius={10} source={require("../../assets/images/no-image.jpg")} alt="No image" />
-                                        :
-                                        <Image size={200} borderRadius={10} source={{ uri: imageUri }} alt="Alternate Text" />
-                                    }
-                                </TouchableOpacity>
-                                <View style={addPublicationStyles.totalContainer}>
-                                    <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.text_touchables, paddingBottom: 20 }]}>
-                                        {i18n.t('add_publication.total_score') + '\n' + Math.round(vm.totalScore * 10) / 10 + ' / 5 ☆'}
-                                    </Text>
-                                    <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.text_touchables, paddingTop: 20 }]}>
-                                        {i18n.t('add_publication.total_price') + '\n' + Math.round(vm.totalPrice * 100) / 100 + ' €'}
-                                    </Text>
-                                </View>
+                        <View style={addPublicationStyles.publicationContainer}>
+                            <TouchableOpacity style={{ flex: 2 }} onPress={pickImageAlert}>
+                                {imageUri === '' ?
+                                    <Image size={200} borderRadius={10} source={require("../../assets/images/no-image.jpg")} alt="No image" />
+                                    :
+                                    <Image size={200} borderRadius={10} source={{ uri: imageUri }} alt="Alternate Text" />
+                                }
+                            </TouchableOpacity>
+                            <View style={addPublicationStyles.totalContainer}>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.text_touchables, paddingBottom: 20 }]}>
+                                    {i18n.t('add_publication.total_score') + '\n' + Math.round(vm.totalScore * 10) / 10 + ' / 5 ☆'}
+                                </Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.text_touchables, paddingTop: 20 }]}>
+                                    {i18n.t('add_publication.total_price') + '\n' + Math.round(vm.totalPrice * 100) / 100 + ' €'}
+                                </Text>
                             </View>
+                        </View>
+                        <View style={{ flex: 1 }}>
                             {vm.products.length === 0 ?
                                 <></>
                                 :
-                                vm.products.map((product, index) => {
-                                    return <Card id={index.toString()}
-                                        style={[addPublicationStyles.card, { backgroundColor: COLORS.background, shadowColor: COLORS.shadow }]}
-                                        onPress={() => modifyProductFunction(product, index)} onLongPress={() => vm.removeProduct(index)}>
-                                        <Card.Content>
-                                            <Text style={{ color: COLORS.text }}>{product.name + ' (' + Math.round(product.price! * 100) / 100 + '€, ' + Math.round(product.score! * 10) / 10 + '/5 ☆)'}</Text>
-                                        </Card.Content>
-                                    </Card>
-                                })
+                                <RecyclerListView
+                                    ref={(c) => { setScroll(c) }}
+                                    showsVerticalScrollIndicator={false}
+                                    style={stylesRicyclerList.recyclerListView}
+                                    layoutProvider={layoutProvider}
+                                    dataProvider={getDataSource()}
+                                    rowRenderer={rowRender}
+                                />
                             }
                         </View>
                         <View style={{ flex: 1 }}>

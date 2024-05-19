@@ -62,12 +62,12 @@
     "add_product.title": "Add product",
     "add_product.in_menu": "It is a product from a menu",
     "add_product.name": "Name",
-    "add_product.score": "Score",
+    "add_product.score": "Score out of 5",
     "add_product.price": "Price",
 
     "modify_product.title": "Modify product",
     "modify_product.in_menu": "Is a product from a menu",
     "modify_product.name": "Name",
-    "modify_product.score": "Score",
+    "modify_product.score": "Score out of 5",
     "modify_product.price": "Price"
 }

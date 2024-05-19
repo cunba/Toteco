@@ -23,12 +23,20 @@ export class AddPublicationViewModel {
         this.totalPrice = 0
     }
 
+    clean() {
+        this.products = []
+        this.menus = []
+        this.totalScore = 0
+        this.totalPrice = 0
+    }
+
     setTotalScore() {
         let productScore = 0
         this.products.map(product => productScore = productScore + product.score!)
         let menusScore = 0
         this.menus.map(menu => menusScore = menusScore + menu.score)
-        this.totalScore = (this.establishmentScore! + productScore + menusScore) / (this.products.length + this.menus.length + 1)
+        let establishmentScore = this.establishmentScore ?? 0
+        this.totalScore = (establishmentScore + productScore + menusScore) / (this.products.length + this.menus.length + 1)
     }
 
     setTotalPrice() {
@@ -59,14 +67,20 @@ export class AddPublicationViewModel {
 
     addProduct(product: ProductDataDTO) {
         this.products.push(product)
+        this.setTotalScore()
+        this.setTotalPrice()
     }
 
     modifyProduct(product: ProductDataDTO, index: number) {
         this.products[index] = product
+        this.setTotalScore()
+        this.setTotalPrice()
     }
 
     removeProduct(index: number) {
         this.products.splice(index, 1)
+        this.setTotalScore()
+        this.setTotalPrice()
     }
 
     isProductsValid() {
