@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { UserDTO } from "../client";
+import { UserDTO } from "../client/toteco";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class HomeViewModel {

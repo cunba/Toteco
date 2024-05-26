@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { JwtRequestData } from "../../data/model/LoginData";
-import { UserData } from "../../data/model/User";
+import { JwtRequestData } from "../../data/model/toteco/LoginData";
+import { UserData } from "../../data/model/toteco/User";
 import { dateFormat } from "../../utils/datetimeFormatterHelper";
 
 export interface SessionStore {

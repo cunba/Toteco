@@ -3,22 +3,24 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import { Location } from "react-native-location";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
-import { AlertPopUp, AlertProps, AlertType, AnimationType, ProductProps } from "../../components/Alert";
+import { geolocation } from "../../App";
+import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, formStyles, stylesRicyclerList } from "../../config/Styles";
-import { ProductDataDTO } from "../../data/model/Product";
+import { ProductDataDTO } from "../../data/model/toteco/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { AddPublicationViewModel } from "../../viewmodels/AddPublicationViewModel";
 import { addPublicationStyles } from "./AddPublicationStyles";
-import { RenderProduct, RenderProductProps } from "./components/RenderProduct";
 import { AddProductModal, AddProductModalProps } from "./components/AddProductModal";
 import { EditProductModal, EditProductModalProps } from "./components/EditProductModal";
+import { RenderProduct, RenderProductProps } from "./components/RenderProduct";
 
 export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -40,7 +42,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
 
-    useEffect(() => { }, [])
+    useEffect(() => vm.constructorFuncions(), [])
 
     const [dataSource, setDataSource] = useState(
         new DataProvider((r1, r2) => {
@@ -179,6 +181,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
 
         return (<RenderProduct {...props} />)
     }
+    const location: Location = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
 
     return (
         <>
@@ -193,7 +196,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                     </View>
                     <View style={formStyles.container}>
                         <View style={addPublicationStyles.publicationContainer}>
-                            <TouchableOpacity style={{ flex: 2, height: 200}} onPress={pickImageAlert}>
+                            <TouchableOpacity style={{ flex: 2, height: 200 }} onPress={pickImageAlert}>
                                 {imageUri === '' ?
                                     <Image size={200} borderRadius={10} source={require("../../assets/images/no-image.jpg")} alt="No image" />
                                     :

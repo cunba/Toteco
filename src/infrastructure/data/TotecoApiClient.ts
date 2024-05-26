@@ -1,5 +1,5 @@
-import { Configuration, ConfigurationParameters } from '../../client';
-import { BaseAPI } from '../../client/base';
+import { Configuration, ConfigurationParameters } from '../../client/toteco';
+import { BaseAPI } from '../../client/toteco/base';
 import { NotImplementedException } from '../exceptions/NotImplementedException';
 import { SessionStoreFactory } from './SessionStoreFactory';
 

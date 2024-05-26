@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { UserDataDTO } from "../data/model/User";
+import { UserDataDTO } from "../data/model/toteco/User";
 
 export class SignUpViewModel {
 

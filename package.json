@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "pod": "cd ios && pod install && cd .."
+    "pod": "cd ios && pod install && cd ..",
+    "clean": "cd android && ./gradlew clean && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",

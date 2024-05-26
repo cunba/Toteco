@@ -5,7 +5,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons"
 import Feather from "react-native-vector-icons/Feather"
 import { SIZES } from "../../../config/Sizes"
 import { stylesRicyclerList } from "../../../config/Styles"
-import { ProductDataDTO } from "../../../data/model/Product"
+import { ProductDataDTO } from "../../../data/model/toteco/Product"
 import { addPublicationStyles } from "../AddPublicationStyles"
 
 export interface RenderProductProps {

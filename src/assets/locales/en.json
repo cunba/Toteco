@@ -69,5 +69,10 @@
     "edit_product.in_menu": "Is a product from a menu",
     "edit_product.name": "Name",
     "edit_product.score": "Score out of 5",
-    "edit_product.price": "Price"
+    "edit_product.price": "Price",
+
+    "add_establishment.title": "Add establishment",
+    "ad_establishment.is_computer_allowed": "Is computer allowed?",
+    "add_establishment.name": "Name",
+    "add_establishment.score": "Score"
 }

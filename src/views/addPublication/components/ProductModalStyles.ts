@@ -32,13 +32,22 @@ export const productModalStyles = StyleSheet.create({
     },
     containerAddProduct: {
         display: "flex",
-
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 20,
         position: 'relative',
         borderRadius: 2,
-        marginTop: '70%',
+        marginTop: '70%'
+    },
+    containerAddEstablishment: {
+        display: "flex",
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 20,
+        position: 'relative',
+        borderRadius: 2,
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height
     },
     productItems: {
         marginBottom: 20,

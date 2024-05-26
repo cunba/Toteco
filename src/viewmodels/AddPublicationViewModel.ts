@@ -1,26 +1,43 @@
 import { makeAutoObservable } from "mobx";
-import { EstablishmentData } from "../data/model/Establishment";
-import { MenuDataDTO } from "../data/model/Menu";
-import { ProductDataDTO } from "../data/model/Product";
-import { PublicationDataDTO } from "../data/model/Publication";
+import { Location } from "react-native-location";
+import { geolocation } from "../App";
+import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
+import { MenuDataDTO } from "../data/model/toteco/Menu";
+import { ProductDataDTO } from "../data/model/toteco/Product";
+import { PublicationDataDTO } from "../data/model/toteco/Publication";
+import { PlacesRepository } from "../data/repositories/maps/PlacesRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
 
     establishment?: EstablishmentData
+    newEstablishment?: EstablishmentDataDTO
     establishmentScore?: number
     products: ProductDataDTO[]
     menus: MenuDataDTO[]
     totalScore: number
     totalPrice: number
     image?: string
+    initialLocation?: Location
+    placesNearby: any[]
 
     constructor() {
         makeAutoObservable(this)
         this.products = []
         this.menus = []
+        this.placesNearby = []
         this.totalScore = 0
         this.totalPrice = 0
+    }
+
+    constructorFuncions() {
+        this.products = []
+        this.menus = []
+        this.placesNearby = []
+        this.totalScore = 0
+        this.totalPrice = 0
+        this.initialLocation = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
+        this.getEstablishmentsNearby()
     }
 
     setTotalScore() {
@@ -77,6 +94,12 @@ export class AddPublicationViewModel {
         this.products.splice(index, 1)
         this.setTotalScore()
         this.setTotalPrice()
+    }
+
+    getEstablishmentsNearby() {
+        new PlacesRepository().getPlacesNearby().then(places => {
+            console.log(places)
+        })
     }
 
     isProductsValid() {
