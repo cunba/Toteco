@@ -1,11 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { Location } from "react-native-location";
 import { geolocation } from "../App";
+import { SearchNearbyResponseData } from "../data/model/places/SearchNearbyResponse";
 import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
 import { MenuDataDTO } from "../data/model/toteco/Menu";
 import { ProductDataDTO } from "../data/model/toteco/Product";
 import { PublicationDataDTO } from "../data/model/toteco/Publication";
-import { PlacesRepository } from "../data/repositories/maps/PlacesRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
@@ -17,9 +17,10 @@ export class AddPublicationViewModel {
     menus: MenuDataDTO[]
     totalScore: number
     totalPrice: number
+    comment: string
     image?: string
     initialLocation?: Location
-    placesNearby: any[]
+    placesNearby: SearchNearbyResponseData[]
 
     constructor() {
         makeAutoObservable(this)
@@ -28,6 +29,7 @@ export class AddPublicationViewModel {
         this.placesNearby = []
         this.totalScore = 0
         this.totalPrice = 0
+        this.comment = ""
     }
 
     constructorFuncions() {
@@ -37,7 +39,7 @@ export class AddPublicationViewModel {
         this.totalScore = 0
         this.totalPrice = 0
         this.initialLocation = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
-        this.getEstablishmentsNearby()
+        this.getPlacesNearby()
     }
 
     setTotalScore() {
@@ -69,6 +71,7 @@ export class AddPublicationViewModel {
         new PublicationDataDTO(
             this.totalScore!,
             this.totalPrice!,
+            this.comment,
             user!.id,
             this.establishment!.id,
             this.image
@@ -96,10 +99,8 @@ export class AddPublicationViewModel {
         this.setTotalPrice()
     }
 
-    getEstablishmentsNearby() {
-        new PlacesRepository().getPlacesNearby().then(places => {
-            console.log(places)
-        })
+    getPlacesNearby() {
+        
     }
 
     isProductsValid() {

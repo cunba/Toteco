@@ -6,6 +6,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { NativeModules, Text, View } from 'react-native';
 import RNLocation, { Location } from 'react-native-location';
 import "react-native-url-polyfill/auto";
+import { SearchNearbyApi } from './client/places';
+import { PlaceDetailsApi } from './client/places/apis/place-details-api';
+import { SearchTextApi } from './client/places/apis/search-text-api';
 import { EstablishmentsApi, LoginApi, MenusApi, ProductsApi, PublicationsApi, UsersApi } from './client/toteco';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
@@ -15,6 +18,7 @@ import { LoginRequestData } from './data/model/toteco/LoginData';
 import { UserDataDTO } from './data/model/toteco/User';
 import { LoginRepository } from './data/repositories/toteco/impl/LoginRepository';
 import { UsersRepository } from './data/repositories/toteco/impl/UsersRepository';
+import PlacesApiClient, { PlacesApi } from './infrastructure/data/PlacesApiClient';
 import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
 import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
@@ -30,12 +34,18 @@ import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
 import { SignUpView } from './views/signup/SignUpView';
 
+// TOTECO API
 TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentsApi)
 TotecosApiClient.register(TotecoApi.LoginApi, new LoginApi)
 TotecosApiClient.register(TotecoApi.MenusApi, new MenusApi)
 TotecosApiClient.register(TotecoApi.ProductsApi, new ProductsApi)
 TotecosApiClient.register(TotecoApi.PublicationsApi, new PublicationsApi)
 TotecosApiClient.register(TotecoApi.UsersApi, new UsersApi)
+
+// PLACES API
+PlacesApiClient.register(PlacesApi.PlaceDetailsApi, new PlaceDetailsApi)
+PlacesApiClient.register(PlacesApi.SearchNearbyApi, new SearchNearbyApi)
+PlacesApiClient.register(PlacesApi.SearchTextApi, new SearchTextApi)
 
 let locale: string = PLATFORM === 'ios' ? NativeModules.SettingsManager.settings.AppleLocale : NativeModules.I18nManager.localeIdentifier;
 locale.length > 2 ? i18n.changeLanguage(locale.substring(0, 2)) : i18n.changeLanguage(locale)
