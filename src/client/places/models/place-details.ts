@@ -7,15 +7,13 @@
  * Contact: ire.cunba@gmail.com
  */
 
-import { DisplayName, Location } from ".";
-
 /**
 * 
 *
 * @export
 * @interface PlaceDetailsResponse
 */
-export interface PlaceDetailsResponse {
+export interface PlaceDetails {
     /**
      * @type {string}
      * @memberof PlacesDetails
@@ -65,4 +63,32 @@ export interface RegularOpeningHours {
      * @memberof RegularOpeningHours
      */
     weekdayDescriptions?: Array<string>;
+}
+
+export interface Location {
+    /**
+     * @type {number}
+     * @memberof Location
+     */
+    latitude?: number;
+
+    /**
+     * @type {number}
+     * @memberof Location
+     */
+    longitude?: number;
+}
+
+export interface DisplayName {
+    /**
+     * @type {string}
+     * @memberof DisplayName
+     */
+    text?: string;
+
+    /**
+     * @type {string}
+     * @memberof DisplayName
+     */
+    languageCode?: string;
 }

@@ -11,8 +11,9 @@ import globalAxios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'a
 import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
+import { GOOGLE_MAPS_API_KEY } from '../../../config/environment';
 import { BASE_PATH, BaseAPI, RequestArgs, RequiredError } from '../base';
-import { PlaceDetailsResponse } from '../models';
+import { PlaceDetails } from '../models';
 /**
  * PlaceDetailsApi - axios parameter creator
  * @export
@@ -43,7 +44,7 @@ export const PlaceDetailsApiAxiosParamCreator = function (configuration?: Config
             const localVarQueryParameter = {} as any;
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
-            localVarHeaderParameter['X-Goog-Api-Key'] = process.env.GOOGLE_MAPS_API_KEY;
+            localVarHeaderParameter['X-Goog-Api-Key'] = GOOGLE_MAPS_API_KEY;
             localVarHeaderParameter['X-Goog-FieldMask'] = 'places.displayName,places.id,places.location,places.formattedAddress';
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -77,7 +78,7 @@ export const PlaceDetailsApiFp = function (configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeDetails(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<PlaceDetailsResponse>>> {
+        async placeDetails(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<PlaceDetails>>> {
             const localVarAxiosArgs = await PlaceDetailsApiAxiosParamCreator(configuration).placeDetails(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
@@ -99,7 +100,7 @@ export const PlaceDetailsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeDetails(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<PlaceDetailsResponse>> {
+        async placeDetails(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<PlaceDetails>> {
             return PlaceDetailsApiFp(configuration).placeDetails(id, options).then((request) => request(axios, basePath));
         },
     };
@@ -119,7 +120,7 @@ export class PlaceDetailsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PlaceDetailsApi
      */
-    public async placeDetails(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<PlaceDetailsResponse>> {
+    public async placeDetails(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<PlaceDetails>> {
         return PlaceDetailsApiFp(this.configuration).placeDetails(id, options).then((request) => request(this.axios, this.basePath));
     }
 }

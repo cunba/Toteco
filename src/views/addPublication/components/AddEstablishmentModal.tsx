@@ -1,6 +1,8 @@
 import { Checkbox, Input } from "native-base"
 import { Modal, Text, TouchableOpacity, View } from "react-native"
-import MapView from "react-native-maps"
+import { Location } from "react-native-location"
+import MapView, { Marker } from "react-native-maps"
+import { PlaceDetailsData } from "../../../data/model/places/PlaceDetails"
 import i18n from "../../../infrastructure/localization/i18n"
 import { productModalStyles } from "./ProductModalStyles"
 
@@ -15,12 +17,16 @@ export interface AddEstablishmentModalProps {
     colorScheme: any
     animationType: AnimationType
     visible: boolean
+    location: Location
+    places: PlaceDetailsData[]
     onPressOk?: () => void
     onRequestClose: () => void
     onNameChange: (name: string) => void
     onLocationChange: (location: number) => void
     onScoreChange: (score: number) => void
     onIsComputerAllowedChange: (isComputerAllowed: boolean) => void
+    onCoordinatesChange: (location: any) => void
+    onPlaceChange: (place: PlaceDetailsData) => void
 }
 
 export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
@@ -59,12 +65,26 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                 </View>
                 <MapView
                     initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
+                        latitude: props.location.latitude,
+                        longitude: props.location.longitude,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
-                />
+                    onRegionChange={(region) => props.onCoordinatesChange({ latitude: region.latitude, longitude: region.longitude })}
+                >
+                    {props.places.length > 0 ?
+                        props.places.map(place => {
+                            return <Marker
+                                key={place.id}
+                                title={place.displayName.text}
+                                coordinate={place.location}
+                                onPress={() => props.onPlaceChange(place)}
+                            />
+                        })
+                        :
+                        <></>
+                    }
+                </MapView>
                 <View style={productModalStyles.containerOkCancel}>
                     <TouchableOpacity
                         style={{

@@ -1,11 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { Location } from "react-native-location";
 import { geolocation } from "../App";
-import { SearchNearbyResponseData } from "../data/model/places/SearchNearbyResponse";
+import { LocationData, PlaceDetailsData } from "../data/model/places/PlaceDetails";
+import { CircleData, LocationRestrictionData, SearchNearbyRequestData } from "../data/model/places/SearchNearbyRequest";
 import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
 import { MenuDataDTO } from "../data/model/toteco/Menu";
 import { ProductDataDTO } from "../data/model/toteco/Product";
 import { PublicationDataDTO } from "../data/model/toteco/Publication";
+import { SearchNearbyRepository } from "../data/repositories/places/impl/SearchNearbyRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
@@ -20,7 +22,7 @@ export class AddPublicationViewModel {
     comment: string
     image?: string
     initialLocation?: Location
-    placesNearby: SearchNearbyResponseData[]
+    placesNearby: PlaceDetailsData[]
 
     constructor() {
         makeAutoObservable(this)
@@ -99,8 +101,13 @@ export class AddPublicationViewModel {
         this.setTotalPrice()
     }
 
-    getPlacesNearby() {
-        
+    async getPlacesNearby() {
+        const center = new LocationData(this.initialLocation!.latitude, this.initialLocation!.longitude)
+        const circle = new CircleData(center, 1000)
+        const locationRestriction = new LocationRestrictionData(circle)
+        const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
+        const response: any = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
+        this.placesNearby = response
     }
 
     isProductsValid() {

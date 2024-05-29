@@ -1,9 +1,7 @@
-import { PlaceDetailsResponse, RegularOpeningHours } from "../../../client/places"
-import { DisplayNameData } from "./DisplayName"
-import { LocationData } from "./Location"
+import { DisplayName, Location, PlaceDetails, RegularOpeningHours } from "../../../client/places"
 
 
-export class PlaceDetailsResponseData implements PlaceDetailsResponse {
+export class PlaceDetailsData implements PlaceDetails {
 
     constructor(
         public id: string,
@@ -30,5 +28,27 @@ export class RegularOpeningHoursData implements RegularOpeningHours {
         this.openNow = openNow
         this.periods = periods
         this.weekdayDescriptions = weekdayDescriptions
+    }
+}
+
+export class DisplayNameData implements DisplayName {
+
+    constructor(
+        public text: string,
+        public lenguageCode: string
+    ) {
+        this.text = text
+        this.lenguageCode = lenguageCode
+    }
+}
+
+export class LocationData implements Location {
+
+    constructor(
+        public latitude: number,
+        public longitude: number
+    ) {
+        this.latitude = latitude
+        this.longitude = longitude
     }
 }

@@ -6,8 +6,6 @@ import { ILoginApi } from "../ILoginApi";
 
 export class LoginRepository extends TotecoBaseRepository<ILoginApi> {
 
-    static tries = 0
-
     constructor() {
         super(TotecoApi.LoginApi, false)
     }

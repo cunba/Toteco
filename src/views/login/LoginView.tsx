@@ -33,7 +33,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                 setShowSpinner(false);
                 navigate(ROUTES.HOME, null)
             } catch (w: any) {
-                if (w.status) {
+                if (w) {
                     selectErrorMessage(3);
                 } else {
                     selectErrorMessage(4);
@@ -69,19 +69,19 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
     const selectErrorMessage = (value: number): void => {
         switch (value) {
             case 1:
-                setErrorMessage(i18n.t('login.error.noEmail')!);
+                setErrorMessage(i18n.t('login.error.no_mail')!);
                 break;
             case 2:
-                setErrorMessage(i18n.t('login.error.noPassword')!);
+                setErrorMessage(i18n.t('login.error.no_password')!);
                 break;
             case 3:
-                setErrorMessage(i18n.t('login.error.credentialsError')!);
+                setErrorMessage(i18n.t('login.error.credentials_error')!);
                 break;
             case 4:
-                setErrorMessage(i18n.t('login.error.defaultError')!);
+                setErrorMessage(i18n.t('login.error.default_error')!);
                 break
             case 5:
-                setErrorMessage(i18n.t('login.error.noUserameNoPassword')!);
+                setErrorMessage(i18n.t('login.error.no_serame_no_password')!);
         }
     }
 

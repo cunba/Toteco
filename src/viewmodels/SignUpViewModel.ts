@@ -80,8 +80,8 @@ export class SignUpViewModel {
     }
 
     isRepeatPasswordValid() {
-        if (this.password) {
-            return this.password.trim().length > 0
+        if (this.repeatPassword) {
+            return this.repeatPassword.trim().length > 0
         }
         else { return false }
     }
@@ -132,8 +132,6 @@ export class SignUpViewModel {
             &&
             this.isSurnameValid()
             &&
-            this.isPhotoValid()
-            &&
             this.isRepeatPasswordValid()
         )
     }
@@ -144,4 +142,9 @@ export class SignUpViewModel {
         }
         else { return false }
     }
+
+    samePassword() {
+        return this.password === this.repeatPassword
+    }
+
 }

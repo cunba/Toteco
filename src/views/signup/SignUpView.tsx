@@ -42,7 +42,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
             if (yearNumber <= new Date().getFullYear() && monthNumber <= 12 && dayNumber <= 31) {
                 vm.setBirthday(new Date(yearNumber, monthNumber, dayNumber).getTime())
 
-                if (vm.password === vm.repeatPassword) {
+                if (vm.samePassword()) {
                     if (vm.passwordLength()) {
                         setShowSpinner(true)
                         try {
@@ -152,6 +152,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             placeholder={i18n.t('sign_up.username.label').toString()}
                             onChangeText={(username) => vm.setUsername(username)}
                             borderRadius={10}
+                            autoCapitalize="none"
                         />
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
@@ -159,6 +160,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             placeholder={i18n.t('sign_up.name.label').toString()}
                             onChangeText={(name) => vm.setName(name)}
                             borderRadius={10}
+                            autoCapitalize="none"
                         />
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
@@ -166,6 +168,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             placeholder={i18n.t('sign_up.surname.label').toString()}
                             onChangeText={(surname) => vm.setSurname(surname)}
                             borderRadius={10}
+                            autoCapitalize="none"
                         />
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
@@ -173,6 +176,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             placeholder={i18n.t('sign_up.email.label').toString()}
                             onChangeText={(email) => vm.setEmail(email)}
                             borderRadius={10}
+                            autoCapitalize="none"
                         />
                     </Stack>
                     <View style={signUpStyles.containerInputDate}>
@@ -219,6 +223,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             onChangeText={(password) => vm.setPassword(password)}
                             borderRadius={10}
                             type={showPassword ? "text" : "password"}
+                            autoCapitalize="none"
                             InputRightElement={
                                 <Pressable onPress={() => setShowPassword(!showPassword)}>
                                     <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
@@ -232,9 +237,10 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             onChangeText={(password) => vm.setRepeatPassword(password)}
                             borderRadius={10}
                             type={showRepeatPassword ? "text" : "password"}
+                            autoCapitalize="none"
                             InputRightElement={
-                                <Pressable onPress={() => setShowRepeatPassword(!showPassword)}>
-                                    <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                <Pressable onPress={() => setShowRepeatPassword(!showRepeatPassword)}>
+                                    <Icon as={<MaterialIcons name={showRepeatPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
                                 </Pressable>
                             }
                         />

@@ -14,7 +14,7 @@ export class SearchNearbyRepository extends PlacesBaseRepository<ISearchNearbyAp
         try {
             const client = await this.apiClient
             const result = await client.searchNearby(searchNearbyRequest)
-            return result.data
+            return result.data.places
         } catch (e) {
             throw e
         }

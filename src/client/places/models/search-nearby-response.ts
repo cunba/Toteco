@@ -7,7 +7,7 @@
  * Contact: ire.cunba@gmail.com
  */
 
-import { DisplayName, Location } from ".";
+import { DisplayName, Location, PlaceDetails } from ".";
 
 /**
 * 
@@ -18,28 +18,8 @@ import { DisplayName, Location } from ".";
 export interface SearchNearbyResponse {
 
     /**
-     * @type {Array<PlacesSearchNearby>}
+     * @type {Array<PlaceDetails>}
      * @memberof SearchNearbyResponse
      */
-    places?: Array<PlacesSearchNearby>;
-}
-
-export interface PlacesSearchNearby {
-    /**
-     * @type {string}
-     * @memberof PlacesSearchNearby
-     */
-    id?: string;
-
-    /**
-     * @type {Location}
-     * @memberof PlacesSearchNearby
-     */
-    location?: Location;
-
-    /**
-     * @type {DisplayName}
-     * @memberof PlacesSearchNearby
-     */
-    displayName?: DisplayName;
+    places?: Array<PlaceDetails>;
 }

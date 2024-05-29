@@ -5,10 +5,10 @@ import { LocationData } from "./Location"
 export class SearchNearbyRequestData implements SearchNearbyRequest {
 
     constructor(
-        public includedTypes: Array<string>,
-        public locationRestriction: LocationRestrictionData
+        public locationRestriction: LocationRestrictionData,
+        public includedTypes?: Array<string>,
     ) {
-        this.includedTypes = includedTypes
+        this.includedTypes = ['bar', 'cafe', 'meal_delivery', 'meal_takeaway', 'restaurant']
         this.locationRestriction = locationRestriction
     }
 }
