@@ -23,14 +23,14 @@ import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
 import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
 import { navigate, navigationRef } from './infrastructure/navigation/RootNavigation';
-import { AddEstablishmentViewModel } from './viewmodels/AddEstablishmentViewModel';
 import { AddPublicationViewModel } from './viewmodels/AddPublicationViewModel';
+import { EstablishmentsViewModel } from './viewmodels/EstablishmentsViewModel';
 import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
 import { AddPublicationView } from './views/addPublication/AddPublicationView';
-import { AddEstablishmentView } from './views/addPublication/components/AddEstablishmentView';
+import { EstablishmentsView } from './views/establishments/EstablishmentsView';
 import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
@@ -68,10 +68,8 @@ const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
 const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
 
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
-const addPublicationViewModel = new AddPublicationViewModel()
-const addEstablishmentViewModel = new AddEstablishmentViewModel()
-const AddPublicationScreen = () => <AddPublicationView vm={addPublicationViewModel} vm2={addEstablishmentViewModel} />
-const AddEstablishmentScreen = () => <AddEstablishmentView vm={addEstablishmentViewModel} />
+const AddPublicationScreen = () => <AddPublicationView vm={new AddPublicationViewModel()} />
+const EstablishmentsScreen = () => <EstablishmentsView vm={new EstablishmentsViewModel()} />
 
 const Stack = createStackNavigator();
 
@@ -286,8 +284,8 @@ function App(): JSX.Element {
                                         options={{ headerShown: false }}
                                     />
                                     <Stack.Screen
-                                        name={ROUTES.ADD_ESTABLISHMENT}
-                                        component={AddEstablishmentScreen}
+                                        name={ROUTES.ESTABLISHMENTS}
+                                        component={EstablishmentsScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

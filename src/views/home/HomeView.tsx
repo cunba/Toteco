@@ -47,9 +47,8 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                     </View>
                 ),
                 title: 'establishments',
-                onPress: () => console.log('entra a establishments'),
-                color: COLORS.background_second
-                // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
+                color: COLORS.background_second,
+                onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
             },
             {
                 icon: (
@@ -62,14 +61,14 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                     </View>
                 ),
                 title: 'profile',
-                onPress: () => console.log('entra a profile'),
-                color: COLORS.touchable
+                color: COLORS.touchable,
+                onPress: () => console.log('profile')
                 // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
             },
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Ionicons name='settings-outline' size={SIZES.icons} color={COLORS.text_touchable}/>
+                        <Ionicons name='settings-outline' size={SIZES.icons} color={COLORS.text_touchable} />
                     </View>
                 ),
                 title: 'settings',

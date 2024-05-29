@@ -1,8 +1,13 @@
 import { makeAutoObservable } from "mobx";
+import { Location } from "react-native-location";
+import { geolocation } from "../App";
+import { LocationData, PlaceDetailsData } from "../data/model/places/PlaceDetails";
+import { CircleData, LocationRestrictionData, SearchNearbyRequestData } from "../data/model/places/SearchNearbyRequest";
 import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
 import { MenuDataDTO } from "../data/model/toteco/Menu";
 import { ProductDataDTO } from "../data/model/toteco/Product";
 import { PublicationDataDTO } from "../data/model/toteco/Publication";
+import { SearchNearbyRepository } from "../data/repositories/places/impl/SearchNearbyRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
@@ -16,21 +21,20 @@ export class AddPublicationViewModel {
     totalPrice: number
     comment: string
     image?: string
+    initialLocation?: Location
+    placesNearby: PlaceDetailsData[]
+    placeSelected?: PlaceDetailsData
 
     constructor() {
         makeAutoObservable(this)
         this.products = []
         this.menus = []
+        this.placesNearby = []
         this.totalScore = 0
         this.totalPrice = 0
         this.comment = ""
-    }
-
-    constructorFuncions() {
-        this.products = []
-        this.menus = []
-        this.totalScore = 0
-        this.totalPrice = 0
+        this.initialLocation = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
+        this.getPlacesNearby()
     }
 
     setTotalScore() {
@@ -92,6 +96,25 @@ export class AddPublicationViewModel {
 
     addEstablishment(establishment: EstablishmentDataDTO) {
         this.newEstablishment = establishment
+    }
+
+    async renderEstablishments(region: any) {
+        const center = new LocationData(region.latitude, region.longitude)
+        const circle = new CircleData(center, 5000)
+        const locationRestriction = new LocationRestrictionData(circle)
+        const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
+        const response: PlaceDetailsData[] = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
+        response.filter((value, index) => { if (this.placesNearby.includes(value)) response.splice(index, 1) })
+        this.placesNearby.push(...response)
+    }
+
+    async getPlacesNearby() {
+        const center = new LocationData(this.initialLocation!.latitude, this.initialLocation!.longitude)
+        const circle = new CircleData(center, 5000)
+        const locationRestriction = new LocationRestrictionData(circle)
+        const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
+        const response: PlaceDetailsData[] = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
+        this.placesNearby = response
     }
 
     isProductsValid() {

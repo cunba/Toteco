@@ -12,6 +12,7 @@ import i18n from "../../../infrastructure/localization/i18n";
 import { back, navigate } from "../../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../../infrastructure/views/FunctionalView";
 import { AddEstablishmentViewModel } from "../../../viewmodels/AddEstablishmentViewModel";
+import { mapStyle } from "../../mapStyle";
 import { productModalStyles } from "./ProductModalStyles";
 
 export const AddEstablishmentView: FunctionalView<AddEstablishmentViewModel> = ({ vm }) => {
@@ -27,183 +28,6 @@ export const AddEstablishmentView: FunctionalView<AddEstablishmentViewModel> = (
     useEffect(() => vm.constructorFuncions(), [])
 
     const location: Location = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
-
-    const mapStyle = [
-        {
-            featureType: 'water',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#e9e9e9',
-                },
-                {
-                    lightness: 17,
-                },
-            ],
-        },
-        {
-            featureType: 'landscape',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#f5f5f5',
-                },
-                {
-                    lightness: 20,
-                },
-            ],
-        },
-        {
-            featureType: 'road.highway',
-            elementType: 'geometry.fill',
-            stylers: [
-                {
-                    color: '#ffffff',
-                },
-                {
-                    lightness: 17,
-                },
-            ],
-        },
-        {
-            featureType: 'road.highway',
-            elementType: 'geometry.stroke',
-            stylers: [
-                {
-                    color: '#ffffff',
-                },
-                {
-                    lightness: 29,
-                },
-                {
-                    weight: 0.2,
-                },
-            ],
-        },
-        {
-            featureType: 'road.arterial',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#ffffff',
-                },
-                {
-                    lightness: 18,
-                },
-            ],
-        },
-        {
-            featureType: 'road.local',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#ffffff',
-                },
-                {
-                    lightness: 16,
-                },
-            ],
-        },
-        {
-            featureType: 'poi',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#f5f5f5',
-                },
-                {
-                    lightness: 21,
-                },
-            ],
-        },
-        {
-            featureType: 'poi.park',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#dedede',
-                },
-                {
-                    lightness: 21,
-                },
-            ],
-        },
-        {
-            elementType: 'labels.text.stroke',
-            stylers: [
-                {
-                    visibility: 'on',
-                },
-                {
-                    color: '#ffffff',
-                },
-                {
-                    lightness: 16,
-                },
-            ],
-        },
-        {
-            elementType: 'labels.text.fill',
-            stylers: [
-                {
-                    saturation: 36,
-                },
-                {
-                    color: '#333333',
-                },
-                {
-                    lightness: 40,
-                },
-            ],
-        },
-        {
-            elementType: 'labels.icon',
-            stylers: [
-                {
-                    visibility: 'off',
-                },
-            ],
-        },
-        {
-            featureType: 'transit',
-            elementType: 'geometry',
-            stylers: [
-                {
-                    color: '#f2f2f2',
-                },
-                {
-                    lightness: 19,
-                },
-            ],
-        },
-        {
-            featureType: 'administrative',
-            elementType: 'geometry.fill',
-            stylers: [
-                {
-                    color: '#fefefe',
-                },
-                {
-                    lightness: 20,
-                },
-            ],
-        },
-        {
-            featureType: 'administrative',
-            elementType: 'geometry.stroke',
-            stylers: [
-                {
-                    color: '#fefefe',
-                },
-                {
-                    lightness: 17,
-                },
-                {
-                    weight: 1.2,
-                },
-            ],
-        },
-    ];
 
     return (
         <>
@@ -252,8 +76,9 @@ export const AddEstablishmentView: FunctionalView<AddEstablishmentViewModel> = (
                             provider={PROVIDER_GOOGLE}
                             customMapStyle={mapStyle}
                             mapType="standard"
+                            style={{ width: '100%', height: '65%' }}
                         >
-                            {/* {vm.placesNearby.length > 0 ?
+                            {vm.placesNearby.length > 0 ?
                                 vm.placesNearby.map(place => {
                                     return <Marker
                                         key={place.id}
@@ -264,7 +89,7 @@ export const AddEstablishmentView: FunctionalView<AddEstablishmentViewModel> = (
                                 })
                                 :
                                 <></>
-                            } */}
+                            }
                         </MapView>
                         <View style={{ flex: 1 }}>
                             {!hideErrorMessage ? (

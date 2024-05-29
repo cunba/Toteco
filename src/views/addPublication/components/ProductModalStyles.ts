@@ -41,9 +41,10 @@ export const productModalStyles = StyleSheet.create({
     },
     containerAddEstablishment: {
         display: "flex",
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 20,
+        marginTop: 50,
         position: 'relative',
         borderRadius: 2,
         width: Dimensions.get('screen').width,
@@ -52,7 +53,8 @@ export const productModalStyles = StyleSheet.create({
     productItems: {
         marginBottom: 20,
         marginTop: 20,
-        gap: 10
+        gap: 10,
+        flex: 1
     },
     textButton: {
         textAlign: 'center',

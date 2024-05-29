@@ -3,25 +3,29 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import { Location } from "react-native-location";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
+import { geolocation } from "../../App";
 import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, formStyles, stylesRicyclerList } from "../../config/Styles";
+import { PlaceDetailsData } from "../../data/model/places/PlaceDetails";
+import { EstablishmentDataDTO } from "../../data/model/toteco/Establishment";
 import { ProductDataDTO } from "../../data/model/toteco/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
-import { FunctionalViews } from "../../infrastructure/views/FunctionalView";
-import { AddEstablishmentViewModel } from "../../viewmodels/AddEstablishmentViewModel";
+import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { AddPublicationViewModel } from "../../viewmodels/AddPublicationViewModel";
 import { addPublicationStyles } from "./AddPublicationStyles";
+import { AddEstablishmentModal, AddEstablishmentModalProps } from "./components/AddEstablishmentModal";
 import { AddProductModal, AddProductModalProps } from "./components/AddProductModal";
 import { EditProductModal, EditProductModalProps } from "./components/EditProductModal";
 import { RenderProduct, RenderProductProps } from "./components/RenderProduct";
 
-export const AddPublicationView: FunctionalViews<AddPublicationViewModel, AddEstablishmentViewModel> = ({ vm, vm2 }) => {
+export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
     const [hideErrorMessage, setHideErrorMessage] = useState(true);
     const [loading, setLoading] = useState(false)
@@ -35,13 +39,15 @@ export const AddPublicationView: FunctionalViews<AddPublicationViewModel, AddEst
     const [optionsVisible, setOptionsVisible] = useState(false)
     const [scroll, setScroll] = useState<any>()
     const [swipableRowRef, setSwipableRowRef] = useState<Swipeable[]>([])
+    const [addEstablishment, setAddEstablishment] = useState(false)
+    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDataDTO("", "", false, ""))
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
 
-    useEffect(() => vm.constructorFuncions(), [])
+    useEffect(() => { }, [])
 
     const [dataSource, setDataSource] = useState(
         new DataProvider((r1, r2) => {
@@ -181,6 +187,26 @@ export const AddPublicationView: FunctionalViews<AddPublicationViewModel, AddEst
         return (<RenderProduct {...props} />)
     }
 
+    const location: Location = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
+
+    const addEstablishmentOptions: AddEstablishmentModalProps = {
+        colorScheme: COLORS,
+        animationType: AnimationType.FADE,
+        visible: addEstablishment,
+        location: location,
+        places: vm.placesNearby,
+        onPressOk: () => {
+            vm.addEstablishment(newEstablishment)
+            setAddEstablishment(!addEstablishment)
+        },
+        onRequestClose: () => setAddEstablishment(!addEstablishment),
+        onNameChange: (name: string) => newEstablishment.name = name,
+        onScoreChange: (score: number) => vm.establishmentScore = score,
+        onPlaceChange: (place: PlaceDetailsData) => vm.placeSelected = place,
+        onIsComputerAllowedChange: (isComputerAllowed: boolean) => newEstablishment.isComputerAllowed = isComputerAllowed,
+        onRegionChange: (region: any) => vm.renderEstablishments(region)
+    }
+
     return (
         <>
             <NativeBaseProvider>
@@ -225,7 +251,7 @@ export const AddPublicationView: FunctionalViews<AddPublicationViewModel, AddEst
                             }
                         </View>
                         <View style={{ flex: 1 }}>
-                            <TouchableOpacity onPress={() => { navigate(ROUTES.ADD_ESTABLISHMENT, null) }} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
+                            <TouchableOpacity onPress={() => { setAddEstablishment(!addEstablishment); close() }} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
                                 <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.establishment.label')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.background_second }]} onPress={() => { setAddProduct(!addProduct); close() }}>
@@ -251,6 +277,7 @@ export const AddPublicationView: FunctionalViews<AddPublicationViewModel, AddEst
                 </View>
                 <AddProductModal {...addProductOptions} />
                 <EditProductModal {...editProductOptions} />
+                <AddEstablishmentModal {...addEstablishmentOptions} />
             </NativeBaseProvider>
         </>
     )
