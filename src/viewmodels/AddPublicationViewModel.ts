@@ -1,13 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { Location } from "react-native-location";
-import { geolocation } from "../App";
-import { LocationData, PlaceDetailsData } from "../data/model/places/PlaceDetails";
-import { CircleData, LocationRestrictionData, SearchNearbyRequestData } from "../data/model/places/SearchNearbyRequest";
 import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
 import { MenuDataDTO } from "../data/model/toteco/Menu";
 import { ProductDataDTO } from "../data/model/toteco/Product";
 import { PublicationDataDTO } from "../data/model/toteco/Publication";
-import { SearchNearbyRepository } from "../data/repositories/places/impl/SearchNearbyRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
@@ -21,14 +16,11 @@ export class AddPublicationViewModel {
     totalPrice: number
     comment: string
     image?: string
-    initialLocation?: Location
-    placesNearby: PlaceDetailsData[]
 
     constructor() {
         makeAutoObservable(this)
         this.products = []
         this.menus = []
-        this.placesNearby = []
         this.totalScore = 0
         this.totalPrice = 0
         this.comment = ""
@@ -37,11 +29,8 @@ export class AddPublicationViewModel {
     constructorFuncions() {
         this.products = []
         this.menus = []
-        this.placesNearby = []
         this.totalScore = 0
         this.totalPrice = 0
-        this.initialLocation = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
-        this.getPlacesNearby()
     }
 
     setTotalScore() {
@@ -101,13 +90,8 @@ export class AddPublicationViewModel {
         this.setTotalPrice()
     }
 
-    async getPlacesNearby() {
-        const center = new LocationData(this.initialLocation!.latitude, this.initialLocation!.longitude)
-        const circle = new CircleData(center, 1000)
-        const locationRestriction = new LocationRestrictionData(circle)
-        const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
-        const response: any = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
-        this.placesNearby = response
+    addEstablishment(establishment: EstablishmentDataDTO) {
+        this.newEstablishment = establishment
     }
 
     isProductsValid() {

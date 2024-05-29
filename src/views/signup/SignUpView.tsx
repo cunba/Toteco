@@ -131,7 +131,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
         <>
             <NativeBaseProvider>
                 <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
-                    <View style={commonStyles.toolbar}>
+                    <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
                         <TouchableOpacity onPress={() => back()} style={commonStyles.toolbarButton}>
                             <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
                         </TouchableOpacity>

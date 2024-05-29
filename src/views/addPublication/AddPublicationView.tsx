@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { Location } from "react-native-location";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
-import { geolocation } from "../../App";
 import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
@@ -15,14 +13,15 @@ import { commonStyles, formStyles, stylesRicyclerList } from "../../config/Style
 import { ProductDataDTO } from "../../data/model/toteco/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
-import { FunctionalView } from "../../infrastructure/views/FunctionalView";
+import { FunctionalViews } from "../../infrastructure/views/FunctionalView";
+import { AddEstablishmentViewModel } from "../../viewmodels/AddEstablishmentViewModel";
 import { AddPublicationViewModel } from "../../viewmodels/AddPublicationViewModel";
 import { addPublicationStyles } from "./AddPublicationStyles";
 import { AddProductModal, AddProductModalProps } from "./components/AddProductModal";
 import { EditProductModal, EditProductModalProps } from "./components/EditProductModal";
 import { RenderProduct, RenderProductProps } from "./components/RenderProduct";
 
-export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm }) => {
+export const AddPublicationView: FunctionalViews<AddPublicationViewModel, AddEstablishmentViewModel> = ({ vm, vm2 }) => {
     const [showSpinner, setShowSpinner] = useState(false)
     const [hideErrorMessage, setHideErrorMessage] = useState(true);
     const [loading, setLoading] = useState(false)
@@ -181,7 +180,6 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
 
         return (<RenderProduct {...props} />)
     }
-    const location: Location = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
 
     return (
         <>
@@ -227,7 +225,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             }
                         </View>
                         <View style={{ flex: 1 }}>
-                            <TouchableOpacity onPress={() => { navigate(ROUTES.ADD_ESTABLISHMENT, null); close() }} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
+                            <TouchableOpacity onPress={() => { navigate(ROUTES.ADD_ESTABLISHMENT, null) }} style={[formStyles.button, { backgroundColor: COLORS.background_second }]}>
                                 <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.establishment.label')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.background_second }]} onPress={() => { setAddProduct(!addProduct); close() }}>

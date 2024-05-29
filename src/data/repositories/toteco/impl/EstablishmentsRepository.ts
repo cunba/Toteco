@@ -164,4 +164,29 @@ export class EstablishmentsRepository extends TotecoBaseRepository<IEstablishmen
             }
         }
     }
+
+    async getByMapsId(mapsId: string) {
+        try {
+            const client = await this.apiClient
+            const result = await client.getByMapsId(mapsId)
+            EstablishmentsRepository.tries = 0
+            return result.data
+        } catch (e) {
+            if (EstablishmentsRepository.tries < 1) {
+                EstablishmentsRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const loginResponse = await new LoginRepository().login(credentials!)
+
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    this.getByMapsId(mapsId)
+                }
+            } else {
+                EstablishmentsRepository.tries = 0
+                throw e
+            }
+        }
+    }
 }

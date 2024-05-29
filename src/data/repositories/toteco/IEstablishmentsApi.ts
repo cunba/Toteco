@@ -7,4 +7,6 @@ export interface IEstablishmentsApi extends IGlobalRepository<EstablishmentData,
 
     getByName(name: string): Promise<AxiosResponse<EstablishmentData[]>>
 
+    getByMapsId(mapsId: string): Promise<AxiosResponse<EstablishmentData[]>>
+
 }

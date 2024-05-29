@@ -23,12 +23,14 @@ import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
 import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
 import { navigate, navigationRef } from './infrastructure/navigation/RootNavigation';
+import { AddEstablishmentViewModel } from './viewmodels/AddEstablishmentViewModel';
 import { AddPublicationViewModel } from './viewmodels/AddPublicationViewModel';
 import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
 import { AddPublicationView } from './views/addPublication/AddPublicationView';
+import { AddEstablishmentView } from './views/addPublication/components/AddEstablishmentView';
 import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { RecoveryView } from './views/recovery/RecoveryView';
@@ -67,7 +69,9 @@ const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
 
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 const addPublicationViewModel = new AddPublicationViewModel()
-const AddPublicationScreen = () => <AddPublicationView vm={addPublicationViewModel} />
+const addEstablishmentViewModel = new AddEstablishmentViewModel()
+const AddPublicationScreen = () => <AddPublicationView vm={addPublicationViewModel} vm2={addEstablishmentViewModel} />
+const AddEstablishmentScreen = () => <AddEstablishmentView vm={addEstablishmentViewModel} />
 
 const Stack = createStackNavigator();
 
@@ -279,6 +283,11 @@ function App(): JSX.Element {
                                     <Stack.Screen
                                         name={ROUTES.ADD_PUBLICATION}
                                         component={AddPublicationScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.ADD_ESTABLISHMENT}
+                                        component={AddEstablishmentScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

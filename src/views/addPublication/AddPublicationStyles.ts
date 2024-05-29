@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 export const addPublicationStyles = StyleSheet.create({
     publicationContainer: {
@@ -28,5 +28,9 @@ export const addPublicationStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 10
+    },
+    mapStyle: {
+        width: Dimensions.get('screen').width,
+        height: '80%'
     }
 })

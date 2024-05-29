@@ -205,6 +205,54 @@ export const EstablishmentsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
+         * Get by maps ID
+         * @param {string} mapsId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByMapsId: async (mapsId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            if (mapsId === null || mapsId === undefined) {
+                throw new RequiredError('mapsId', 'Required parameter mapsId was null or undefined when calling getByMapsId.');
+            }
+            const localVarPath = `/establishments/mapsId/{mapsId}`
+                .replace(`{${"mapsId"}}`, encodeURIComponent(String(mapsId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Create new establishment
          * @param {EstablishmentDTO} [body] 
          * @param {*} [options] Override http request option.
@@ -358,6 +406,19 @@ export const EstablishmentsApiFp = function (configuration?: Configuration) {
             };
         },
         /**
+         * Get by maps ID
+         * @param {string} mapsId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Establishment>>> {
+            const localVarAxiosArgs = await EstablishmentsApiAxiosParamCreator(configuration).getByMapsId(mapsId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * Create new establishment
          * @param {EstablishmentDTO} [body] 
          * @param {*} [options] Override http request option.
@@ -427,6 +488,15 @@ export const EstablishmentsApiFactory = function (configuration?: Configuration,
             return EstablishmentsApiFp(configuration).getByName(name, options).then((request) => request(axios, basePath));
         },
         /**
+         * Get by maps ID
+         * @param {string} mapsId
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
+            return EstablishmentsApiFp(configuration).getByMapsId(mapsId, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Create new establishment
          * @param {EstablishmentDTO} [body] 
          * @param {*} [options] Override http request option.
@@ -491,6 +561,16 @@ export class EstablishmentsApi extends BaseAPI {
      */
     public async getByName(name: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
         return EstablishmentsApiFp(this.configuration).getByName(name, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * Get by maps ID
+     * @param {string} mapsId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EstablishmentsApi
+     */
+    public async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
+        return EstablishmentsApiFp(this.configuration).getByMapsId(mapsId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * Create new establishment

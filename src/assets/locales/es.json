@@ -70,5 +70,10 @@
     "edit_product.in_menu": "Es un producto de un menú",
     "edit_product.name": "Nombre",
     "edit_product.score": "Puntuación sobre 5",
-    "edit_product.price": "Precio"
+    "edit_product.price": "Precio",
+
+    "add_establishment.title": "Añadir establecimiento",
+    "add_establishment.is_computer_allowed": "¿Se permiten deispositivos electrónicos?",
+    "add_establishment.name": "Nombre",
+    "add_establishment.score": "Puntuación"
 }
