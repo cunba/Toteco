@@ -31,6 +31,8 @@ target 'Toteco' do
 
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils'
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
   pod 'react-native-location', :path => '../node_modules/react-native-location'
