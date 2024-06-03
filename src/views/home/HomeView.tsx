@@ -1,6 +1,6 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Appearance, Dimensions, ScrollView, Text, View } from "react-native";
+import { Appearance, Dimensions, RefreshControl, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -16,6 +16,7 @@ import { PublicationData } from "../../data/model/toteco/Publication";
 import i18n from "../../infrastructure/localization/i18n";
 import { navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
+import { localTimeString } from "../../utils/datetimeFormatterHelper";
 import { HomeViewModel } from "../../viewmodels/HomeViewModel";
 import { homeStyles } from "./HomeStyles";
 
@@ -23,13 +24,20 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     const [open, setOpen] = useState(false)
     const [scroll, setScroll] = useState<any>()
     const [refresh, setRefresh] = useState(false)
+    const [dt, setDt] = useState(localTimeString(new Date));
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
 
-    useEffect(() => { vm.getPublications(); setRefresh(true); }, [])
+    useEffect(() => {
+        let secTimer = setInterval(() => {
+            setDt(localTimeString(new Date))
+        }, 1000)
+        vm.getPublications();
+        setRefresh(true);
+    }, [])
 
     useEffect(() => { setRefresh(false) }, [refresh])
 
@@ -129,7 +137,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     return (
         <>
             <NativeBaseProvider>
-                <ScrollView contentContainerStyle={[commonStyles.container, { backgroundColor: COLORS.background }]}>
+                <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
                     <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
                         <Text style={[commonStyles.title, { color: COLORS.touchable }]}>{i18n.t('app_name').toUpperCase()}</Text>
                     </View>
@@ -141,10 +149,21 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                             layoutProvider={layoutProvider}
                             dataProvider={getDataSource()}
                             rowRenderer={rowRender}
+                            scrollViewProps={{
+                                refreshControl: (
+                                    <RefreshControl
+                                        refreshing={refresh}
+                                        onRefresh={() => {
+                                            setRefresh(true)
+                                            vm.getPublications()
+                                        }}
+                                    />
+                                )
+                            }}
                         />
                         : null
                     }
-                </ScrollView>
+                </View>
                 <MultiLevelFabButton {...options} />
             </NativeBaseProvider>
         </>
