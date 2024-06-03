@@ -143,7 +143,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
     async getByEstablishment(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getByEstablishment(id)
+            const result = await client.getByEstablishmentId(id)
             PublicationsRepository.tries = 0
             return result.data
         } catch (e) {
@@ -168,7 +168,7 @@ export class PublicationsRepository extends TotecoBaseRepository<IPublicationsAp
     async getByUser(id: string) {
         try {
             const client = await this.apiClient
-            const result = await client.getByUser(id)
+            const result = await client.getByUserId(id)
             PublicationsRepository.tries = 0
             return result.data
         } catch (e) {

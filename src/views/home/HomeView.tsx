@@ -93,8 +93,8 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 ),
                 title: 'profile',
                 color: COLORS.touchable,
-                onPress: () => console.log('profile')
-                // onPress: () => navigate(ROUTES.PROFILE, null)
+                // onPress: () => console.log('profile')
+                onPress: () => navigate(ROUTES.PROFILE, null)
             },
             // {
             //     icon: (
@@ -121,10 +121,10 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     };
 
     const rowRender = (type: any, publication: PublicationData, index: number) => {
-        console.log(publication)
         const props: PublicationProps = {
             colorScheme: COLORS,
-            publication: publication
+            publication: publication,
+            onPressIcon: () => navigate(ROUTES.PROFILE, publication.user)
         }
         return (<Publication {...props} />)
     }

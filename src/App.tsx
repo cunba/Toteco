@@ -27,12 +27,14 @@ import { AddPublicationViewModel } from './viewmodels/AddPublicationViewModel';
 import { EstablishmentsViewModel } from './viewmodels/EstablishmentsViewModel';
 import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
+import { ProfileViewModel } from './viewmodels/ProfileViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
 import { AddPublicationView } from './views/addPublication/AddPublicationView';
 import { EstablishmentsView } from './views/establishments/EstablishmentsView';
 import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
+import { ProfileView } from './views/profile/ProfileView';
 import { RecoveryView } from './views/recovery/RecoveryView';
 import { SignUpView } from './views/signup/SignUpView';
 
@@ -70,6 +72,7 @@ const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 const AddPublicationScreen = () => <AddPublicationView vm={new AddPublicationViewModel()} />
 const EstablishmentsScreen = () => <EstablishmentsView vm={new EstablishmentsViewModel()} />
+const ProfileScreen = () => <ProfileView vm={new ProfileViewModel()} />
 
 const Stack = createStackNavigator();
 
@@ -286,6 +289,11 @@ function App(): JSX.Element {
                                     <Stack.Screen
                                         name={ROUTES.ESTABLISHMENTS}
                                         component={EstablishmentsScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.PROFILE}
+                                        component={ProfileScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

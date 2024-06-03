@@ -2,6 +2,7 @@
 import { Image, View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Title } from 'react-native-paper';
 import { SIZES } from '../../config/Sizes';
 import { commonStyles, stylesRicyclerList } from '../../config/Styles';
@@ -11,21 +12,25 @@ import { publicationStyles } from './PublicationStyles';
 export interface PublicationProps {
     colorScheme: any
     publication: PublicationData
+    styles?: any
+    onPressIcon?: () => void
 }
 
 export default function Publication(props: PublicationProps) {
     const color = props.colorScheme
 
     return <>
-        <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, { height: (props.publication.comment !== undefined && props.publication.comment !== '') ? 350 : 320, backgroundColor: color.background, borderColor: color.shadowToolbar }]}>
+        <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, props.styles, { height: (props.publication.comment !== undefined && props.publication.comment !== '') ? 350 : 320, backgroundColor: color.background, borderColor: color.shadowToolbar }]}>
             <Card.Content>
                 <View style={[publicationStyles.titleContainer, { borderColor: color.shadowToolbar }]}>
-                    <Image size={10} borderRadius={100} source={{ uri: props.publication.user.photo }} alt={props.publication.user.username ?? ''} />
-                    <Title style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}>{props.publication.establishment.name}</Title>
+                    <TouchableOpacity onPress={props.onPressIcon}>
+                        <Image size={10} borderRadius={100} source={{ uri: props.publication.user!.photo }} alt={props.publication.user!.username ?? ''} />
+                    </TouchableOpacity>
+                    <Title style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}>{props.publication.establishment!.name}</Title>
                 </View>
                 <View style={publicationStyles.card}>
                     <View style={{ height: 200, width: 150 }}>
-                        <Image size={200} borderRadius={5} source={{ uri: props.publication.photo }} alt={props.publication.establishment.name} />
+                        <Image size={200} borderRadius={5} source={{ uri: props.publication.photo }} alt={props.publication.establishment!.name} />
                     </View>
                     <View style={publicationStyles.productsContainer}>
                         {props.publication.products!.map(product => {

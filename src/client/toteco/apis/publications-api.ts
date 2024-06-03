@@ -153,10 +153,10 @@ export const PublicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getsByEstablishmentId: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getByEstablishmentId: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id', 'Required parameter id was null or undefined when calling getsByEstablishmentId.');
+                throw new RequiredError('id', 'Required parameter id was null or undefined when calling getByEstablishmentId.');
             }
             const localVarPath = `/publications/establishment/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -201,10 +201,10 @@ export const PublicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getsByUserId: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getByUserId: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id', 'Required parameter id was null or undefined when calling getsByUserId.');
+                throw new RequiredError('id', 'Required parameter id was null or undefined when calling getByUserId.');
             }
             const localVarPath = `/publications/user/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
@@ -389,8 +389,8 @@ export const PublicationsApiFp = function (configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getsByEstablishmentId(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Publication>>>> {
-            const localVarAxiosArgs = await PublicationsApiAxiosParamCreator(configuration).getsByEstablishmentId(id, options);
+        async getByEstablishmentId(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Publication>>>> {
+            const localVarAxiosArgs = await PublicationsApiAxiosParamCreator(configuration).getByEstablishmentId(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
                 return axios.request(axiosRequestArgs);
@@ -402,8 +402,8 @@ export const PublicationsApiFp = function (configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getsByUserId(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Publication>>>> {
-            const localVarAxiosArgs = await PublicationsApiAxiosParamCreator(configuration).getsByUserId(id, options);
+        async getByUserId(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<Publication>>>> {
+            const localVarAxiosArgs = await PublicationsApiAxiosParamCreator(configuration).getByUserId(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
                 return axios.request(axiosRequestArgs);
@@ -475,8 +475,8 @@ export const PublicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getsByEstablishmentId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
-            return PublicationsApiFp(configuration).getsByEstablishmentId(id, options).then((request) => request(axios, basePath));
+        async getByEstablishmentId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
+            return PublicationsApiFp(configuration).getByEstablishmentId(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Get publications by user ID
@@ -484,8 +484,8 @@ export const PublicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getsByUserId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
-            return PublicationsApiFp(configuration).getsByUserId(id, options).then((request) => request(axios, basePath));
+        async getByUserId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
+            return PublicationsApiFp(configuration).getByUserId(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Create new publication
@@ -550,8 +550,8 @@ export class PublicationsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PublicationsApi
      */
-    public async getsByEstablishmentId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
-        return PublicationsApiFp(this.configuration).getsByEstablishmentId(id, options).then((request) => request(this.axios, this.basePath));
+    public async getByEstablishmentId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
+        return PublicationsApiFp(this.configuration).getByEstablishmentId(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * Get publications by user ID
@@ -560,8 +560,8 @@ export class PublicationsApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof PublicationsApi
      */
-    public async getsByUserId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
-        return PublicationsApiFp(this.configuration).getsByUserId(id, options).then((request) => request(this.axios, this.basePath));
+    public async getByUserId(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Array<Publication>>> {
+        return PublicationsApiFp(this.configuration).getByUserId(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * Create new publication

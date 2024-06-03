@@ -5,8 +5,8 @@ import { PublicationData, PublicationDataDTO } from "../../model/toteco/Publicat
 
 export interface IPublicationsApi extends IGlobalRepository<PublicationData, PublicationDataDTO> {
 
-    getByEstablishment(id: string): Promise<AxiosResponse<PublicationData[]>>
+    getByEstablishmentId(id: string): Promise<AxiosResponse<PublicationData[]>>
 
-    getByUser(id: string): Promise<AxiosResponse<PublicationData[]>>
+    getByUserId(id: string): Promise<AxiosResponse<PublicationData[]>>
 
 }

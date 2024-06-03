@@ -158,17 +158,17 @@ export const EstablishmentsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * Get by name
-         * @param {string} name 
+         * @param {string} mapsId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getByName: async (name: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'name' is not null or undefined
-            if (name === null || name === undefined) {
-                throw new RequiredError('name', 'Required parameter name was null or undefined when calling getByName.');
+        getByMapsId: async (mapsId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'mapsId' is not null or undefined
+            if (mapsId === null || mapsId === undefined) {
+                throw new RequiredError('mapsId', 'Required parameter mapsId was null or undefined when calling getByMapsId.');
             }
-            const localVarPath = `/establishments/name/{name}`
-                .replace(`{${"name"}}`, encodeURIComponent(String(name)));
+            const localVarPath = `/establishments/mapsId/{mapsId}`
+                .replace(`{${"mapsId"}}`, encodeURIComponent(String(mapsId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -205,18 +205,18 @@ export const EstablishmentsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * Get by maps ID
-         * @param {string} mapsId 
+         * Get by name
+         * @param {string} name 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getByMapsId: async (mapsId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getByName: async (name: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'name' is not null or undefined
-            if (mapsId === null || mapsId === undefined) {
-                throw new RequiredError('mapsId', 'Required parameter mapsId was null or undefined when calling getByMapsId.');
+            if (name === null || name === undefined) {
+                throw new RequiredError('name', 'Required parameter name was null or undefined when calling getByName.');
             }
-            const localVarPath = `/establishments/mapsId/{mapsId}`
-                .replace(`{${"mapsId"}}`, encodeURIComponent(String(mapsId)));
+            const localVarPath = `/establishments/name/{name}`
+                .replace(`{${"name"}}`, encodeURIComponent(String(name)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -305,7 +305,7 @@ export const EstablishmentsApiAxiosParamCreator = function (configuration?: Conf
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update: async (body?: Establishment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateEstablishment: async (body?: Establishment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/establishments`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -394,25 +394,25 @@ export const EstablishmentsApiFp = function (configuration?: Configuration) {
         },
         /**
          * Get by name
-         * @param {string} name 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getByName(name: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Establishment>>> {
-            const localVarAxiosArgs = await EstablishmentsApiAxiosParamCreator(configuration).getByName(name, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * Get by maps ID
          * @param {string} mapsId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Establishment>>> {
             const localVarAxiosArgs = await EstablishmentsApiAxiosParamCreator(configuration).getByMapsId(mapsId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * Get by name
+         * @param {string} name 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByName(name: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Establishment>>> {
+            const localVarAxiosArgs = await EstablishmentsApiAxiosParamCreator(configuration).getByName(name, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = { ...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url };
                 return axios.request(axiosRequestArgs);
@@ -480,21 +480,21 @@ export const EstablishmentsApiFactory = function (configuration?: Configuration,
         },
         /**
          * Get by name
+         * @param {string} mapsId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
+            return EstablishmentsApiFp(configuration).getByMapsId(mapsId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Get by name
          * @param {string} name 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async getByName(name: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
             return EstablishmentsApiFp(configuration).getByName(name, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get by maps ID
-         * @param {string} mapsId
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
-            return EstablishmentsApiFp(configuration).getByMapsId(mapsId, options).then((request) => request(axios, basePath));
         },
         /**
          * Create new establishment
@@ -554,16 +554,6 @@ export class EstablishmentsApi extends BaseAPI {
     }
     /**
      * Get by name
-     * @param {string} name 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof EstablishmentsApi
-     */
-    public async getByName(name: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
-        return EstablishmentsApiFp(this.configuration).getByName(name, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * Get by maps ID
      * @param {string} mapsId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -571,6 +561,16 @@ export class EstablishmentsApi extends BaseAPI {
      */
     public async getByMapsId(mapsId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
         return EstablishmentsApiFp(this.configuration).getByMapsId(mapsId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * Get by name
+     * @param {string} name 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EstablishmentsApi
+     */
+    public async getByName(name: string, options?: AxiosRequestConfig): Promise<AxiosResponse<Establishment>> {
+        return EstablishmentsApiFp(this.configuration).getByName(name, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * Create new establishment

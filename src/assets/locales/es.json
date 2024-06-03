@@ -89,5 +89,9 @@
     "add_establishment.error.score_error": "Error de puntuación",
     "add_establishment.error.no_establishment": "Ningún establecimiento seleccionado",
 
-    "establishments.title": "Establecimientos"
+    "establishments.title": "Establecimientos",
+
+    "profile.title": "Perfil",
+    "profile.money_spent": "Gastado",
+    "profile.total_publications": "Publicaciones"
 }

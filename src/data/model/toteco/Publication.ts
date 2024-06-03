@@ -13,8 +13,8 @@ export class PublicationData implements Publication {
         public totalScore: number,
         public photo: string,
         public comment: string,
-        public establishment: EstablishmentData,
-        public user: UserData,
+        public establishment?: EstablishmentData,
+        public user?: UserData,
         public updated?: number
     ) {
         this.id = id

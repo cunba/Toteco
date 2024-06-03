@@ -88,5 +88,9 @@
     "add_establishment.error.score_error": "Score error",
     "add_establishment.error.no_establishment": "No establishment selected",
 
-    "establishments.title": "Establishments"
+    "establishments.title": "Establishments",
+    
+    "profile.title": "Profile",
+    "profile.money_spent": "Spent",
+    "profile.total_publications": "Publications"
 }
