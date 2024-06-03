@@ -39,8 +39,6 @@ export const showEstablishmentModalStyles = StyleSheet.create({
         borderTopWidth: 1,
     },
     productItems: {
-        marginBottom: 20,
-        marginTop: 20,
         gap: 10
     }
 })

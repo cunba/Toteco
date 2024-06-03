@@ -5,16 +5,21 @@ import { Location } from "react-native-location";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { geolocation } from "../../App";
+import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { commonStyles, formStyles } from "../../config/Styles";
+import { EstablishmentData } from "../../data/model/toteco/Establishment";
 import i18n from "../../infrastructure/localization/i18n";
 import { back } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { EstablishmentsViewModel } from "../../viewmodels/EstablishmentsViewModel";
 import { mapStyle } from "../mapStyle";
+import { ShowEstablishmentModal, ShowEstablishmentModalProps } from "./components/ShowEstablishmentModal";
 
 export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
+    const [showEstablishment, setShowEstablishment] = useState(false)
+    const [establishmentSelected, setEstablishmentSelected] = useState<EstablishmentData>(new EstablishmentData('', '', 0, '', false, false, '', 0, 0, []))
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
@@ -30,6 +35,14 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
 
     const location: Location = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
 
+    const showEstablishmentOptions: ShowEstablishmentModalProps = {
+        colorScheme: COLORS,
+        animationType: AnimationType.FADE,
+        visible: showEstablishment,
+        establishment: establishmentSelected!,
+        publications: establishmentSelected!.publications!,
+        onRequestClose: () => setShowEstablishment(false)
+    }
 
     return (
         <>
@@ -63,6 +76,7 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                                         title={establishment.name}
                                         coordinate={JSON.parse(establishment.location)}
                                         pinColor={COLORS.touchable}
+                                        onPress={() => { console.log(establishment); setEstablishmentSelected(establishment); setShowEstablishment(true) }}
                                     />
                                 })
                                 :
@@ -71,6 +85,7 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                         </MapView>
                     </View>
                 </View>
+                <ShowEstablishmentModal {...showEstablishmentOptions} />
             </NativeBaseProvider>
         </>
     )
