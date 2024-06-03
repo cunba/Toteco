@@ -53,8 +53,7 @@ export const productModalStyles = StyleSheet.create({
     productItems: {
         marginBottom: 20,
         marginTop: 20,
-        gap: 10,
-        flex: 1
+        gap: 10
     },
     textButton: {
         textAlign: 'center',

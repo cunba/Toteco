@@ -47,7 +47,7 @@
     "recovery.repeat_password": "Repeat password",
 
     "add_publication.title": "Add publication",
-    "add_publication.establishment.label": "Select establishment",
+    "add_publication.establishment.label": "Add establishment",
     "add_publication.establishment.score": "Establishment score",
     "add_publication.product.label": "Add product",
     "add_publication.total_score": "Total score: ",
@@ -58,13 +58,22 @@
     "add_publication.alert.gallery": "Take from the gallery",
     "add_publication.alert.cancel": "Cancel",
     "add_publication.no_products": "None products",
+    "add_publication.comment": "Comment",
+    "add_publication.error.no_establishment": "No establishment selected",
+    "add_publication.error.no_products": "No products added",
+    "add_publication.error.no_photo": "No image provided",
+    "add_publication.error.score_error": "Score must be over 0",
+    "add_publication.error.price_error": "Price must be over 0",
 
     "add_product.title": "Add product",
     "add_product.in_menu": "It is a product from a menu",
     "add_product.name": "Name",
     "add_product.score": "Score out of 5",
     "add_product.price": "Price",
-
+    "add_product.error.no_name": "No name provided",
+    "add_product.error.no_score": "Score error",
+    "add_product.error.no_price": "Price error",
+    
     "edit_product.title": "Edit product",
     "edit_product.in_menu": "Is a product from a menu",
     "edit_product.name": "Name",
@@ -74,7 +83,9 @@
     "add_establishment.title": "Add establishment",
     "add_establishment.is_computer_allowed": "Is computer allowed?",
     "add_establishment.name": "Name",
-    "add_establishment.score": "Score",
+    "add_establishment.score": "Score out of 5",
+    "add_establishment.error.score_error": "Score error",
+    "add_establishment.error.no_establishment": "No establishment selected",
 
     "establishments.title": "Establishments"
 }

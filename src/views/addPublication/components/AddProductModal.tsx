@@ -14,6 +14,8 @@ export interface AddProductModalProps {
     colorScheme: any
     animationType: AnimationType
     visible: boolean
+    errorMessage: string
+    hideErrorMessage: boolean
     onPressOk?: () => void
     onRequestClose: () => void
     onNameChange: (name: string) => void
@@ -66,6 +68,13 @@ export const AddProductModal = (props: AddProductModalProps) => {
                         inputMode="numeric"
                     />
                 </View>
+                {!props.hideErrorMessage ? (
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ marginBottom: 5, color: 'red' }}>
+                            {props.errorMessage}
+                        </Text>
+                    </View>
+                ) : null}
                 <View style={productModalStyles.containerOkCancel}>
                     <TouchableOpacity
                         style={{

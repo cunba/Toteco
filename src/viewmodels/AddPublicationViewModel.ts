@@ -4,10 +4,14 @@ import { geolocation } from "../App";
 import { LocationData, PlaceDetailsData } from "../data/model/places/PlaceDetails";
 import { CircleData, LocationRestrictionData, SearchNearbyRequestData } from "../data/model/places/SearchNearbyRequest";
 import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
-import { MenuDataDTO } from "../data/model/toteco/Menu";
+import { MenuData, MenuDataDTO } from "../data/model/toteco/Menu";
 import { ProductDataDTO } from "../data/model/toteco/Product";
 import { PublicationDataDTO } from "../data/model/toteco/Publication";
 import { SearchNearbyRepository } from "../data/repositories/places/impl/SearchNearbyRepository";
+import { EstablishmentsRepository } from "../data/repositories/toteco/impl/EstablishmentsRepository";
+import { MenusRepository } from "../data/repositories/toteco/impl/MenusRepository";
+import { ProductsRepository } from "../data/repositories/toteco/impl/ProductsRepository";
+import { PublicationsRepository } from "../data/repositories/toteco/impl/PublicationsRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
@@ -75,9 +79,7 @@ export class AddPublicationViewModel {
 
     addProduct(product: ProductDataDTO) {
         product.inMenu = product.inMenu ?? false
-        console.log(product)
         this.products.push(product)
-        console.log(this.products)
         this.setTotalScore()
         this.setTotalPrice()
     }
@@ -94,8 +96,19 @@ export class AddPublicationViewModel {
         this.setTotalPrice()
     }
 
-    addEstablishment(establishment: EstablishmentDataDTO) {
-        this.newEstablishment = establishment
+    async addEstablishment(establishment: EstablishmentDataDTO) {
+        establishment.isComputerAllowed = establishment.isComputerAllowed ?? false
+        const existEstablishment = await new EstablishmentsRepository().getByMapsId(establishment.mapsId)
+        console.log(existEstablishment)
+        if (existEstablishment!.length > 0)
+            this.establishment = existEstablishment![0]
+        else
+            this.newEstablishment = establishment
+        this.setTotalScore()
+    }
+
+    setPlaceSelected(place: PlaceDetailsData) {
+        this.placeSelected = place
     }
 
     async renderEstablishments(region: any) {
@@ -104,8 +117,9 @@ export class AddPublicationViewModel {
         const locationRestriction = new LocationRestrictionData(circle)
         const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
         const response: PlaceDetailsData[] = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
-        response.filter((value, index) => { if (this.placesNearby.includes(value)) response.splice(index, 1) })
-        this.placesNearby.push(...response)
+        const newPlaces: PlaceDetailsData[] = []
+        response.map(place => { if (!this.placesNearby.some(value => value.id === place.id)) newPlaces.push(place) })
+        this.placesNearby.push(...newPlaces)
     }
 
     async getPlacesNearby() {
@@ -117,44 +131,122 @@ export class AddPublicationViewModel {
         this.placesNearby = response
     }
 
+    async createPublication() {
+        let establishmentId
+        if (this.newEstablishment) {
+            const establishmentExists = await new EstablishmentsRepository().getByMapsId(this.placeSelected?.id!)
+            if (establishmentExists instanceof Array && establishmentExists.length < 0) {
+                establishmentId = establishmentExists[0].id
+            } else {
+                const newEstablishment = await this.createEstablihment()
+                establishmentId = newEstablishment?.id
+            }
+        } else if (this.establishment === undefined)
+            return false
+        else
+            establishmentId = this.establishment.id
+
+        let menus: MenuData[] = []
+        if (this.menus.length > 0)
+            menus = this.createMenus()
+
+        const user = await SessionStoreFactory.getSessionStore().getUser()
+
+        const newPublication = new PublicationDataDTO(
+            this.totalPrice,
+            this.totalScore,
+            this.comment,
+            establishmentId!,
+            user!.id,
+            this.image
+        )
+
+        const publication = await new PublicationsRepository().save(newPublication)
+
+        if (this.products.length > 0)
+            if (menus.length > 0)
+                this.createProducts(publication!.id, menus[0].id)
+            else
+                this.createProducts(publication!.id)
+    }
+
+    async createEstablihment() {
+        this.newEstablishment!.location = `{latitude: ${this.placeSelected?.location.latitude}, longitude: ${this.placeSelected?.location.longitude}}`
+        const establishment = await new EstablishmentsRepository().save(this.newEstablishment!)
+        return establishment
+    }
+
+    createMenus() {
+        const menus: MenuData[] = []
+        this.menus.map(async menu => {
+            const newMenu = await new MenusRepository().save(menu)
+            if (newMenu !== undefined)
+                menus.push(newMenu)
+        })
+
+        return menus
+    }
+
+    createProducts(publicationId: string, menuId?: string) {
+        this.products.map(async product => {
+            if (product.inMenu) product.menuId = menuId
+            product.publicationId = publicationId
+            await new ProductsRepository().save(product)
+        })
+    }
+
+    setComment(comment: string) {
+        this.comment = comment
+    }
+
     isProductsValid() {
-        if (this.products) {
+        if (this.products)
             return this.products.length > 0
-        }
-        else { return false }
+        else
+            return false
     }
 
     isEstablishmentValid() {
-        if (this.establishment) {
+        if (this.establishment || this.newEstablishment)
             return true
-        }
-        else { return false }
+        else
+            return false
     }
 
     isTotalPriceValid() {
-        if (this.totalPrice) {
-            return this.totalPrice > 0
-        }
-        else { return false }
+        if (this.totalPrice)
+            return this.totalPrice >= 0
+        else
+            return false
     }
 
     isTotalScoreValid() {
-        if (this.totalScore) {
+        if (this.totalScore)
+            return this.totalScore >= 0
+        else
+            return false
+    }
+
+    isPhotoValid() {
+        if (this.image) {
             return true
+        } else {
+            return false
         }
-        else { return false }
     }
 
     isValid() {
 
         return (
-            this.isProductsValid() === true
+            this.isProductsValid()
             &&
-            this.isEstablishmentValid() === true
+            this.isEstablishmentValid()
             &&
-            this.isTotalPriceValid() === true
+            this.isTotalPriceValid()
             &&
-            this.isTotalScoreValid() === true
+            this.isTotalScoreValid()
+            &&
+            this.isPhotoValid()
         )
     }
 }

@@ -48,9 +48,9 @@
     "recovery.repeat_password": "Repite contraseña",
 
     "add_publication.title": "Añadir publicación",
-    "add_publication.establishment.label": "Selecciona establecimiento",
+    "add_publication.establishment.label": "Establecimiento",
     "add_publication.establishment.score": "Puntuación del establecimiento",
-    "add_publication.product.label": "Añadir producto",
+    "add_publication.product.label": "Producto",
     "add_publication.total_score": "Puntuación total: ",
     "add_publication.total_price": "Precio total: ",
     "add_publication.total.label": "Total",
@@ -59,12 +59,21 @@
     "add_publication.alert.gallery": "Elegir de la galería",
     "add_publication.alert.cancel": "Cancelar",
     "add_Publication.no_products": "No hay productos",
+    "add_publication.comment": "Comentario",
+    "add_publication.error.no_establishment": "Ningún establecimiento seleccionado",
+    "add_publication.error.no_products": "No hay productos añadidos",
+    "add_publication.error.no_photo": "Ninguna foto adjunta",
+    "add_publication.error.score_error": "La puntuación tiene que ser mayor que 0",
+    "add_publication.error.price_error": "El precio debe ser mayor que 0",
 
     "add_product.title": "Añadir producto",
     "add_product.in_menu": "Es un producto de un menú",
     "add_product.name": "Nombre",
     "add_product.score": "Puntuación sobre 5",
     "add_product.price": "Precio",
+    "add_product.error.no_name": "Falta el nombre",
+    "add_product.error.no_score": "Error en la puntuación",
+    "add_product.error.no_price": "Error en el precio",
 
     "edit_product.title": "Editar producto",
     "edit_product.in_menu": "Es un producto de un menú",
@@ -73,9 +82,11 @@
     "edit_product.price": "Precio",
 
     "add_establishment.title": "Añadir establecimiento",
-    "add_establishment.is_computer_allowed": "¿Se permiten deispositivos electrónicos?",
+    "add_establishment.is_computer_allowed": "¿Se permite ordenador?",
     "add_establishment.name": "Nombre",
-    "add_establishment.score": "Puntuación",
+    "add_establishment.score": "Puntuación sobre 5",
+    "add_establishment.error.score_error": "Error de puntuación",
+    "add_establishment.error.no_establishment": "Ningún establecimiento seleccionado",
 
     "establishments.title": "Establecimientos"
 }

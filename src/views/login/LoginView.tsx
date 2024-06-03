@@ -42,7 +42,6 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
             setHideErrorMessage(false);
             setShowSpinner(false)
         }
-
     }
 
     const verifyInput = () => {

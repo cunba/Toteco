@@ -54,28 +54,28 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
                         {vm.user?.photo === '' ?
-                            <Image size={8} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
                             :
-                            <Image size={8} borderRadius={100} source={{ uri: vm.user?.photo }} alt="Alternate Text" />
+                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.photo }} alt="Alternate Text" />
                         }
                     </View>
                 ),
                 title: 'profile',
                 color: COLORS.touchable,
                 onPress: () => console.log('profile')
-                // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
+                // onPress: () => navigate(ROUTES.PROFILE, null)
             },
-            {
-                icon: (
-                    <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        <Ionicons name='settings-outline' size={SIZES.icons} color={COLORS.text_touchable} />
-                    </View>
-                ),
-                title: 'settings',
-                onPress: () => console.log('entra a settings'),
-                color: COLORS.touchable
-                // onPress: () => navigate(ROUTES.ESTABLISHMENTS, null)
-            },
+            // {
+            //     icon: (
+            //         <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
+            //             <Ionicons name='settings-outline' size={SIZES.icons} color={COLORS.text_touchable} />
+            //         </View>
+            //     ),
+            //     title: 'settings',
+            //     onPress: () => console.log('entra a settings'),
+            //     color: COLORS.touchable
+            //     // onPress: () => navigate(ROUTES.SETTINGS, null)
+            // },
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>

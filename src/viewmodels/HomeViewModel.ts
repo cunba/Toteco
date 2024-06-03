@@ -1,10 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { UserDTO } from "../client/toteco";
+import { UserData } from "../data/model/toteco/User";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class HomeViewModel {
 
-    user?: UserDTO
+    user?: UserData | undefined | null
 
     constructor() {
         makeAutoObservable(this)
@@ -12,6 +12,6 @@ export class HomeViewModel {
     }
 
     async getUser() {
-        // this.user = await SessionStoreFactory.getSessionStore().getUser()
+        this.user = await SessionStoreFactory.getSessionStore().getUser()
     }
 }

@@ -5,13 +5,12 @@ export const APP = 'Toteco'
 export enum ROUTES {
     LOGIN = 'Login',
     HOME = 'Home',
-    DRAWER = 'Drawer',
+    // DRAWER = 'Drawer',
     RECOVERY = 'Recovery',
     SIGN_UP = 'Sign up',
     ESTABLISHMENTS = 'Establishments',
     ADD_PUBLICATION = 'Add publication',
-    ADD_ESTABLISHMENT = 'Add establishment',
-    ADD_PRODUCT = 'Add product'
+    PROFILE = 'Profile'
 }
 
 export const PLATFORM = Platform.OS

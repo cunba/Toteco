@@ -19,6 +19,9 @@ export interface AddEstablishmentModalProps {
     visible: boolean
     location: Location
     places: PlaceDetailsData[]
+    name: string
+    errorMessage: string
+    hideErrorMessage: boolean
     onPressOk?: () => void
     onRequestClose: () => void
     onNameChange: (name: string) => void
@@ -30,7 +33,6 @@ export interface AddEstablishmentModalProps {
 
 export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
     const color = props.colorScheme
-    let name
 
     return (
         <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
@@ -52,6 +54,8 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                         placeholder={i18n.t('add_establishment.name').toString()}
                         onChangeText={(name) => props.onNameChange(name)}
                         borderRadius={10}
+                        defaultValue={props.name}
+                        editable={false}
                     />
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}
@@ -63,6 +67,13 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                         keyboardType="number-pad"
                     />
                 </View>
+                {!props.hideErrorMessage ? (
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ marginBottom: 5, color: 'red' }}>
+                            {props.errorMessage}
+                        </Text>
+                    </View>
+                ) : null}
                 <MapView
                     initialRegion={{
                         latitude: props.location.latitude!,

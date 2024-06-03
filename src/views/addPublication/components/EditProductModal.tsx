@@ -20,6 +20,8 @@ export interface EditProductModalProps {
     name?: string
     price?: number
     score?: number
+    hideErrorMessage: boolean
+    errorMessage: string
     onNameChange: (name: string) => void
     onPriceChange: (price: number) => void
     onScoreChange: (score: number) => void
@@ -74,6 +76,13 @@ export const EditProductModal = (props: EditProductModalProps) => {
                         defaultValue={props.price?.toString()}
                     />
                 </View>
+                {!props.hideErrorMessage ? (
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ marginBottom: 5, color: 'red' }}>
+                            {props.errorMessage}
+                        </Text>
+                    </View>
+                ) : null}
                 <View style={productModalStyles.containerOkCancel}>
                     <TouchableOpacity
                         style={{

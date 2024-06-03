@@ -10,6 +10,22 @@ export const addPublicationStyles = StyleSheet.create({
         paddingTop: 20,
         marginBottom: 20
     },
+    buttonsContainer: {
+        flexDirection: 'row',
+        height: 'auto',
+        width: '90%',
+        justifyContent: 'center',
+        alignContent: 'space-around',
+        marginBottom: 20
+    },
+    establishmentContainer: {
+        flexDirection: 'row',
+        height: 'auto',
+        width: '90%',
+        justifyContent: 'flex-start',
+        alignContent: 'space-around',
+        paddingTop: 20,
+    },
     totalContainer: {
         flexDirection: 'column',
         justifyContent: 'center',
