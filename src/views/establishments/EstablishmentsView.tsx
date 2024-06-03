@@ -76,7 +76,7 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                                         title={establishment.name}
                                         coordinate={JSON.parse(establishment.location)}
                                         pinColor={COLORS.touchable}
-                                        onPress={() => { console.log(establishment); setEstablishmentSelected(establishment); setShowEstablishment(true) }}
+                                        onPress={() => { setEstablishmentSelected(establishment); setShowEstablishment(true) }}
                                     />
                                 })
                                 :

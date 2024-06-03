@@ -17,7 +17,7 @@ export default function Publication(props: PublicationProps) {
     const color = props.colorScheme
 
     return <>
-        <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, { height: 320, backgroundColor: color.background, borderColor: color.shadowToolbar }]}>
+        <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, { height: (props.publication.comment !== undefined && props.publication.comment !== '') ? 350 : 320, backgroundColor: color.background, borderColor: color.shadowToolbar }]}>
             <Card.Content>
                 <View style={[publicationStyles.titleContainer, { borderColor: color.shadowToolbar }]}>
                     <Image size={10} borderRadius={100} source={{ uri: props.publication.user.photo }} alt={props.publication.user.username ?? ''} />
@@ -35,6 +35,10 @@ export default function Publication(props: PublicationProps) {
                         })}
                     </View>
                 </View>
+                {(props.publication.comment !== undefined && props.publication.comment !== '') ?
+                    <Text style={{ paddingVertical: 10, fontSize: SIZES.text, color: color.text }}>{props.publication.comment}</Text>
+                    : null
+                }
                 <View style={[publicationStyles.totalContainer, { borderColor: color.shadowToolbar }]}>
                     <Text style={[commonStyles.text, { color: color.text }]}>{`PRICE: ${props.publication.totalPrice} €`}</Text>
                     <Text style={[commonStyles.text, { color: color.text }]}>{`SCORE: ${props.publication.totalScore} ☆`}</Text>
