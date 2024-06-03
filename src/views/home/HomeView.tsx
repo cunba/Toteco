@@ -1,16 +1,18 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
-import { Appearance, ScrollView, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Appearance, Dimensions, ScrollView, Text, View } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { AuthContext } from "../../App";
 import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/MultiLevelFabButton";
+import Publication, { PublicationProps } from "../../components/Publication/Publication";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
-import { commonStyles } from "../../config/Styles";
+import { commonStyles, stylesRicyclerList } from "../../config/Styles";
+import { PublicationData } from "../../data/model/toteco/Publication";
 import i18n from "../../infrastructure/localization/i18n";
 import { navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -19,11 +21,37 @@ import { homeStyles } from "./HomeStyles";
 
 export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     const [open, setOpen] = useState(false)
+    const [scroll, setScroll] = useState<any>()
+    const [refresh, setRefresh] = useState(false)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
+
+    useEffect(() => { vm.getPublications(); setRefresh(true); }, [])
+
+    useEffect(() => { setRefresh(false) }, [refresh])
+
+    const [dataSource, setDataSource] = useState(
+        new DataProvider((r1, r2) => {
+            return r1 !== r2;
+        })
+    )
+
+    const getDataSource = (): DataProvider => {
+        return dataSource.cloneWithRows(vm.publications!)
+    }
+
+    const layoutProvider = new LayoutProvider(
+        index => {
+            return 0
+        },
+        (type, dim) => {
+            dim.height = 350
+            dim.width = Dimensions.get('window').width
+        },
+    )
 
     const { signOut } = React.useContext(AuthContext)
 
@@ -54,9 +82,9 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
                         {vm.user?.photo === '' ?
-                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Alternate Text" />
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={vm.user.username ?? ''} />
                             :
-                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.photo }} alt="Alternate Text" />
+                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
                         }
                     </View>
                 ),
@@ -89,6 +117,15 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
         ]
     };
 
+    const rowRender = (type: any, publication: PublicationData, index: number) => {
+        console.log(publication)
+        const props: PublicationProps = {
+            colorScheme: COLORS,
+            publication: publication
+        }
+        return (<Publication {...props} />)
+    }
+
     return (
         <>
             <NativeBaseProvider>
@@ -96,6 +133,17 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                     <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
                         <Text style={[commonStyles.title, { color: COLORS.touchable }]}>{i18n.t('app_name').toUpperCase()}</Text>
                     </View>
+                    {vm.publications!.length > 0 ?
+                        <RecyclerListView
+                            ref={(c) => { setScroll(c) }}
+                            showsVerticalScrollIndicator={false}
+                            style={stylesRicyclerList.recyclerListView}
+                            layoutProvider={layoutProvider}
+                            dataProvider={getDataSource()}
+                            rowRenderer={rowRender}
+                        />
+                        : null
+                    }
                 </ScrollView>
                 <MultiLevelFabButton {...options} />
             </NativeBaseProvider>

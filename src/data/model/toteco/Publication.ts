@@ -1,8 +1,11 @@
 import { Publication, PublicationDTO } from "../../../client/toteco";
 import { EstablishmentData } from "./Establishment";
+import { ProductData } from "./Product";
 import { UserData } from "./User";
 
 export class PublicationData implements Publication {
+    products?: ProductData[]
+
     constructor(
         public id: string,
         public created: number,

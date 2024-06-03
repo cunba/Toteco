@@ -4,29 +4,34 @@ export const publicationStyles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         height: 200,
-        width: '90%',
+        width: '100%',
         justifyContent: 'center',
         alignContent: 'space-around',
-        // paddingTop: 20,
-        // marginBottom: 20,
-        borderBottomWidth: 1
+        marginVertical: 10
     },
     productsContainer: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         flex: 3,
-        height: 200
+        height: 200,
+        width: '100%'
     },
     titleSeparator: {
         borderBottomWidth: 1,
-        width: '90%'
+        width: '100%'
     },
     totalContainer: {
         flexDirection: 'row',
-        height: 200,
-        width: '90%',
-        justifyContent: 'center',
-        alignContent: 'space-around'
+        paddingTop: 10,
+        width: '100%',
+        justifyContent: 'space-between',
+        borderTopWidth: 1
+    },
+    titleContainer: { 
+        borderBottomWidth: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        gap: 10
     }
 })

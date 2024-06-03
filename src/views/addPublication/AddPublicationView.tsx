@@ -75,29 +75,26 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     )
 
     const camera = async () => {
-        const result = await launchCamera({
+        await launchCamera({
             mediaType: 'photo',
             cameraType: 'back',
             includeBase64: false,
             saveToPhotos: true
+        }).then(result => {
+            setImageUri(result.assets![0].uri!)
+            vm.setImage(result.assets![0].uri!)
         })
-        if (result.assets) {
-            setImageUri(result.assets[0].uri!)
-            vm.setImage(result.assets[0].uri!)
-        }
-        console.log(result)
     }
 
     const gallery = async () => {
-        const result = await launchImageLibrary({
+        await launchImageLibrary({
             mediaType: 'photo',
             includeBase64: false,
             selectionLimit: 1
-        })
-        if (result.assets) {
+        }).then(result => {
             setImageUri(result.assets![0].uri!)
-            vm.setImage(result.assets[0].uri!)
-        }
+            vm.setImage(result.assets![0].uri!)
+        })
     }
 
     const pickImageAlert = () => {
@@ -363,9 +360,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             </View>
                         </View>
                         <View style={{ flex: 1 }}>
-                            {vm.products.length === 0 ?
-                                <></>
-                                :
+                            {vm.products.length !== 0 ?
                                 <RecyclerListView
                                     ref={(c) => { setScroll(c) }}
                                     showsVerticalScrollIndicator={false}
@@ -374,6 +369,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                                     dataProvider={getDataSource()}
                                     rowRenderer={rowRender}
                                 />
+                                : null
                             }
                         </View>
                         <View style={{ marginBottom: 20 }}>
