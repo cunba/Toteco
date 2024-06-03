@@ -21,9 +21,15 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
 
+    const getEstablishments = async () => {
+        await vm.getEstablishments()
+        setRefresh(true)
+    }
+    useEffect(() => { getEstablishments() }, [])
     useEffect(() => { setRefresh(false) }, [refresh])
 
     const location: Location = geolocation === undefined ? { latitude: 0.0, longitude: 0.0 } as Location : geolocation
+
 
     return (
         <>
@@ -44,23 +50,23 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                                 latitudeDelta: 0.0922,
                                 longitudeDelta: 0.0421,
                             }}
-                            onRegionChange={(region) => { vm.renderEstablishments(region); setRefresh(true) }}
+                            onRegionChange={(region) => { setRefresh(true) }}
                             provider={PROVIDER_GOOGLE}
                             customMapStyle={mapStyle}
                             mapType="standard"
                             style={StyleSheet.absoluteFillObject}
                         >
-                            {vm.placesNearby.length > 0 ?
-                                vm.placesNearby.map(place => {
+                            {vm.establishments!.length > 0 ?
+                                vm.establishments!.map(establishment => {
                                     return <Marker
-                                        key={place.id}
-                                        title={place.displayName.text}
-                                        coordinate={place.location}
-                                    // onPress={() => vm.placeSelected = place}
+                                        key={establishment.id}
+                                        title={establishment.name}
+                                        coordinate={JSON.parse(establishment.location)}
+                                        pinColor={COLORS.touchable}
                                     />
                                 })
                                 :
-                                <></>
+                                null
                             }
                         </MapView>
                     </View>

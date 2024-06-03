@@ -388,10 +388,10 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             />
                         </View>
                         <View style={addPublicationStyles.buttonsContainer}>
-                            <TouchableOpacity onPress={onAddEstablishmentClick} style={[formStyles.button, { width: '45%', marginRight: '5%', backgroundColor: COLORS.background_second }]}>
+                            <TouchableOpacity onPress={onAddEstablishmentClick} style={[formStyles.button, { width: '45%', backgroundColor: COLORS.background_second }]}>
                                 <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.establishment.label')}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[formStyles.button, { width: '45%', marginLeft: '5%', backgroundColor: COLORS.background_second }]} onPress={() => { setAddProduct(!addProduct); close() }}>
+                            <TouchableOpacity style={[formStyles.button, { width: '45%', backgroundColor: COLORS.background_second }]} onPress={() => { setAddProduct(!addProduct); close() }}>
                                 <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.product.label')}</Text>
                             </TouchableOpacity>
                         </View>

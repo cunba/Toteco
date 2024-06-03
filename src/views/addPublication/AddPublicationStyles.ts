@@ -16,7 +16,8 @@ export const addPublicationStyles = StyleSheet.create({
         width: '90%',
         justifyContent: 'center',
         alignContent: 'space-around',
-        marginBottom: 20
+        marginBottom: 20,
+        gap: Dimensions.get('screen').width*0.9*0.1
     },
     establishmentContainer: {
         flexDirection: 'row',
