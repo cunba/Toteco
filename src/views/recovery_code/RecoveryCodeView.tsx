@@ -14,8 +14,6 @@ export const RecoveryCodeView: FunctionalView<RecoveryCodeViewModel> = ({ vm }) 
     const [hideErrorMessage, setHideErrorMessage] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
-    const [showPassword, setShowPassword] = useState(false)
-    const [showRepeatPassword, setShowRepeatPassword] = useState(false)
 
     useEffect(() => { vm.getUser() }, [])
 
@@ -30,10 +28,7 @@ export const RecoveryCodeView: FunctionalView<RecoveryCodeViewModel> = ({ vm }) 
             vm.setNullCode()
             setShowSpinner(false);
             navigate(ROUTES.LOGIN, null)
-            setShowSpinner(false)
-        }
-        else {
-            console.log('entra')
+        } else {
             setErrorMessage(i18n.t('recovery_code.error')!);
             setHideErrorMessage(false);
         }
@@ -68,7 +63,7 @@ export const RecoveryCodeView: FunctionalView<RecoveryCodeViewModel> = ({ vm }) 
                     {showSpinner ?
                         <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
                         :
-                        <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={() => onPressOk} >
+                        <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={onPressOk} >
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('continue')}</Text>
                         </TouchableOpacity>
                     }

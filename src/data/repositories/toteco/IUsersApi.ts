@@ -13,14 +13,16 @@ export interface IUsersApi extends IGlobalRepository<UserData, UserDataDTO> {
 
     getUserLogged(): Promise<AxiosResponse<UserData>>
 
-    activate(id: number): Promise<AxiosResponse<string>>
+    activate(id: string): Promise<AxiosResponse<string>>
 
-    disable(id: number): Promise<AxiosResponse<string>>
+    disable(id: string): Promise<AxiosResponse<string>>
 
-    updateMoneySpent(id: number): Promise<AxiosResponse<string>>
+    updateMoneySpent(id: string): Promise<AxiosResponse<string>>
 
-    updatePassword(id: number): Promise<AxiosResponse<string>>
+    updatePassword(id: string): Promise<AxiosResponse<string>>
 
-    updatePublicationsNumber(id: number): Promise<AxiosResponse<string>>
+    updatePublicationsNumber(id: string): Promise<AxiosResponse<string>>
+
+    updateRecoveryCode(id: string, code: number): Promise<AxiosResponse<string>>
 
 }

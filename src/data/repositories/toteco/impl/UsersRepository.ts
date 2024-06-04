@@ -15,7 +15,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         super(TotecoApi.UsersApi, false)
     }
 
-    async activate(id: number) {
+    async activate(id: string) {
         try {
             const client = await this.apiClient
             const result = await client.activate(id)
@@ -40,7 +40,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async disable(id: number) {
+    async disable(id: string) {
         try {
             const client = await this.apiClient
             const result = await client.disable(id)
@@ -100,7 +100,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async updateMoneySpent(id: number) {
+    async updateMoneySpent(id: string) {
         try {
             const client = await this.apiClient
             const result = await client.updateMoneySpent(id)
@@ -125,7 +125,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async updatePassword(id: number) {
+    async updatePassword(id: string) {
         try {
             const client = await this.apiClient
             const result = await client.updatePassword(id)
@@ -150,7 +150,7 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
         }
     }
 
-    async updatePublicationsNumber(id: number) {
+    async updatePublicationsNumber(id: string) {
         try {
             const client = await this.apiClient
             const result = await client.updatePublicationsNumber(id)
@@ -167,6 +167,31 @@ export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
                     this.updatePublicationsNumber(id)
+                }
+            } else {
+                UsersRepository.tries = 0
+                throw e
+            }
+        }
+    }
+
+    async updateRecoveryCode(id: string, code: number) {
+        try {
+            const client = await this.apiClient
+            const result = await client.updateRecoveryCode(id, code)
+            UsersRepository.tries = 0
+            return result.data
+        } catch (e) {
+            if (UsersRepository.tries < 1) {
+                UsersRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const loginResponse = await new LoginRepository().login(credentials!)
+
+                if (loginResponse instanceof ErrorResponse) {
+                    throw loginResponse
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    this.updateRecoveryCode(id, code)
                 }
             } else {
                 UsersRepository.tries = 0

@@ -26,7 +26,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
     const getUser = async () => {
         await vm.getUser()
         // if (vm.user?.recoveryCode !== null && vm.user?.recoveryCode !== undefined)
-            // navigate(ROUTES.RECOVERY_CODE, null)
+        //     navigate(ROUTES.RECOVERY_CODE, null)
     }
 
     useEffect(() => { getUser() }, [])

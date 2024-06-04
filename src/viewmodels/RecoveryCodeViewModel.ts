@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { UserData } from "../data/model/toteco/User";
-import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepository";
+import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class RecoveryCodeViewModel {
     code?: number
@@ -24,8 +24,8 @@ export class RecoveryCodeViewModel {
         return this.code === this.user?.recoveryCode
     }
 
-    setNullCode() {
-        this.user!.recoveryCode = undefined
-        SessionStoreFactory.getSessionStore().setUser(this.user!)
+    async setNullCode() {
+        SessionStoreFactory.getSessionStore().setUser(undefined)
+        await new UsersRepository().updateRecoveryCode(this.user?.id!, 0)
     }
 }

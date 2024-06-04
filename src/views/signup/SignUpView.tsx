@@ -50,7 +50,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             await signUp(vm.user);
                             setShowSpinner(false);
                             Alert.alert(i18n.t('sign_up.success'))
-                            navigate(ROUTES.LOGIN, null)
+                            navigate(ROUTES.RECOVERY_CODE, null)
                         } catch (w: any) {
                             console.log(w)
                             setErrorMessage(i18n.t('sign_up.error.undefined')!);
