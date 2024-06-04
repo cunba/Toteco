@@ -12,7 +12,6 @@ export class ProfileViewModel {
     constructor() {
         makeAutoObservable(this)
         this.publications = []
-        this.getUser()
     }
 
     async getUser() {

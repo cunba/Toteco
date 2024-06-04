@@ -24,13 +24,17 @@ export default function Publication(props: PublicationProps) {
             <Card.Content>
                 <View style={[publicationStyles.titleContainer, { borderColor: color.shadowToolbar }]}>
                     <TouchableOpacity onPress={props.onPressIcon}>
-                        <Image size={10} borderRadius={100} source={{ uri: props.publication.user!.photo }} alt={props.publication.user!.username ?? ''} />
+                        {props.publication.user?.photo ?
+                            <Image size={10} borderRadius={100} source={{ uri: props.publication.user!.photo }} alt={props.publication.user!.username ?? ''} />
+                            :
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={props.publication.user?.username ?? ''} />
+                        }
                     </TouchableOpacity>
-                    <Title style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}>{props.publication.establishment!.name}</Title>
+                    <Title style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}>{props.publication.establishment?.name ?? ''}</Title>
                 </View>
                 <View style={publicationStyles.card}>
                     <View style={{ height: 200, width: 150 }}>
-                        <Image size={200} borderRadius={5} source={{ uri: props.publication.photo }} alt={props.publication.establishment!.name} />
+                        <Image size={200} borderRadius={5} source={{ uri: props.publication.photo }} alt={props.publication.establishment?.name ?? ''} />
                     </View>
                     <View style={publicationStyles.productsContainer}>
                         {props.publication.products!.map(product => {

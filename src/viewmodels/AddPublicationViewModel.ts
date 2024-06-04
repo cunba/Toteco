@@ -171,7 +171,7 @@ export class AddPublicationViewModel {
     }
 
     async createEstablihment() {
-        this.newEstablishment!.location = `{latitude: ${this.placeSelected?.location.latitude}, longitude: ${this.placeSelected?.location.longitude}}`
+        this.newEstablishment!.location = `{"latitude": ${this.placeSelected?.location.latitude}, "longitude": ${this.placeSelected?.location.longitude}}`
         const establishment = await new EstablishmentsRepository().save(this.newEstablishment!)
         return establishment
     }
