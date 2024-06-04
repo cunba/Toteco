@@ -1,5 +1,6 @@
 import { Checkbox, Input } from "native-base"
 import { Modal, Text, TouchableOpacity, View } from "react-native"
+import { commonStyles } from "../../../config/Styles"
 import i18n from "../../../infrastructure/localization/i18n"
 import { productModalStyles } from "./ProductModalStyles"
 
@@ -40,7 +41,7 @@ export const AddProductModal = (props: AddProductModalProps) => {
                         colorScheme='pink'
                         onChange={(isSelected) => props.onInMenuChange(isSelected)}
                     >
-                        {i18n.t("add_product.in_menu")}
+                        <Text style={[commonStyles.text, { color: color.text }]}>{i18n.t("add_product.in_menu")}</Text>
                     </Checkbox>
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}

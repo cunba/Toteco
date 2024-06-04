@@ -40,5 +40,12 @@ export const showEstablishmentModalStyles = StyleSheet.create({
     },
     productItems: {
         gap: 10
+    },
+    information: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-around',
+        alignContent: 'center',
+        paddingVertical: 10
     }
 })

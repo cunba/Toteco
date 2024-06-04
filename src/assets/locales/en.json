@@ -89,6 +89,7 @@
     "add_establishment.error.no_establishment": "No establishment selected",
 
     "establishments.title": "Establishments",
+    "show_establishment.is_computer_allowed": "Is computer allowed?",
     
     "profile.title": "Profile",
     "profile.money_spent": "Spent",

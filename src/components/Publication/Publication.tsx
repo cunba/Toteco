@@ -20,7 +20,13 @@ export default function Publication(props: PublicationProps) {
     const color = props.colorScheme
 
     return <>
-        <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, props.styles, { height: (props.publication.comment !== undefined && props.publication.comment !== '') ? 350 : 320, backgroundColor: color.background, borderColor: color.shadowToolbar }]}>
+        <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, props.styles, {
+            height: (props.publication.comment !== undefined && props.publication.comment !== '') ? 350 : 320,
+            backgroundColor: color.background,
+            borderColor: color.shadow,
+            shadowColor: color.shadow,
+            borderWidth: 0.2
+        }]}>
             <Card.Content>
                 <View style={[publicationStyles.titleContainer, { borderColor: color.shadowToolbar }]}>
                     <TouchableOpacity onPress={props.onPressIcon}>

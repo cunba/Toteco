@@ -90,6 +90,7 @@
     "add_establishment.error.no_establishment": "Ningún establecimiento seleccionado",
 
     "establishments.title": "Establecimientos",
+    "show_establishment.is_computer_allowed": "¿Se permite ordenador?",
 
     "profile.title": "Perfil",
     "profile.money_spent": "Gastado",

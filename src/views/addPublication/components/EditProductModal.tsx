@@ -2,6 +2,7 @@ import { Checkbox, Input } from "native-base"
 import { Modal, Text, TouchableOpacity, View } from "react-native"
 import i18n from "../../../infrastructure/localization/i18n"
 import { productModalStyles } from "./ProductModalStyles"
+import { commonStyles } from "../../../config/Styles"
 
 
 export enum AnimationType {
@@ -45,7 +46,7 @@ export const EditProductModal = (props: EditProductModalProps) => {
                         onChange={(isSelected) => props.onInMenuChange(isSelected)}
                         defaultIsChecked={props.inMenu}
                     >
-                        {i18n.t("edit_product.in_menu")}
+                        <Text style={[commonStyles.text, {color: color.text}]}>{i18n.t("edit_product.in_menu")}</Text>
                     </Checkbox>
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}

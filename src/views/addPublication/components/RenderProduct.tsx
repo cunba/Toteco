@@ -49,7 +49,7 @@ export const RenderProduct = (props: RenderProductProps) => {
             renderRightActions={(progress, dragX) => renderLeftSwipe(progress, dragX, props)}
             ref={props.swipableRowRef}
         >
-            <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, { backgroundColor: color.background }]}>
+            <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, { backgroundColor: color.background, shadowColor: color.shadow, borderColor: color.shadow, borderWidth: 0.2 }]}>
                 <Card.Content style={addPublicationStyles.card}>
                     <Text style={{ color: color.text, fontSize: SIZES.text }}>{props.product.name + ' (' + Math.round(props.product.price! * 100) / 100 + '€, ' + Math.round(props.product.score! * 10) / 10 + '/5 ☆)'}</Text>
                 </Card.Content>
