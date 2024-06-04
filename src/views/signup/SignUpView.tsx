@@ -97,6 +97,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
             selectionLimit: 1
         })
         if (result.assets) {
+            console.log(result.assets![0].uri)
             setImageUri(result.assets![0].uri!)
             vm.setImage(result.assets[0].uri!)
         }

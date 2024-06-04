@@ -1,5 +1,5 @@
 import { Heading, Icon, Input, NativeBaseProvider, Pressable, Stack } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Appearance, Text, TouchableOpacity, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
@@ -22,6 +22,14 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
+
+    const getUser = async () => {
+        await vm.getUser()
+        // if (vm.user?.recoveryCode !== null && vm.user?.recoveryCode !== undefined)
+            // navigate(ROUTES.RECOVERY_CODE, null)
+    }
+
+    useEffect(() => { getUser() }, [])
 
     const { signIn } = React.useContext(AuthContext)
 
@@ -80,7 +88,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                 setErrorMessage(i18n.t('login.error.default_error')!);
                 break
             case 5:
-                setErrorMessage(i18n.t('login.error.no_serame_no_password')!);
+                setErrorMessage(i18n.t('login.error.no_userame_no_password')!);
         }
     }
 

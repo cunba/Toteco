@@ -28,6 +28,7 @@ import { EstablishmentsViewModel } from './viewmodels/EstablishmentsViewModel';
 import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
 import { ProfileViewModel } from './viewmodels/ProfileViewModel';
+import { RecoveryCodeViewModel } from './viewmodels/RecoveryCodeViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
 import { AddPublicationView } from './views/addPublication/AddPublicationView';
@@ -36,6 +37,7 @@ import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { ProfileView } from './views/profile/ProfileView';
 import { RecoveryView } from './views/recovery/RecoveryView';
+import { RecoveryCodeView } from './views/recovery_code/RecoveryCodeView';
 import { SignUpView } from './views/signup/SignUpView';
 
 // TOTECO API
@@ -68,6 +70,7 @@ let locationSubscription = undefined
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
 const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
+const RecoveryCodeScreen = () => < RecoveryCodeView vm={new RecoveryCodeViewModel()} />
 
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 const AddPublicationScreen = () => <AddPublicationView vm={new AddPublicationViewModel()} />
@@ -168,6 +171,11 @@ function App(): JSX.Element {
                 dispatch({ type: 'RESTORE_TOKEN', token: userToken });
             }
 
+            const user = await SessionStoreFactory.getSessionStore().getUser()
+            if (user !== undefined && user?.recoveryCode !== null && user?.recoveryCode !== undefined) {
+                navigate(ROUTES.RECOVERY_CODE, null)
+            }
+
             if (recoverPassword) {
                 navigate(ROUTES.RECOVERY, null)
             }
@@ -186,7 +194,6 @@ function App(): JSX.Element {
                 const user = await new UsersRepository().getUserLogged()
                 SessionStoreFactory.getSessionStore().setUser(user)
                 dispatch({ type: 'SIGN_IN', token: response.token });
-
             },
             signOut: () => {
                 SessionStoreFactory.getSessionStore().setToken('');
@@ -195,7 +202,8 @@ function App(): JSX.Element {
                 dispatch({ type: 'SIGN_OUT' });
             },
             signUp: async (user: UserDataDTO) => {
-                await new UsersRepository().save(user)
+                const userCreated = await new UsersRepository().save(user)
+                SessionStoreFactory.getSessionStore().setUser(userCreated)
             }
         }),
         [],
@@ -271,6 +279,11 @@ function App(): JSX.Element {
                                     <Stack.Screen
                                         name={ROUTES.RECOVERY}
                                         component={RecoveryScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.RECOVERY_CODE}
+                                        component={RecoveryCodeScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

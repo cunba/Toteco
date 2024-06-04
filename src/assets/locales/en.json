@@ -42,15 +42,19 @@
     "sign_up.alert.camera": "Take picture",
     "sign_up.alert.gallery": "Take from the gallery",
     "sign_up.alert.cancel": "Cancel",
+    
+    "recovery_code.title": "Recovery code",
+    "recovery_code.code.label": "Code",
+    "recovery_code.error": "The code is not correct",
 
     "recovery.code": "Recovery code",
     "recovery.password": "Password",
     "recovery.repeat_password": "Repeat password",
 
     "add_publication.title": "Add publication",
-    "add_publication.establishment.label": "Add establishment",
+    "add_publication.establishment.label": "Establishment",
     "add_publication.establishment.score": "Establishment score",
-    "add_publication.product.label": "Add product",
+    "add_publication.product.label": "Product",
     "add_publication.total_score": "Total score: ",
     "add_publication.total_price": "Total price: ",
     "add_publication.total.label": "Total",
@@ -62,7 +66,7 @@
     "add_publication.comment": "Comment",
     "add_publication.error.no_establishment": "No establishment selected",
     "add_publication.error.no_products": "No products added",
-    "add_publication.error.no_photo": "No image provided",
+    "add_publication.error.no_image": "No image provided",
     "add_publication.error.score_error": "Score must be over 0",
     "add_publication.error.price_error": "Price must be over 0",
 

@@ -43,6 +43,10 @@
     "sign_up.alert.camera": "Tomar foto",
     "sign_up.alert.gallery": "Elegir de la galería",
     "sign_up.alert.cancel": "Cancelar",
+    
+    "recovery_code.title": "Código de recuperación",
+    "recovery_code.code.label": "Código",
+    "recovery_code.error": "El código no es correcto",
 
     "recovery.code": "Código de recuperación",
     "recovery.password": "Contraseña",
@@ -63,7 +67,7 @@
     "add_publication.comment": "Comentario",
     "add_publication.error.no_establishment": "Ningún establecimiento seleccionado",
     "add_publication.error.no_products": "No hay productos añadidos",
-    "add_publication.error.no_photo": "Ninguna foto adjunta",
+    "add_publication.error.no_image": "Ninguna foto adjunta",
     "add_publication.error.score_error": "La puntuación tiene que ser mayor que 0",
     "add_publication.error.price_error": "El precio debe ser mayor que 0",
 
