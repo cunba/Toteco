@@ -144,6 +144,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                 setNewProduct(new ProductDataDTO())
                 setProductErrorMessage('')
                 setHideProductErrorMessage(true)
+                setHideErrorMessage(true)
                 setRefresh(true)
             }
         },
@@ -178,6 +179,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                 setEditProduct(!editProduct)
                 setProductErrorMessage('')
                 setHideProductErrorMessage(true)
+                setHideErrorMessage(true)
                 setRefresh(true)
             }
         },
@@ -251,6 +253,9 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
             } else {
                 vm.addEstablishment(newEstablishment)
                 setAddEstablishment(!addEstablishment)
+                setEstablishmentErrorMessage('')
+                setHideEstablishmentErrorMessage(true)
+                setHideErrorMessage(true)
                 setRefresh(true)
             }
         },
