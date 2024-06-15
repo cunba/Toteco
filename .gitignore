@@ -68,4 +68,4 @@ yarn-error.log
 package-lock.json
 Podfile.lock
 .vscode
-environment.ts
+.env

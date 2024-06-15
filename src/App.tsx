@@ -1,3 +1,5 @@
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import { DrawerContent, createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -62,6 +64,21 @@ if (locale === undefined) {
         locale = "en" // default language
     }
 }
+
+auth()
+    .signInAnonymously()
+    .then(() => {
+        console.log('User signed in anonymously');
+    })
+    .catch(error => {
+        if (error.code === 'auth/operation-not-allowed') {
+            console.log('Enable anonymous in your firebase console.');
+        }
+
+        console.error(error);
+    });
+
+export const firebaseStorage = storage()
 
 export const AuthContext = React.createContext<any>({});
 export let geolocation: Location | undefined = undefined
@@ -202,8 +219,14 @@ function App(): JSX.Element {
                 dispatch({ type: 'SIGN_OUT' });
             },
             signUp: async (user: UserDataDTO) => {
-                const userCreated = await new UsersRepository().save(user)
-                SessionStoreFactory.getSessionStore().setUser(userCreated)
+                const response = await firebaseStorage.ref(user.photo.substring(user.photo.lastIndexOf('/') + 1)).putFile(user.photo)
+                if (response.state === 'success') {
+                    user.photo = user.photo.substring(user.photo.lastIndexOf('/') + 1)
+                    const userCreated = await new UsersRepository().save(user)
+                    SessionStoreFactory.getSessionStore().setUser(userCreated)
+                } else {
+                    throw response
+                }
             }
         }),
         [],

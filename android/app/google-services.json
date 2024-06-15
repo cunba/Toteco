@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "184189703325",
+    "project_id": "toteco-426117",
+    "storage_bucket": "toteco-426117.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184189703325:android:bd362017d154ab2f6d3074",
+        "android_client_info": {
+          "package_name": "com.toteco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdicn5f0Lelfk0W7V-yZr5vG0WEFjjgR8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

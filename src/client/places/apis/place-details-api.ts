@@ -11,7 +11,6 @@ import globalAxios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'a
 import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { GOOGLE_MAPS_API_KEY } from '../../../config/environment';
 import { BASE_PATH, BaseAPI, RequestArgs, RequiredError } from '../base';
 import { PlaceDetails } from '../models';
 /**
@@ -44,7 +43,7 @@ export const PlaceDetailsApiAxiosParamCreator = function (configuration?: Config
             const localVarQueryParameter = {} as any;
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
-            localVarHeaderParameter['X-Goog-Api-Key'] = GOOGLE_MAPS_API_KEY;
+            localVarHeaderParameter['X-Goog-Api-Key'] = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
             localVarHeaderParameter['X-Goog-FieldMask'] = 'places.displayName,places.id,places.location,places.formattedAddress';
 
             const query = new URLSearchParams(localVarUrlObj.search);

@@ -37,6 +37,9 @@ target 'Toteco' do
   pod 'RNFS', :path => '../node_modules/react-native-fs'
   pod 'react-native-location', :path => '../node_modules/react-native-location'
 
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
+
   use_react_native!(
     :path => config[:reactNativePath],
     # Enables Flipper.
