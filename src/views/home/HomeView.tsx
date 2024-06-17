@@ -12,7 +12,6 @@ import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, stylesRicyclerList } from "../../config/Styles";
-import { PublicationData } from "../../data/model/toteco/Publication";
 import i18n from "../../infrastructure/localization/i18n";
 import { navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -84,10 +83,10 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        {vm.user?.photo === '' ?
-                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={vm.user.username ?? ''} />
+                        {vm.user?.user_metadata.photo === '' ?
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={vm.user.user_metadata.username ?? ''} />
                             :
-                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
+                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.user_metadata.photo }} alt={vm.user?.user_metadata.username ?? ''} />
                         }
                     </View>
                 ),
@@ -120,7 +119,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
         ]
     };
 
-    const rowRender = (type: any, publication: PublicationData, index: number) => {
+    const rowRender = (type: any, publication: any, index: number) => {
         const props: PublicationProps = {
             colorScheme: COLORS,
             publication: publication,

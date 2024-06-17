@@ -1,167 +1,151 @@
+import { supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
-import { TotecoApi } from "../../../../infrastructure/data/TotecoApiClient";
-import { TotecoBaseRepository } from "../../../../infrastructure/data/repositories/TotecoBaseRepository";
-import { ErrorResponse } from "../../../../infrastructure/exceptions/ErrorResponse";
-import { MenuDataDTO } from "../../../model/toteco/Menu";
+import { Menu, MenuDTO } from "../../../model/toteco/Menu";
 import { IMenusApi } from "../IMenusApi";
-import { LoginRepository } from "./LoginRepository";
 
 
-export class MenusRepository extends TotecoBaseRepository<IMenusApi> {
+export class MenusRepository implements IMenusApi {
 
     static tries = 0
+    tableName = 'Toteco.menus'
 
-    constructor() {
-        super(TotecoApi.MenusApi, false)
-    }
+    async save(body: MenuDTO) {
+        const response = await supabase.from(this.tableName).insert(body).select()
 
-    async save(body: MenuDataDTO) {
-        try {
-            const client = await this.apiClient
-            const result = await client.save(body)
-            MenusRepository.tries = 0
-            return result.data
-        } catch (e) {
+        if (response.error !== null) {
             if (MenusRepository.tries < 1) {
                 MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.save(body)
                 }
             } else {
                 MenusRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            MenusRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
-    async update(id: string, body: MenuDataDTO) {
-        try {
-            const client = await this.apiClient
-            const result = await client.update(id, body)
-            MenusRepository.tries = 0
-            return result.data
-        } catch (e) {
+    async update(id: string, body: Menu) {
+        const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
+
+        if (response.error !== null) {
             if (MenusRepository.tries < 1) {
                 MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.update(id, body)
                 }
             } else {
                 MenusRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            MenusRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
-    async deleteById(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.delete(id)
-            MenusRepository.tries = 0
-            return result.data
-        } catch (e) {
+    async delete(id: string) {
+        const response = await supabase.from(this.tableName).delete().eq('id', id).select()
+
+        if (response.error !== null) {
             if (MenusRepository.tries < 1) {
                 MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.deleteById(id)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.delete(id)
                 }
             } else {
                 MenusRepository.tries = 0
-                throw e
+                throw response.error
             }
-        }
-    }
-
-    async deleteAll() {
-        try {
-            const client = await this.apiClient
-            const result = await client.deleteAll()
+        } else {
             MenusRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (MenusRepository.tries < 1) {
-                MenusRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.deleteAll()
-                }
-            } else {
-                MenusRepository.tries = 0
-                throw e
-            }
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
     async getAll() {
-        try {
-            const client = await this.apiClient
-            const result = await client.getAll()
-            MenusRepository.tries = 0
-            return result.data
-        } catch (e) {
+        const response = await supabase.from(this.tableName).select()
+
+        if (response.error !== null) {
             if (MenusRepository.tries < 1) {
                 MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.getAll()
                 }
             } else {
                 MenusRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            MenusRepository.tries = 0
+            console.log(response.data)
+            return response.data
         }
     }
 
     async getById(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getById(id)
-            MenusRepository.tries = 0
-            return result.data
-        } catch (e) {
+        const response = await supabase.from(this.tableName).select().eq('id', id)
+
+        if (response.error !== null) {
             if (MenusRepository.tries < 1) {
                 MenusRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.getById(id)
                 }
             } else {
                 MenusRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else if (response.count === 0) {
+            throw {
+                code: 404,
+                message: 'Publication not found'
+            }
+        } else {
+            MenusRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 }

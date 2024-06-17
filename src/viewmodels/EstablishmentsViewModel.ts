@@ -1,12 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import { Location } from "react-native-location";
 import { geolocation } from "../App";
-import { EstablishmentData } from "../data/model/toteco/Establishment";
+import { Establishment } from "../data/model/toteco/Establishment";
 import { EstablishmentsRepository } from "../data/repositories/toteco/impl/EstablishmentsRepository";
 
 export class EstablishmentsViewModel {
 
-    establishments?: EstablishmentData[]
+    establishments?: Establishment[]
     initialLocation?: Location
 
     constructor() {

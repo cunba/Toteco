@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LoginRequestData } from "../../data/model/toteco/LoginData";
+import { SignInWithPasswordCredentials } from "@supabase/supabase-js";
 import { UserData } from "../../data/model/toteco/User";
 import { dateFormat } from "../../utils/datetimeFormatterHelper";
 
 export interface SessionStore {
   getToken(): Promise<string | undefined | null>
   setToken(token: string | undefined): void
-  getCredentials(): Promise<LoginRequestData | undefined | null>
-  setCredentials(credentials: LoginRequestData | undefined | null): void
+  getCredentials(): Promise<SignInWithPasswordCredentials | undefined | null>
+  setCredentials(credentials: SignInWithPasswordCredentials | undefined | null): void
   getUser(): Promise<UserData | undefined | null>
   setUser(user: UserData | undefined): void
   getDate(): Promise<string | undefined | null>
@@ -45,7 +45,7 @@ const sessionAsyncStorage = (): SessionStore => {
         return JSON.parse(credentials);
       return undefined;
     },
-    setCredentials: (credentials: LoginRequestData | undefined | null) => {
+    setCredentials: (credentials: any | undefined | null) => {
       credentials ? AsyncStorage.setItem("credentials", JSON.stringify(credentials)) : AsyncStorage.removeItem("credentials");
     },
 

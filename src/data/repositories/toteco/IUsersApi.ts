@@ -1,28 +1,16 @@
-import { AxiosResponse } from "axios"
-import { IGlobalRepository } from "../../../infrastructure/data/repositories/IGlobalRespository"
-import { UserData, UserDataDTO } from "../../model/toteco/User"
+import { UserDTO, UserData } from "../../model/toteco/User"
 
 
-export interface IUsersApi extends IGlobalRepository<UserData, UserDataDTO> {
+export interface IUsersApi {
 
-    getByUsername(username: string): Promise<AxiosResponse<UserData[]>>
+    getUserLogged: () => Promise<UserData>
 
-    getByEmail(email: string): Promise<AxiosResponse<UserData[]>>
+    save: (bodyDTO: UserDTO) => Promise<UserData>
 
-    getRecoveryCode(id: string): Promise<AxiosResponse<number>>
+    updateMoneySpent(money: number): Promise<UserData | undefined>
 
-    getUserLogged(): Promise<AxiosResponse<UserData>>
+    // updatePassword(password: string): Promise<UserData | undefined>
 
-    activate(id: string): Promise<AxiosResponse<string>>
-
-    disable(id: string): Promise<AxiosResponse<string>>
-
-    updateMoneySpent(id: string): Promise<AxiosResponse<string>>
-
-    updatePassword(id: string): Promise<AxiosResponse<string>>
-
-    updatePublicationsNumber(id: string): Promise<AxiosResponse<string>>
-
-    updateRecoveryCode(id: string, code: number): Promise<AxiosResponse<string>>
+    updatePublicationsNumber(publicationsNumber: number): Promise<UserData | undefined>
 
 }

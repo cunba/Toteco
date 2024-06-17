@@ -1,29 +1,36 @@
-import { Menu, MenuDTO } from "../../../client/toteco";
-import { ProductData } from "./Product";
+import { Product } from "./Product";
 
-export class MenuData implements Menu {
+export class Menu {
+    id?: string
+    created: number
+    updated: number
+    price: number
+    score: number
+    products?: Product[]
+
     constructor(
-        public id: string,
-        public created: number,
-        public updated: number,
-        public price: number,
-        public score: number,
-        public products?: ProductData[]
+        created: number,
+        updated: number,
+        price: number,
+        score: number
     ) {
-        this.id = id
         this.created = created
         this.updated = updated
         this.price = price
         this.score = score
-        this.products = products
     }
 }
 
-export class MenuDataDTO implements MenuDTO {
+export class MenuDTO {
+    created: number
+    price: number
+    score: number
+
     constructor(
-        public price: number,
-        public score: number
+        price: number,
+        score: number
     ) {
+        this.created = new Date().getTime()
         this.price = price
         this.score = score
     }

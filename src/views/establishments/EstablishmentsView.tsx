@@ -8,7 +8,7 @@ import { geolocation } from "../../App";
 import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { commonStyles, formStyles } from "../../config/Styles";
-import { EstablishmentData } from "../../data/model/toteco/Establishment";
+import { Establishment } from "../../data/model/toteco/Establishment";
 import i18n from "../../infrastructure/localization/i18n";
 import { back } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -19,7 +19,7 @@ import { ShowEstablishmentModal, ShowEstablishmentModalProps } from "./component
 export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [showEstablishment, setShowEstablishment] = useState(false)
-    const [establishmentSelected, setEstablishmentSelected] = useState<EstablishmentData>(new EstablishmentData('', '', 0, '', false, false, '', 0, 0, []))
+    const [establishmentSelected, setEstablishmentSelected] = useState<Establishment>(new Establishment('', '', '', false, false, '', 0))
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {

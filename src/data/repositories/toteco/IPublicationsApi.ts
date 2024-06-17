@@ -1,12 +1,11 @@
-import { AxiosResponse } from "axios"
 import { IGlobalRepository } from "../../../infrastructure/data/repositories/IGlobalRespository"
-import { PublicationData, PublicationDataDTO } from "../../model/toteco/Publication"
+import { Publication, PublicationDTO } from "../../model/toteco/Publication"
 
 
-export interface IPublicationsApi extends IGlobalRepository<PublicationData, PublicationDataDTO> {
+export interface IPublicationsApi extends IGlobalRepository<Publication, PublicationDTO> {
 
-    getByEstablishmentId(id: string): Promise<AxiosResponse<PublicationData[]>>
+    getByEstablishmentId(id: string): Promise<Publication[] | undefined>
 
-    getByUserId(id: string): Promise<AxiosResponse<PublicationData[]>>
+    getByUserId(id: string): Promise<Publication[] | undefined>
 
 }

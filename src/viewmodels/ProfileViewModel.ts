@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { PublicationData } from "../data/model/toteco/Publication";
+import { Publication } from "../data/model/toteco/Publication";
 import { UserData } from "../data/model/toteco/User";
 import { PublicationsRepository } from "../data/repositories/toteco/impl/PublicationsRepository";
 import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepository";
@@ -7,7 +7,7 @@ import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepositor
 export class ProfileViewModel {
 
     user?: UserData | undefined | null
-    publications?: PublicationData[]
+    publications?: Publication[]
 
     constructor() {
         makeAutoObservable(this)
@@ -19,7 +19,7 @@ export class ProfileViewModel {
     }
 
     async getPublications() {
-        this.publications = await new PublicationsRepository().getByUser(this.user!.id!)
+        this.publications = await new PublicationsRepository().getByUserId(this.user!.id!)
         console.log(this.publications)
     }
 

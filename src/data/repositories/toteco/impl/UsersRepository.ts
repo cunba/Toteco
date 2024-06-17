@@ -1,302 +1,129 @@
+import { firebaseStorage, supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
-import { TotecoApi } from "../../../../infrastructure/data/TotecoApiClient";
-import { TotecoBaseRepository } from "../../../../infrastructure/data/repositories/TotecoBaseRepository";
-import { ErrorResponse } from "../../../../infrastructure/exceptions/ErrorResponse";
-import { UserDataDTO } from "../../../model/toteco/User";
+import { UserDTO, UserData, UserUpdate } from "../../../model/toteco/User";
 import { IUsersApi } from "../IUsersApi";
-import { LoginRepository } from "./LoginRepository";
 
 
-export class UsersRepository extends TotecoBaseRepository<IUsersApi> {
+export class UsersRepository implements IUsersApi {
 
     static tries = 0
 
-    constructor() {
-        super(TotecoApi.UsersApi, false)
-    }
-
-    async activate(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.activate(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.activate(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async disable(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.disable(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.disable(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getById(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getById(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getById(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async save(body: UserDataDTO) {
-        try {
-            const client = await this.apiClient
-            const result = await client.save(body)
-            return result.data
-        } catch (e) {
-            throw e
-        }
-    }
-
-    async updateMoneySpent(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.updateMoneySpent(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.updateMoneySpent(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async updatePassword(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.updatePassword(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.updatePassword(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async updatePublicationsNumber(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.updatePublicationsNumber(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.updatePublicationsNumber(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async updateRecoveryCode(id: string, code: number) {
-        try {
-            const client = await this.apiClient
-            const result = await client.updateRecoveryCode(id, code)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.updateRecoveryCode(id, code)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getByUsername(username: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getByUsername(username)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getByUsername(username)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getByEmail(email: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getByEmail(email)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getByEmail(email)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
-    async getRecoveryCode(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getRecoveryCode(id)
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
-            if (UsersRepository.tries < 1) {
-                UsersRepository.tries++
-                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
-
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
-                } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getRecoveryCode(id)
-                }
-            } else {
-                UsersRepository.tries = 0
-                throw e
-            }
-        }
-    }
-
     async getUserLogged() {
-        try {
-            const client = await this.apiClient
-            const result = await client.getUserLogged()
-            UsersRepository.tries = 0
-            return result.data
-        } catch (e) {
+        const token = await SessionStoreFactory.getSessionStore().getToken()
+        const response = await supabase.auth.getUser(token!)
+        if (response.error !== null && response.error !== undefined) {
+            console.log(response.error)
+            throw response.error
+        }
+        console.log(response.data)
+        return response.data.user as UserData
+    }
+
+    async save(body: UserDTO) {
+        const imageName = body.options.data.photo.substring(body.options.data.photo.lastIndexOf('/') + 1)
+        const response = await firebaseStorage.ref(imageName).putFile(body.options.data.photo)
+        if (response.state === 'success') {
+            body.options.data.photo = await firebaseStorage.ref(imageName).getDownloadURL()
+            const response = await supabase.auth.signUp(body)
+
+            if (response.error !== null) {
+                console.log(response.error)
+                throw response.error
+            }
+
+            const userUpdate = new UserUpdate()
+            userUpdate.fromUserDTO(body)
+            const user = await supabase.auth.updateUser(userUpdate)
+            return user.data.user as UserData
+        } else {
+            throw response.error
+        }
+    }
+
+    async updateMoneySpent(money: number) {
+        const user = await this.getUserLogged()
+        user.user_metadata.moneySpent = user.user_metadata.moneySpent + money
+        const userUpdate = new UserUpdate()
+        userUpdate.fromUserData(user)
+        const response = await supabase.auth.updateUser(userUpdate)
+
+        if (response.error !== undefined && response.error !== null) {
+            console.log(response.error)
             if (UsersRepository.tries < 1) {
                 UsersRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getUserLogged()
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.updateMoneySpent(money)
                 }
             } else {
                 UsersRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            UsersRepository.tries = 0
+            return response.data.user as UserData
+        }
+    }
+
+    // async updatePassword(password: string) {
+    //     try {
+    //         const client = await this.apiClient
+    //         const result = await client.updatePassword(id)
+    //         UsersRepository.tries = 0
+    //         return result.data
+    //     } catch (e) {
+    //         if (UsersRepository.tries < 1) {
+    //             UsersRepository.tries++
+    //             const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+    //             const loginResponse = await new LoginRepository().login(credentials!)
+
+    //             if (loginResponse instanceof ErrorResponse) {
+    //                 throw loginResponse
+    //             } else {
+    //                 SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+    //                 this.updatePassword(id)
+    //             }
+    //         } else {
+    //             UsersRepository.tries = 0
+    //             throw e
+    //         }
+    //     }
+    // }
+
+    async updatePublicationsNumber(publicationsNumber: number) {
+        const user = await this.getUserLogged()
+        user.user_metadata.moneySpent = user.user_metadata.publicationsNumber + publicationsNumber
+        const userUpdate = new UserUpdate()
+        userUpdate.fromUserData(user)
+        const response = await supabase.auth.updateUser(userUpdate)
+
+        if (response.error !== undefined && response.error !== null) {
+            console.log(response.error)
+            if (UsersRepository.tries < 1) {
+                UsersRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.updatePublicationsNumber(publicationsNumber)
+                }
+            } else {
+                UsersRepository.tries = 0
+                throw response.error
+            }
+        } else {
+            UsersRepository.tries = 0
+            return response.data.user as UserData
         }
     }
 }

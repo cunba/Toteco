@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { PublicationData } from "../data/model/toteco/Publication";
+import { Publication } from "../data/model/toteco/Publication";
 import { UserData } from "../data/model/toteco/User";
 import { PublicationsRepository } from "../data/repositories/toteco/impl/PublicationsRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
@@ -7,7 +7,7 @@ import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory"
 export class HomeViewModel {
 
     user?: UserData | undefined | null
-    publications?: PublicationData[]
+    publications?: Publication[]
 
     constructor() {
         makeAutoObservable(this)

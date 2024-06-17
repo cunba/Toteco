@@ -44,13 +44,14 @@
     "sign_up.alert.gallery": "Elegir de la galería",
     "sign_up.alert.cancel": "Cancelar",
     
-    "recovery_code.title": "Código de recuperación",
-    "recovery_code.code.label": "Código",
-    "recovery_code.error": "El código no es correcto",
+    "recovery_email.title": "Recuperar contraseña",
+    "recovery_email.email.label": "Correo",
+    "recovery_email.error": "El correo no es correcto",
 
     "recovery.code": "Código de recuperación",
     "recovery.password": "Contraseña",
     "recovery.repeat_password": "Repite contraseña",
+    "recover_email.success": "Comprueba el correo para continuar",
 
     "add_publication.title": "Añadir publicación",
     "add_publication.establishment.label": "Establecimiento",

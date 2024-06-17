@@ -3,10 +3,10 @@ import { Location } from "react-native-location";
 import { geolocation } from "../App";
 import { LocationData, PlaceDetailsData } from "../data/model/places/PlaceDetails";
 import { CircleData, LocationRestrictionData, SearchNearbyRequestData } from "../data/model/places/SearchNearbyRequest";
-import { EstablishmentData, EstablishmentDataDTO } from "../data/model/toteco/Establishment";
-import { MenuData, MenuDataDTO } from "../data/model/toteco/Menu";
-import { ProductDataDTO } from "../data/model/toteco/Product";
-import { PublicationDataDTO } from "../data/model/toteco/Publication";
+import { Establishment, EstablishmentDTO } from "../data/model/toteco/Establishment";
+import { Menu, MenuDTO } from "../data/model/toteco/Menu";
+import { ProductDTO } from "../data/model/toteco/Product";
+import { PublicationDTO } from "../data/model/toteco/Publication";
 import { SearchNearbyRepository } from "../data/repositories/places/impl/SearchNearbyRepository";
 import { EstablishmentsRepository } from "../data/repositories/toteco/impl/EstablishmentsRepository";
 import { MenusRepository } from "../data/repositories/toteco/impl/MenusRepository";
@@ -16,11 +16,11 @@ import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory"
 
 export class AddPublicationViewModel {
 
-    establishment?: EstablishmentData
-    newEstablishment?: EstablishmentDataDTO
+    establishment?: Establishment
+    newEstablishment?: EstablishmentDTO
     establishmentScore?: number
-    products: ProductDataDTO[]
-    menus: MenuDataDTO[]
+    products: ProductDTO[]
+    menus: MenuDTO[]
     totalScore: number
     totalPrice: number
     comment: string
@@ -65,26 +65,14 @@ export class AddPublicationViewModel {
         this.image = imageUri
     }
 
-    async setPublication() {
-        const user = await SessionStoreFactory.getSessionStore().getUser()
-        new PublicationDataDTO(
-            this.totalScore!,
-            this.totalPrice!,
-            this.comment,
-            user!.id,
-            this.establishment!.id,
-            this.image
-        )
-    }
-
-    addProduct(product: ProductDataDTO) {
+    addProduct(product: ProductDTO) {
         product.inMenu = product.inMenu ?? false
         this.products.push(product)
         this.setTotalScore()
         this.setTotalPrice()
     }
 
-    editProduct(product: ProductDataDTO, index: number) {
+    editProduct(product: ProductDTO, index: number) {
         this.products[index] = product
         this.setTotalScore()
         this.setTotalPrice()
@@ -96,7 +84,7 @@ export class AddPublicationViewModel {
         this.setTotalPrice()
     }
 
-    async addEstablishment(establishment: EstablishmentDataDTO) {
+    async addEstablishment(establishment: EstablishmentDTO) {
         establishment.isComputerAllowed = establishment.isComputerAllowed ?? false
         const existEstablishment = await new EstablishmentsRepository().getByMapsId(establishment.mapsId)
         console.log(existEstablishment)
@@ -146,19 +134,19 @@ export class AddPublicationViewModel {
         else
             establishmentId = this.establishment.id
 
-        let menus: MenuData[] = []
+        let menus: Menu[] = []
         if (this.menus.length > 0)
             menus = this.createMenus()
 
         const user = await SessionStoreFactory.getSessionStore().getUser()
 
-        const newPublication = new PublicationDataDTO(
-            this.totalPrice,
-            this.totalScore,
+        const newPublication = new PublicationDTO(
+            this.totalScore!,
+            this.totalPrice!,
+            this.image!,
             this.comment,
-            establishmentId!,
-            user!.id,
-            this.image
+            establishmentId,
+            user!.id
         )
 
         const publication = await new PublicationsRepository().save(newPublication)
@@ -177,7 +165,7 @@ export class AddPublicationViewModel {
     }
 
     createMenus() {
-        const menus: MenuData[] = []
+        const menus: Menu[] = []
         this.menus.map(async menu => {
             const newMenu = await new MenusRepository().save(menu)
             if (newMenu !== undefined)
@@ -189,8 +177,8 @@ export class AddPublicationViewModel {
 
     createProducts(publicationId: string, menuId?: string) {
         this.products.map(async product => {
-            if (product.inMenu) product.menuId = menuId
-            product.publicationId = publicationId
+            if (product.inMenu) product.menu_id = menuId
+            product.publication_id = publicationId
             await new ProductsRepository().save(product)
         })
     }

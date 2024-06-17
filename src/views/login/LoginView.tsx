@@ -91,7 +91,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
     }
 
     const recover = () => {
-        // navigate(ROUTES.SEND_EMAIL, null)
+        navigate(ROUTES.SEND_EMAIL, null)
     }
 
     const signUp = () => {

@@ -1,18 +1,27 @@
-import { Product, ProductDTO, Publication } from "../../../client/toteco";
-import { MenuData } from "./Menu";
+import { Menu } from "./Menu";
+import { Publication } from "./Publication";
 
-export class ProductData implements Product {
+export class Product {
+    id?: string
+    name: string
+    created: number
+    inMenu: boolean
+    score: number
+    updated?: number
+    price?: number
+    publication?: Publication
+    menu?: Menu
 
     constructor(
-        public id: string,
-        public name: string,
-        public created: number,
-        public inMenu: boolean,
-        public score: number,
-        public updated?: number,
-        public price?: number,
-        public publication?: Publication,
-        public menu?: MenuData
+        id: string,
+        name: string,
+        created: number,
+        inMenu: boolean,
+        score: number,
+        updated?: number,
+        price?: number,
+        publication?: Publication,
+        menu?: Menu
     ) {
         this.id = id
         this.name = name
@@ -26,21 +35,29 @@ export class ProductData implements Product {
     }
 }
 
-export class ProductDataDTO implements ProductDTO {
+export class ProductDTO {
+    name: string
+    created: number
+    inMenu: boolean
+    score: number
+    price?: number
+    publication_id: string
+    menu_id?: string
 
     constructor(
-        public name?: string,
-        public inMenu?: boolean,
-        public score?: number,
-        public publicationId?: string,
-        public menuId?: string,
-        public price?: number
+        name: string,
+        inMenu: boolean,
+        score: number,
+        publication_id: string,
+        price?: number,
+        menu_id?: string
     ) {
         this.name = name
+        this.created = new Date().getTime()
         this.inMenu = inMenu
-        this.price = price
         this.score = score
-        this.menuId = menuId
-        this.publicationId = publicationId
+        this.price = price
+        this.publication_id = publication_id
+        this.menu_id = menu_id
     }
 }

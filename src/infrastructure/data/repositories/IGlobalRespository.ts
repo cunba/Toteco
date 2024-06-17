@@ -1,17 +1,14 @@
-import { AxiosResponse } from "axios"
 
 export interface IGlobalRepository<T, DTO> {
 
-    save: (bodyDTO: DTO) => Promise<AxiosResponse<T>>
+    save: (body: DTO) => Promise<T | any>
 
-    update: (id: string, bodyDTO: DTO) => Promise<AxiosResponse<string>>
+    update: (id: string, body: T) => Promise<T | any>
 
-    delete: (id: string) => Promise<AxiosResponse<T>>
+    delete: (id: string) => Promise<T | any>
 
-    deleteAll: () => Promise<AxiosResponse<string>>
+    getById: (id: string) => Promise<T>
 
-    getById: (id: string) => Promise<AxiosResponse<T>>
-
-    getAll: () => Promise<AxiosResponse<T[]>>
+    getAll: () => Promise<T[] | undefined>
 
 }

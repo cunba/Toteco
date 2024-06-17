@@ -31,7 +31,7 @@ export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
                         <TouchableOpacity onPress={() => back()} style={recoveryStyles.toolbarButton}>
                             <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
                         </TouchableOpacity>
-                        <Text style={[recoveryStyles.titleToolbar, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
+                        <Text style={[recoveryStyles.titleToolbar, { color: COLORS.text }]}>{i18n.t('recovery.title')}</Text>
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>

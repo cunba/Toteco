@@ -1,43 +1,59 @@
-import { Establishment, EstablishmentDTO } from "../../../client/toteco";
-import { PublicationData } from "./Publication";
+import { Publication } from "./Publication";
 
-export class EstablishmentData implements Establishment {
+export class Establishment {
+    id: string
+    name: string
+    created?: number
+    location: string
+    isOpen: boolean
+    isComputerAllowed: boolean
+    mapsId: string
+    score: number
+    updated?: number
+    publications?: Publication[]
 
     constructor(
-        public id: string,
-        public name: string,
-        public created: number,
-        public location: string,
-        public isOpen: boolean,
-        public isComputerAllowed: boolean,
-        public mapsId: string,
-        public score: number,
-        public updated?: number,
-        public publications?: PublicationData[]
+        id: string,
+        name: string,
+        location: string,
+        isOpen: boolean,
+        isComputerAllowed: boolean,
+        mapsId: string,
+        score: number
     ) {
         this.id = id
         this.name = name
-        this.created = created
         this.location = location
         this.isOpen = isOpen
         this.isComputerAllowed = isComputerAllowed
         this.mapsId = mapsId
         this.score = score
-        this.publications = publications
     }
 }
 
-export class EstablishmentDataDTO implements EstablishmentDTO {
+export class EstablishmentDTO {
+    name: string
+    created: number
+    location: string
+    isOpen: boolean
+    isComputerAllowed: boolean
+    mapsId: string
+    score: number
 
     constructor(
-        public name: string,
-        public location: string,
-        public isComputerAllowed: boolean,
-        public mapsId: string
+        name: string,
+        location: string,
+        isOpen: boolean,
+        isComputerAllowed: boolean,
+        mapsId: string,
+        score: number
     ) {
         this.name = name
+        this.created = new Date().getTime()
         this.location = location
+        this.isOpen = isOpen
         this.isComputerAllowed = isComputerAllowed
         this.mapsId = mapsId
+        this.score = score
     }
 }

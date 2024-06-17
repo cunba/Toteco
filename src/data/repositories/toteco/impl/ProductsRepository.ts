@@ -1,192 +1,205 @@
+import { supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
-import { TotecoApi } from "../../../../infrastructure/data/TotecoApiClient";
-import { TotecoBaseRepository } from "../../../../infrastructure/data/repositories/TotecoBaseRepository";
-import { ErrorResponse } from "../../../../infrastructure/exceptions/ErrorResponse";
-import { ProductDataDTO } from "../../../model/toteco/Product";
+import { Product, ProductDTO } from "../../../model/toteco/Product";
 import { IProductsApi } from "../IProductsApi";
-import { LoginRepository } from "./LoginRepository";
 
 
-export class ProductsRepository extends TotecoBaseRepository<IProductsApi> {
+export class ProductsRepository implements IProductsApi {
 
     static tries = 0
+    tableName = 'Toteco.products'
 
-    constructor() {
-        super(TotecoApi.ProductsApi, false)
-    }
+    async save(product: ProductDTO) {
+        const response = await supabase.from(this.tableName).insert(product).select()
 
-    async save(productDTO: ProductDataDTO) {
-        try {
-            const client = await this.apiClient
-            const result = await client.save(productDTO)
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.save(productDTO)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.save(product)
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
-    async update(id: string, body: ProductDataDTO) {
-        try {
-            const client = await this.apiClient
-            const result = await client.update(id, body)
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+    async update(id: string, body: Product) {
+        const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
+
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.update(id, body)
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
     async delete(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.delete(id)
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+        const response = await supabase.from(this.tableName).delete().eq('id', id).select()
+
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.delete(id)
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
     async getAll() {
-        try {
-            const client = await this.apiClient
-            const result = await client.getAll()
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+        const response = await supabase.from(this.tableName).select()
+
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.getAll()
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data
         }
     }
 
     async getById(id: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getById(id)
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+        const response = await supabase.from(this.tableName).select().eq('id', id)
+
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
                     this.getById(id)
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else if (response.count === 0) {
+            throw {
+                code: 404,
+                message: 'Publication not found'
+            }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data[0]
         }
     }
 
-    async getByMenu(menuId: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getByMenu(menuId)
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+    async getByMenuId(menuId: string) {
+        const response = await supabase.from(this.tableName).select().eq('menu_id', menuId)
+
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getByMenu(menuId)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getByMenuId(menuId)
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data
         }
     }
 
-    async getByPublication(publicationId: string) {
-        try {
-            const client = await this.apiClient
-            const result = await client.getByPublication(publicationId)
-            ProductsRepository.tries = 0
-            return result.data
-        } catch (e) {
+    async getByPublicationId(publicationId: string) {
+        const response = await supabase.from(this.tableName).select().eq('publication_id', publicationId)
+
+        if (response.error !== null) {
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
-                const loginResponse = await new LoginRepository().login(credentials!)
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
-                if (loginResponse instanceof ErrorResponse) {
-                    throw loginResponse
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    throw response.error
                 } else {
-                    SessionStoreFactory.getSessionStore().setToken(loginResponse.token)
-                    this.getByPublication(publicationId)
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getByPublicationId(publicationId)
                 }
             } else {
                 ProductsRepository.tries = 0
-                throw e
+                throw response.error
             }
+        } else {
+            ProductsRepository.tries = 0
+            console.log(response.data)
+            return response.data
         }
     }
 }

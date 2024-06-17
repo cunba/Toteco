@@ -13,8 +13,8 @@ import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, formStyles, stylesRicyclerList } from "../../config/Styles";
 import { PlaceDetailsData } from "../../data/model/places/PlaceDetails";
-import { EstablishmentDataDTO } from "../../data/model/toteco/Establishment";
-import { ProductDataDTO } from "../../data/model/toteco/Product";
+import { EstablishmentDTO } from "../../data/model/toteco/Establishment";
+import { ProductDTO } from "../../data/model/toteco/Product";
 import i18n from "../../infrastructure/localization/i18n";
 import { back } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -34,17 +34,17 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const [errorMessage, setErrorMessage] = useState('');
     const [addProduct, setAddProduct] = useState(false)
     const [editProduct, setEditProduct] = useState(false)
-    const [newProduct, setNewProduct] = useState(new ProductDataDTO())
-    const [productModified, setProductModified] = useState(new ProductDataDTO())
+    const [newProduct, setNewProduct] = useState(new ProductDTO('', false, 0, ''))
+    const [productModified, setProductModified] = useState(new ProductDTO('', false, 0, ''))
     const [indexProductModified, setIndexProductModified] = useState(0)
     const [optionsVisible, setOptionsVisible] = useState(false)
     const [scroll, setScroll] = useState<any>()
     const [swipableRowRef, setSwipableRowRef] = useState<Swipeable[]>([])
     const [addEstablishment, setAddEstablishment] = useState(false)
-    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDataDTO("", "", false, ""))
-    const [establishmentErrorMessage, setEstablishmentErrorMessage] = useState("")
+    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDTO('', '', false, false, '', 0))
+    const [establishmentErrorMessage, setEstablishmentErrorMessage] = useState('')
     const [hideEstablishmentErrorMessage, setHideEstablishmentErrorMessage] = useState(true)
-    const [productErrorMessage, setProductErrorMessage] = useState("")
+    const [productErrorMessage, setProductErrorMessage] = useState('')
     const [hideProductErrorMessage, setHideProductErrorMessage] = useState(true)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
@@ -141,7 +141,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
             } else {
                 vm.addProduct(newProduct)
                 setAddProduct(!addProduct)
-                setNewProduct(new ProductDataDTO())
+                setNewProduct(new ProductDTO('', false, 0, ''))
                 setProductErrorMessage('')
                 setHideProductErrorMessage(true)
                 setHideErrorMessage(true)
@@ -210,14 +210,14 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         close()
     }
 
-    const onPressEditItem = (product: ProductDataDTO, index: number) => {
+    const onPressEditItem = (product: ProductDTO, index: number) => {
         setProductModified(product)
         setIndexProductModified(index)
         setEditProduct(!editProduct)
         close()
     }
 
-    const rowRender = (type: any, product: ProductDataDTO, index: number) => {
+    const rowRender = (type: any, product: ProductDTO, index: number) => {
         const props: RenderProductProps = {
             onPressTrashIcon: onPressTrashItem,
             onPressEditIcon: onPressEditItem,
@@ -242,7 +242,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         hideErrorMessage: hideEstablishmentErrorMessage,
         errorMessage: establishmentErrorMessage,
         onPressOk: () => {
-            if (newEstablishment.mapsId === "") {
+            if (newEstablishment.mapsId === '') {
                 setEstablishmentErrorMessage(i18n.t('add_establishment.error.no_establishment'))
                 setHideEstablishmentErrorMessage(false)
                 setRefresh(true)

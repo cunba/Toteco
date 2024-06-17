@@ -6,12 +6,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Title } from 'react-native-paper';
 import { SIZES } from '../../config/Sizes';
 import { commonStyles, stylesRicyclerList } from '../../config/Styles';
-import { PublicationData } from '../../data/model/toteco/Publication';
+import { Publication } from '../../data/model/toteco/Publication';
 import { publicationStyles } from './PublicationStyles';
 
 export interface PublicationProps {
     colorScheme: any
-    publication: PublicationData
+    publication: Publication
     styles?: any
     onPressIcon?: () => void
 }

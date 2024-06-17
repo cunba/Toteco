@@ -1,49 +1,57 @@
-import { Publication, PublicationDTO } from "../../../client/toteco";
-import { EstablishmentData } from "./Establishment";
-import { ProductData } from "./Product";
+import { Establishment } from "./Establishment";
+import { Product } from "./Product";
 import { UserData } from "./User";
 
-export class PublicationData implements Publication {
-    products?: ProductData[]
+export class Publication {
+    id?: string
+    created: number
+    totalPrice: number
+    totalScore: number
+    photo: string
+    comment: string
+    establishment?: Establishment
+    user?: UserData
+    updated?: number
+    products?: Product[]
 
     constructor(
-        public id: string,
-        public created: number,
-        public totalPrice: number,
-        public totalScore: number,
-        public photo: string,
-        public comment: string,
-        public establishment?: EstablishmentData,
-        public user?: UserData,
-        public updated?: number
+        created: number,
+        totalPrice: number,
+        totalScore: number,
+        photo: string,
+        comment: string
     ) {
-        this.id = id
         this.created = created
-        this.updated = updated
         this.totalPrice = totalPrice
         this.totalScore = totalScore
         this.photo = photo
         this.comment = comment
-        this.establishment = establishment
-        this.user = user
     }
 }
 
-export class PublicationDataDTO implements PublicationDTO {
+export class PublicationDTO {
+    created: number
+    totalPrice: number
+    totalScore: number
+    photo: string
+    comment: string
+    establishment_id: string
+    user_id: string
+
     constructor(
-        public totalPrice: number,
-        public totalScore: number,
-        public comment: string,
-        public establishmentId: string,
-        public userId: string,
-        public photo?: string
+        totalPrice: number,
+        totalScore: number,
+        photo: string,
+        comment: string,
+        establishment_id: string,
+        user_id: string
     ) {
+        this.created = new Date().getTime()
         this.totalPrice = totalPrice
         this.totalScore = totalScore
         this.photo = photo
         this.comment = comment
-        this.establishmentId = establishmentId
-        this.userId = userId
+        this.establishment_id = establishment_id
+        this.user_id = user_id
     }
-
 }

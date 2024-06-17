@@ -3,34 +3,31 @@ import storage from '@react-native-firebase/storage';
 import { DrawerContent, createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { SignInWithPasswordCredentials, createClient } from '@supabase/supabase-js';
 import { Heading, NativeBaseProvider } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { NativeModules, Text, View } from 'react-native';
 import RNLocation, { Location } from 'react-native-location';
 import "react-native-url-polyfill/auto";
-import { SearchNearbyApi } from './client/places';
-import { PlaceDetailsApi } from './client/places/apis/place-details-api';
-import { SearchTextApi } from './client/places/apis/search-text-api';
-import { EstablishmentsApi, LoginApi, MenusApi, ProductsApi, PublicationsApi, UsersApi } from './client/toteco';
+import { SearchNearbyApi } from './client';
+import { PlaceDetailsApi } from './client/apis/place-details-api';
+import { SearchTextApi } from './client/apis/search-text-api';
 import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
-import { COLOR_MODE, PLATFORM, ROUTES } from './config/Constants';
+import { COLOR_MODE, PLATFORM, ROUTES, SUPABASE_ANON_KEY, SUPABASE_URL } from './config/Constants';
 import { SIZES } from './config/Sizes';
 import { commonStyles } from './config/Styles';
-import { LoginRequestData } from './data/model/toteco/LoginData';
-import { UserDataDTO } from './data/model/toteco/User';
-import { LoginRepository } from './data/repositories/toteco/impl/LoginRepository';
+import { UserDTO, UserData } from './data/model/toteco/User';
 import { UsersRepository } from './data/repositories/toteco/impl/UsersRepository';
 import PlacesApiClient, { PlacesApi } from './infrastructure/data/PlacesApiClient';
 import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
-import TotecosApiClient, { TotecoApi } from './infrastructure/data/TotecoApiClient';
 import i18n from './infrastructure/localization/i18n';
-import { navigate, navigationRef } from './infrastructure/navigation/RootNavigation';
+import { navigationRef } from './infrastructure/navigation/RootNavigation';
 import { AddPublicationViewModel } from './viewmodels/AddPublicationViewModel';
 import { EstablishmentsViewModel } from './viewmodels/EstablishmentsViewModel';
 import { HomeViewModel } from './viewmodels/HomeViewModel';
 import { LoginViewModel } from './viewmodels/LoginViewModel';
 import { ProfileViewModel } from './viewmodels/ProfileViewModel';
-import { RecoveryCodeViewModel } from './viewmodels/RecoveryCodeViewModel';
+import { RecoveryEmailViewModel } from './viewmodels/RecoveryEmailViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
 import { AddPublicationView } from './views/addPublication/AddPublicationView';
@@ -39,16 +36,8 @@ import { HomeView } from './views/home/HomeView';
 import { LoginView } from './views/login/LoginView';
 import { ProfileView } from './views/profile/ProfileView';
 import { RecoveryView } from './views/recovery/RecoveryView';
-import { RecoveryCodeView } from './views/recovery_code/RecoveryCodeView';
+import { RecoveryEmailView } from './views/recoveryEmail/RecoveryEmailView';
 import { SignUpView } from './views/signup/SignUpView';
-
-// TOTECO API
-TotecosApiClient.register(TotecoApi.EstablishmentsApi, new EstablishmentsApi)
-TotecosApiClient.register(TotecoApi.LoginApi, new LoginApi)
-TotecosApiClient.register(TotecoApi.MenusApi, new MenusApi)
-TotecosApiClient.register(TotecoApi.ProductsApi, new ProductsApi)
-TotecosApiClient.register(TotecoApi.PublicationsApi, new PublicationsApi)
-TotecosApiClient.register(TotecoApi.UsersApi, new UsersApi)
 
 // PLACES API
 PlacesApiClient.register(PlacesApi.PlaceDetailsApi, new PlaceDetailsApi)
@@ -84,10 +73,12 @@ export const AuthContext = React.createContext<any>({});
 export let geolocation: Location | undefined = undefined
 let locationSubscription = undefined
 
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
 const LoginScreen = () => <LoginView vm={new LoginViewModel()} />
 const SignUpScreen = () => <SignUpView vm={new SignUpViewModel()} />
 const RecoveryScreen = () => <RecoveryView vm={new RecoveryViewModel()} />
-const RecoveryCodeScreen = () => < RecoveryCodeView vm={new RecoveryCodeViewModel()} />
+const RecoveryEmailScreen = () => < RecoveryEmailView vm={new RecoveryEmailViewModel()} />
 
 const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 const AddPublicationScreen = () => <AddPublicationView vm={new AddPublicationViewModel()} />
@@ -176,56 +167,69 @@ function App(): JSX.Element {
     useEffect(() => {
         const bootstrapAsync = async () => {
             const isLogged = await SessionStoreFactory.getSessionStore().isLoggedIn()
-            const recoverPassword = await SessionStoreFactory.getSessionStore().getRecoverPassword()
 
             if (isLogged) {
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
                 let userToken = ''
-                if (credentials && credentials.password && credentials.username) {
-                    const response: any = await new LoginRepository().login(credentials)
-                    userToken = response.token!
+                if (credentials !== undefined && credentials !== null) {
+                    const response = await supabase.auth.signInWithPassword(credentials)
+                    if (response.error !== null) {
+                        console.log(response.error)
+                        throw response.error
+                    }
+                    userToken = response.data.session.access_token
                 }
                 dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-            }
-
-            const user = await SessionStoreFactory.getSessionStore().getUser()
-            if (user !== undefined && user?.recoveryCode !== null && user?.recoveryCode !== undefined) {
-                navigate(ROUTES.RECOVERY_CODE, null)
-            }
-
-            if (recoverPassword) {
-                navigate(ROUTES.RECOVERY, null)
             }
         }
         bootstrapAsync()
     }, []);
 
+    useEffect(() => {
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            if (event == "PASSWORD_RECOVERY") {
+                console.log(session?.user)
+                console.log('password recovery')
+                // const newPassword = prompt("What would you like your new password to be?");
+                // const { data, error } = await supabase.auth
+                //     .updateUser({ password: newPassword })
+
+                // if (data) alert("Password updated successfully!")
+                // if (error) alert("There was an error updating your password.")
+            }
+        })
+    }, [])
+
     const authContext = React.useMemo(
         () => ({
-            signIn: async (username: string, password: string) => {
-                const credentials = new LoginRequestData(username, password)
-                const response = await new LoginRepository().login(credentials)
-                SessionStoreFactory.getSessionStore().setToken(response.token);
-                SessionStoreFactory.getSessionStore().setCredentials(credentials)
+            signIn: async (email: string, password: string) => {
+                const credentials: SignInWithPasswordCredentials = {
+                    email: email,
+                    password: password
+                }
+                const response = await supabase.auth.signInWithPassword(credentials)
+                if (response.error !== null && response.error !== undefined) {
+                    throw response.error
+                }
 
-                const user = await new UsersRepository().getUserLogged()
-                SessionStoreFactory.getSessionStore().setUser(user)
-                dispatch({ type: 'SIGN_IN', token: response.token });
+                SessionStoreFactory.getSessionStore().setToken(response.data.session.access_token);
+                SessionStoreFactory.getSessionStore().setCredentials(credentials)
+                SessionStoreFactory.getSessionStore().setUser(response.data.user as UserData)
+                dispatch({ type: 'SIGN_IN', token: response.data.session.access_token });
             },
-            signOut: () => {
+            signOut: async () => {
+                await supabase.auth.signOut()
                 SessionStoreFactory.getSessionStore().setToken('');
                 SessionStoreFactory.getSessionStore().setCredentials(undefined)
                 SessionStoreFactory.getSessionStore().setUser(undefined);
                 dispatch({ type: 'SIGN_OUT' });
             },
-            signUp: async (user: UserDataDTO) => {
-                const response = await firebaseStorage.ref(user.photo.substring(user.photo.lastIndexOf('/') + 1)).putFile(user.photo)
-                if (response.state === 'success') {
-                    user.photo = user.photo.substring(user.photo.lastIndexOf('/') + 1)
-                    const userCreated = await new UsersRepository().save(user)
-                    SessionStoreFactory.getSessionStore().setUser(userCreated)
-                } else {
-                    throw response
+            signUp: async (user: UserDTO) => {
+                try {
+                    await new UsersRepository().save(user)
+                    dispatch({ type: 'SIGN_UP' });
+                } catch (e) {
+                    throw e
                 }
             }
         }),
@@ -306,7 +310,7 @@ function App(): JSX.Element {
                                     />
                                     <Stack.Screen
                                         name={ROUTES.RECOVERY_CODE}
-                                        component={RecoveryCodeScreen}
+                                        component={RecoveryEmailScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

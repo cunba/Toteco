@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { SIZES } from '../../config/Sizes';
 
-export const recoveryCodeStyles = StyleSheet.create({
+export const recoveryEmailStyles = StyleSheet.create({
     titleToolbar: {
         textAlign: 'center',
         fontSize: SIZES.title,

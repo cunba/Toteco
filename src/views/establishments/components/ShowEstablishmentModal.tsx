@@ -3,8 +3,8 @@ import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Publication, { PublicationProps } from "../../../components/Publication/Publication";
 import { commonStyles } from "../../../config/Styles";
-import { EstablishmentData } from "../../../data/model/toteco/Establishment";
-import { PublicationData } from "../../../data/model/toteco/Publication";
+import { Establishment } from "../../../data/model/toteco/Establishment";
+import { Publication } from "../../../data/model/toteco/Publication";
 import i18n from "../../../infrastructure/localization/i18n";
 import { showEstablishmentModalStyles } from "./ShowEstablishmentModalStyles";
 
@@ -18,8 +18,8 @@ export interface ShowEstablishmentModalProps {
     colorScheme: any
     animationType: AnimationType
     visible: boolean
-    establishment: EstablishmentData
-    publications: PublicationData[]
+    establishment: Establishment
+    publications: Publication[]
     onPressOk?: () => void
     onRequestClose: () => void
 }
