@@ -55,7 +55,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
 
     const rowRender = (publication: Publication) => {
         return (
-            <TouchableOpacity onPress={() => { setPublicationSelected(publication); setShowPublication(true) }}>
+            <TouchableOpacity style={{borderWidth: 1, borderColor: COLORS.background}} onPress={() => { setPublicationSelected(publication); setShowPublication(true) }}>
                 <Image size={Dimensions.get('screen').width / 3} source={{ uri: publication.photo }} alt={vm.user?.username ?? ''} />
             </TouchableOpacity>
         )

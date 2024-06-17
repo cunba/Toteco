@@ -7,7 +7,7 @@ import { IUsersApi } from "../IUsersApi";
 export class UsersRepository implements IUsersApi {
 
     static tries = 0
-    tableName = 'users_data'
+    tableName = 'users_public'
 
     async save(body: UserData) {
         const imageName = body.photo.substring(body.photo.lastIndexOf('/') + 1)

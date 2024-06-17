@@ -110,7 +110,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                             <Input
                                 style={[formStyles.input, { color: COLORS.text }]}
                                 w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t("login.label.username").toString()}
+                                placeholder={i18n.t("login.label.email").toString()}
                                 onChangeText={(username) => vm.setUsername(username)}
                                 borderRadius={10}
                                 autoCapitalize="none"

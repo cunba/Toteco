@@ -204,7 +204,7 @@ function App(): JSX.Element {
     const authContext = React.useMemo(
         () => ({
             signIn: async (email: string, password: string) => {
-                const credentials: SignInWithPasswordCredentials = {
+                let credentials: SignInWithPasswordCredentials = {
                     email: email,
                     password: password
                 }
@@ -213,7 +213,7 @@ function App(): JSX.Element {
                     password: password
                 })
                 if (response.error !== null) {
-                    throw response.error
+                            throw response.error
                 }
 
                 const user = await new UsersRepository().getById(response.data.user.id)

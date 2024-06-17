@@ -9,7 +9,7 @@
 
     "login.title": "Sign in",
     "login.button": "Sign in",
-    "login.label.username": "Username",
+    "login.label.email": "Email",
     "login.label.password": "Password",
     "login.error.no_username": "The username is mandatory",
     "login.error.no_password": "The password is mandatory",

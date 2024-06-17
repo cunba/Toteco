@@ -10,7 +10,7 @@
 
     "login.title": "Inicio de sesión",
     "login.button" : "Iniciar sesión",
-    "login.label.username": "Usuario",
+    "login.label.email": "Correo",
     "login.label.password": "Contraseña",
     "login.error.no_username": "El usuario es obligatorio",
     "login.error.no_password": "La contraseña es obligatoria",
