@@ -1,4 +1,4 @@
-import { SearchTextRequest } from "../../../client/places"
+import { SearchTextRequest } from "../../../client"
 
 
 export class SearchTextRequestData implements SearchTextRequest {

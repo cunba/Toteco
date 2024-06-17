@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios"
-import { PlaceDetails } from "../../../client/places"
+import { PlaceDetails } from "../../../client"
 
 
 export interface IPlaceDetailsApi {

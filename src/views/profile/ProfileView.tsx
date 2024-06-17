@@ -18,7 +18,7 @@ import { ShowPublicationModal, ShowPublicationModalProps } from "./components/Sh
 export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [showPublication, setShowPublication] = useState(false)
-    const [publicationSelected, setPublicationSelected] = useState(new Publication('', 0, 0, 0, '', ''))
+    const [publicationSelected, setPublicationSelected] = useState(new Publication(0, 0, '', ''))
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     const route = useRoute()
@@ -28,17 +28,18 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
 
+    useEffect(() => { setRefresh(false) }, [refresh])
+
     const getPublications = async () => {
-        if (user === null)
+        if (user === null) {
             await vm.getUser();
-        else
+            setRefresh(true)
+        } else
             vm.setUser(user)
         await vm.getPublications();
         setRefresh(true);
     }
     useEffect(() => { getPublications() }, [])
-
-    useEffect(() => { setRefresh(false) }, [refresh])
 
     const showPublicationProps: ShowPublicationModalProps = {
         colorScheme: COLORS,
@@ -55,7 +56,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     const rowRender = (publication: Publication) => {
         return (
             <TouchableOpacity onPress={() => { setPublicationSelected(publication); setShowPublication(true) }}>
-                <Image size={Dimensions.get('screen').width / 3} source={{ uri: publication.photo }} alt={vm.user?.user_metadata.username ?? ''} />
+                <Image size={Dimensions.get('screen').width / 3} source={{ uri: publication.photo }} alt={vm.user?.username ?? ''} />
             </TouchableOpacity>
         )
     }
@@ -69,17 +70,17 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                         <TouchableOpacity onPress={() => back()} style={commonStyles.toolbarButton}>
                             <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
                         </TouchableOpacity>
-                        <Text style={[commonStyles.titleToolbar, { color: COLORS.text }]}>{vm.user?.user_metadata.username}</Text>
+                        <Text style={[commonStyles.titleToolbar, { color: COLORS.text }]}>{vm.user?.username}</Text>
                         <Text style={{ flex: 1 }}></Text>
                     </View>
-                    <View style={profileStyles.headerContainer}>
-                        <Image size={20} borderRadius={100} source={{ uri: vm.user?.user_metadata.photo }} alt={vm.user?.user_metadata.username ?? ''} />
+                    <View style={[profileStyles.headerContainer, { borderBottomColor: COLORS.shadowToolbar }]}>
+                        <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
                         <View style={{ paddingTop: 15 }}>
-                            <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.user_metadata.publicationsNumber}</Text>
+                            <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number}</Text>
                             <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
                         </View>
                         <View style={{ paddingTop: 15 }}>
-                            <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.user_metadata.moneySpent}</Text>
+                            <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.money_spent}</Text>
                             <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.money_spent')}</Text>
                         </View>
                     </View>

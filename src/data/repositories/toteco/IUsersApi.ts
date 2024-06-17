@@ -1,16 +1,14 @@
-import { UserDTO, UserData } from "../../model/toteco/User"
+import { UserData } from "../../model/toteco/User"
 
 
 export interface IUsersApi {
 
-    getUserLogged: () => Promise<UserData>
+    save: (body: UserData) => Promise<UserData>
 
-    save: (bodyDTO: UserDTO) => Promise<UserData>
+    updateMoneySpentAndPublicationsNumber: (money: number, id: string) => Promise<UserData | undefined>
 
-    updateMoneySpent(money: number): Promise<UserData | undefined>
+    getById: (id: string) => Promise<UserData | undefined>
 
     // updatePassword(password: string): Promise<UserData | undefined>
-
-    updatePublicationsNumber(publicationsNumber: number): Promise<UserData | undefined>
 
 }

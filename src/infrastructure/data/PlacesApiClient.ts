@@ -1,8 +1,9 @@
-import { Configuration, ConfigurationParameters } from '../../client/places';
-import { BaseAPI } from '../../client/places/base';
-import { NotImplementedException } from '../exceptions/NotImplementedException';
+
+import { Configuration, ConfigurationParameters } from "../../client"
+import { BaseAPI } from "../../client/base"
 
 //Enun type for map keys support. Must be filled with the released Apis, usually coming from the generated client.
+
 
 export enum PlacesApi {
     PlaceDetailsApi,
@@ -32,7 +33,7 @@ export default class PlacesApiClient {
             return new constuctor(this.clientConfig()) as T
         }
         else
-            throw new NotImplementedException()
+            throw 'Not implemented'
     }
 
     public static register(key: PlacesApi, customApi: BaseAPI, mock: boolean = false) {

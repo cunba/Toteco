@@ -11,7 +11,6 @@ export enum ROUTES {
     ESTABLISHMENTS = 'Establishments',
     ADD_PUBLICATION = 'Add publication',
     PROFILE = 'Profile',
-    RECOVERY_CODE = 'Recovery code',
     SEND_EMAIL = 'Send email'
 }
 
@@ -31,5 +30,6 @@ export const MAX_PHOTOS = 10
 
 export const DAY_TIMESTAMP = 86400000
 
-export const SUPABASE_URL = 'https://jalmjlkrxjacxpoyxgrq.supabase.co'
-export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphbG1qbGtyeGphY3hwb3l4Z3JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjY3MDE4MTEsImV4cCI6MTk4MjI3NzgxMX0.dcECUZzJbNIkQudD-Pwks769inW4CMSYQxTjqzht91Y'
+export const SUPABASE_URL = 'https://dopdqjdjuiwnpuwcihbi.supabase.co'
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvcGRxamRqdWl3bnB1d2NpaGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg1OTM2MDMsImV4cCI6MjAzNDE2OTYwM30.UO-5O2ALgm-NIIRNPKS5vh1yO1A4iXMP0bbkob7Pi4o'
+export const GOOGLE_MAPS_KEY = 'AIzaSyAa0XCtkG9q59pBSR7DLsgdMa9CR-jyAJw'

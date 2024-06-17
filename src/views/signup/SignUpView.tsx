@@ -47,10 +47,10 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                         setShowSpinner(true)
                         try {
                             vm.setUser()
-                            await signUp(vm.user);
+                            await signUp(vm.user, vm.password);
                             setShowSpinner(false);
                             Alert.alert(i18n.t('sign_up.success'))
-                            navigate(ROUTES.RECOVERY_CODE, null)
+                            navigate(ROUTES.LOGIN, null)
                         } catch (w: any) {
                             console.log(w)
                             setErrorMessage(i18n.t('sign_up.error.undefined')!);
@@ -138,7 +138,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                         <Text style={[commonStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
                         <Text style={{ flex: 1 }}></Text>
                     </View>
-                    <TouchableOpacity style={{ marginBottom: 20 }} onPress={pickImageAlert}>
+                    <TouchableOpacity style={{ marginBottom: 20, marginTop: 10 }} onPress={pickImageAlert}>
                         {imageUri === '' ?
                             <Image size={150} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Default user" />
                             :

@@ -1,7 +1,7 @@
 import { Checkbox, Input } from "native-base";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { Location } from "../../../client/places";
+import { Location } from "../../../client";
 import { commonStyles } from "../../../config/Styles";
 import { PlaceDetailsData } from "../../../data/model/places/PlaceDetails";
 import i18n from "../../../infrastructure/localization/i18n";

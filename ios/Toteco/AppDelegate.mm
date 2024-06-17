@@ -13,8 +13,7 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   [FIRApp configure];
-  NSString *mapsApiKey = [[NSProcessInfo processInfo] environment][@"REACT_APP_GOOGLE_MAPS_API_KEY"];
-  [GMSServices provideAPIKey: mapsApiKey];
+  [GMSServices provideAPIKey: @"AIzaSyAa0XCtkG9q59pBSR7DLsgdMa9CR-jyAJw"];
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

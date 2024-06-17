@@ -1,11 +1,12 @@
-import { Input, NativeBaseProvider, Stack } from "native-base";
+import { Icon, Input, NativeBaseProvider, Stack } from "native-base";
 import { useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Text, TouchableOpacity, View } from "react-native";
+import AntDesign from "react-native-vector-icons/AntDesign";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { commonStyles, formStyles } from "../../config/Styles";
 import i18n from "../../infrastructure/localization/i18n";
-import { navigate } from "../../infrastructure/navigation/RootNavigation";
+import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { RecoveryEmailViewModel } from "../../viewmodels/RecoveryEmailViewModel";
 
@@ -38,7 +39,11 @@ export const RecoveryEmailView: FunctionalView<RecoveryEmailViewModel> = ({ vm }
             <NativeBaseProvider>
                 <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
                     <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
-                        <Text style={[commonStyles.title, { color: COLORS.touchable }]}>{i18n.t('recovery_email.title')}</Text>
+                        <TouchableOpacity onPress={() => back()} style={commonStyles.toolbarButton}>
+                            <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
+                        </TouchableOpacity>
+                        <Text style={[commonStyles.title, { color: COLORS.text }]}>{i18n.t('recovery_email.title')}</Text>
+                        <Text style={{ flex: 1 }}></Text>
                     </View>
                     <Stack space={4} w="100%" alignItems="center" style={{ marginVertical: 10 }}>
                         <Input

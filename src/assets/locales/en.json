@@ -46,7 +46,7 @@
     "recovery_email.title": "Recovery password",
     "recovery_email.email.label": "Email",
     "recovery_email.error": "The email is not correct",
-    "recover_email.success": "Check your email to continue",
+    "recovery_email.success": "Check your email to continue",
 
     "recovery.code": "Recovery code",
     "recovery.password": "Password",
@@ -72,7 +72,6 @@
     "add_publication.error.price_error": "Price must be over 0",
 
     "add_product.title": "Add product",
-    "add_product.in_menu": "It is a product from a menu",
     "add_product.name": "Name",
     "add_product.score": "Score out of 5",
     "add_product.price": "Price",
@@ -81,7 +80,6 @@
     "add_product.error.no_price": "Price error",
     
     "edit_product.title": "Edit product",
-    "edit_product.in_menu": "Is a product from a menu",
     "edit_product.name": "Name",
     "edit_product.score": "Score out of 5",
     "edit_product.price": "Price",

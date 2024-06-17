@@ -8,4 +8,6 @@ export interface IEstablishmentsApi extends IGlobalRepository<Establishment, Est
 
     getByMapsId(mapsId: string): Promise<Establishment[] | undefined>
 
+    updateScore(score: number, id: string): Promise<Establishment>
+
 }

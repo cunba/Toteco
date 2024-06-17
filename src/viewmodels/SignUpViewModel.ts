@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { SignUpOptions, UserDTO, UserMetadata } from "../data/model/toteco/User";
+import { UserData } from "../data/model/toteco/User";
 
 export class SignUpViewModel {
 
@@ -11,7 +11,7 @@ export class SignUpViewModel {
     birthDate?: number = new Date().getTime()
     repeatPassword?: string
     profileImage?: string
-    user?: UserDTO
+    user?: UserData
 
     constructor() {
         makeAutoObservable(this)
@@ -53,8 +53,10 @@ export class SignUpViewModel {
     }
 
     async setUser() {
-        const data = new UserMetadata(
+        const user = new UserData(
+            '',
             this.username!,
+            this.email!,
             this.name!,
             this.surname!,
             this.birthDate!,
@@ -62,11 +64,6 @@ export class SignUpViewModel {
             true,
             0,
             0
-        )
-        const user = new UserDTO(
-            this.email!,
-            this.password!,
-            new SignUpOptions(data)
         )
 
         this.user = user

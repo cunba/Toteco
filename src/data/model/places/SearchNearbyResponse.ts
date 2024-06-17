@@ -1,4 +1,4 @@
-import { SearchNearbyResponse } from "../../../client/places"
+import { SearchNearbyResponse } from "../../../client"
 import { PlaceDetailsData } from "./PlaceDetails"
 
 

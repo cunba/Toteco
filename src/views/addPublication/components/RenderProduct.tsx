@@ -5,14 +5,14 @@ import EvilIcons from "react-native-vector-icons/EvilIcons"
 import Feather from "react-native-vector-icons/Feather"
 import { SIZES } from "../../../config/Sizes"
 import { stylesRicyclerList } from "../../../config/Styles"
-import { ProductDataDTO } from "../../../data/model/toteco/Product"
+import { ProductDTO } from "../../../data/model/toteco/Product"
 import { addPublicationStyles } from "../AddPublicationStyles"
 
 export interface RenderProductProps {
-    product: ProductDataDTO
+    product: ProductDTO
     index: number
     onPressTrashIcon: (index: number) => void
-    onPressEditIcon: (product: ProductDataDTO, index: number) => void
+    onPressEditIcon: (product: ProductDTO, index: number) => void
     swipableRowRef: (ref: any) => void
     colorScheme: any
 }

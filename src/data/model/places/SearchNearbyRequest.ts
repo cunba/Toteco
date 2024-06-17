@@ -1,5 +1,5 @@
-import { Circle, LocationRestriction, SearchNearbyRequest } from "../../../client/places"
-import { LocationData } from "./Location"
+import { Circle, LocationRestriction, SearchNearbyRequest } from "../../../client"
+import { LocationData } from "./PlaceDetails"
 
 
 export class SearchNearbyRequestData implements SearchNearbyRequest {
@@ -8,7 +8,7 @@ export class SearchNearbyRequestData implements SearchNearbyRequest {
         public locationRestriction: LocationRestrictionData,
         public includedTypes?: Array<string>,
     ) {
-        this.includedTypes = ['bar', 'cafe', 'meal_delivery', 'meal_takeaway', 'restaurant']
+        this.includedTypes = ["bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant", "coffee_shop", "breakfast_restaurant", "bakery"]
         this.locationRestriction = locationRestriction
     }
 }

@@ -16,7 +16,7 @@ export interface PublicationProps {
     onPressIcon?: () => void
 }
 
-export default function Publication(props: PublicationProps) {
+export default function PublicationCard(props: PublicationProps) {
     const color = props.colorScheme
 
     return <>
@@ -55,8 +55,8 @@ export default function Publication(props: PublicationProps) {
                     : null
                 }
                 <View style={[publicationStyles.totalContainer, { borderColor: color.shadowToolbar }]}>
-                    <Text style={[commonStyles.text, { color: color.text }]}>{`PRICE: ${props.publication.totalPrice} €`}</Text>
-                    <Text style={[commonStyles.text, { color: color.text }]}>{`SCORE: ${props.publication.totalScore} ☆`}</Text>
+                    <Text style={[commonStyles.text, { color: color.text }]}>{`PRICE: ${props.publication.total_price} €`}</Text>
+                    <Text style={[commonStyles.text, { color: color.text }]}>{`SCORE: ${props.publication.total_score} ☆`}</Text>
                 </View>
             </Card.Content>
         </Card>

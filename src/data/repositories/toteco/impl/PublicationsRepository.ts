@@ -2,17 +2,21 @@ import { supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
 import { Publication, PublicationDTO } from "../../../model/toteco/Publication";
 import { IPublicationsApi } from "../IPublicationsApi";
+import { EstablishmentsRepository } from "./EstablishmentsRepository";
+import { ProductsRepository } from "./ProductsRepository";
+import { UsersRepository } from "./UsersRepository";
 
 
 export class PublicationsRepository implements IPublicationsApi {
 
     static tries = 0
-    tableName = 'Toteco.publications'
+    tableName = 'publications'
 
     async save(body: PublicationDTO) {
         const response = await supabase.from(this.tableName).insert(body).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -40,6 +44,7 @@ export class PublicationsRepository implements IPublicationsApi {
         const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -67,6 +72,7 @@ export class PublicationsRepository implements IPublicationsApi {
         const response = await supabase.from(this.tableName).delete().eq('id', id).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -94,6 +100,7 @@ export class PublicationsRepository implements IPublicationsApi {
         const response = await supabase.from(this.tableName).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -112,8 +119,17 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
-            return response.data
+            const publications = response.data as Publication[]
+            for (let i = 0; i < publications.length; i++) {
+                const establishment = await new EstablishmentsRepository().getById(response.data[i].establishment_id)
+                const products = await new ProductsRepository().getByPublicationId(publications[i].id!)
+                const user = await new UsersRepository().getById(response.data[i].user_id)
+                publications[i].establishment = establishment
+                publications[i].products = products
+                publications[i].user = user
+            }
+            console.log(publications)
+            return publications
         }
     }
 
@@ -121,6 +137,7 @@ export class PublicationsRepository implements IPublicationsApi {
         const response = await supabase.from(this.tableName).select().eq('id', id)
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -144,8 +161,15 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
-            return response.data[0]
+            const publication = response.data[0] as Publication
+            const establishment = await new EstablishmentsRepository().getById(response.data[0].establishment_id)
+            const products = await new ProductsRepository().getByPublicationId(publication.id!)
+            const user = await new UsersRepository().getById(response.data[0].user_id)
+            publication.establishment = establishment
+            publication.products = products
+            publication.user = user
+            console.log(publication)
+            return publication
         }
     }
 
@@ -153,6 +177,7 @@ export class PublicationsRepository implements IPublicationsApi {
         const response = await supabase.from(this.tableName).select().eq('establishment_id', id)
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -171,8 +196,15 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
-            return response.data
+            const publications = response.data as Publication[]
+            for (let i = 0; i < publications.length; i++) {
+                const products = await new ProductsRepository().getByPublicationId(publications[i].id!)
+                const user = await new UsersRepository().getById(response.data[i].user_id)
+                publications[i].products = products
+                publications[i].user = user
+            }
+            console.log(publications)
+            return publications
         }
     }
 
@@ -180,6 +212,7 @@ export class PublicationsRepository implements IPublicationsApi {
         const response = await supabase.from(this.tableName).select().eq('user_id', id)
 
         if (response.error !== null) {
+            console.log(response.error)
             if (PublicationsRepository.tries < 1) {
                 PublicationsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -198,8 +231,17 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
-            return response.data
+            const publications = response.data as Publication[]
+            for (let i = 0; i < publications.length; i++) {
+                const establishment = await new EstablishmentsRepository().getById(response.data[i].establishment_id)
+                const products = await new ProductsRepository().getByPublicationId(publications[i].id!)
+                const user = await new UsersRepository().getById(response.data[i].user_id)
+                publications[i].establishment = establishment
+                publications[i].products = products
+                publications[i].user = user
+            }
+            console.log(publications)
+            return publications
         }
     }
 }

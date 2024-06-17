@@ -1,4 +1,4 @@
-import { DisplayName, Location, PlaceDetails, RegularOpeningHours } from "../../../client/places"
+import { DisplayName, Location, PlaceDetails, RegularOpeningHours } from "../../../client"
 
 
 export class PlaceDetailsData implements PlaceDetails {

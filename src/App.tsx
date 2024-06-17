@@ -16,7 +16,7 @@ import { COLORS_DARK, COLORS_LIGHT } from './config/Colors';
 import { COLOR_MODE, PLATFORM, ROUTES, SUPABASE_ANON_KEY, SUPABASE_URL } from './config/Constants';
 import { SIZES } from './config/Sizes';
 import { commonStyles } from './config/Styles';
-import { UserDTO, UserData } from './data/model/toteco/User';
+import { UserData } from './data/model/toteco/User';
 import { UsersRepository } from './data/repositories/toteco/impl/UsersRepository';
 import PlacesApiClient, { PlacesApi } from './infrastructure/data/PlacesApiClient';
 import { SessionStoreFactory } from './infrastructure/data/SessionStoreFactory';
@@ -187,6 +187,7 @@ function App(): JSX.Element {
 
     useEffect(() => {
         supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log(event)
             if (event == "PASSWORD_RECOVERY") {
                 console.log(session?.user)
                 console.log('password recovery')
@@ -207,14 +208,19 @@ function App(): JSX.Element {
                     email: email,
                     password: password
                 }
-                const response = await supabase.auth.signInWithPassword(credentials)
-                if (response.error !== null && response.error !== undefined) {
+                const response = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                })
+                if (response.error !== null) {
                     throw response.error
                 }
 
+                const user = await new UsersRepository().getById(response.data.user.id)
+
                 SessionStoreFactory.getSessionStore().setToken(response.data.session.access_token);
                 SessionStoreFactory.getSessionStore().setCredentials(credentials)
-                SessionStoreFactory.getSessionStore().setUser(response.data.user as UserData)
+                SessionStoreFactory.getSessionStore().setUser(user)
                 dispatch({ type: 'SIGN_IN', token: response.data.session.access_token });
             },
             signOut: async () => {
@@ -224,8 +230,18 @@ function App(): JSX.Element {
                 SessionStoreFactory.getSessionStore().setUser(undefined);
                 dispatch({ type: 'SIGN_OUT' });
             },
-            signUp: async (user: UserDTO) => {
+            signUp: async (user: UserData, password: string) => {
                 try {
+                    const response = await supabase.auth.signUp({
+                        email: user.email,
+                        password: password
+                    })
+
+                    if (response.error !== null) {
+                        console.log(response.error)
+                        throw response.error
+                    }
+                    user.id = response.data.user!.id
                     await new UsersRepository().save(user)
                     dispatch({ type: 'SIGN_UP' });
                 } catch (e) {
@@ -309,7 +325,7 @@ function App(): JSX.Element {
                                         options={{ headerShown: false }}
                                     />
                                     <Stack.Screen
-                                        name={ROUTES.RECOVERY_CODE}
+                                        name={ROUTES.SEND_EMAIL}
                                         component={RecoveryEmailScreen}
                                         options={{ headerShown: false }}
                                     />

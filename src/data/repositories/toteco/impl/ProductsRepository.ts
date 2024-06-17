@@ -7,12 +7,13 @@ import { IProductsApi } from "../IProductsApi";
 export class ProductsRepository implements IProductsApi {
 
     static tries = 0
-    tableName = 'Toteco.products'
+    tableName = 'products'
 
     async save(product: ProductDTO) {
         const response = await supabase.from(this.tableName).insert(product).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -40,6 +41,7 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -67,6 +69,7 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).delete().eq('id', id).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -94,6 +97,7 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select()
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -121,6 +125,7 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select().eq('id', id)
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -153,6 +158,7 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select().eq('menu_id', menuId)
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -180,6 +186,7 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select().eq('publication_id', publicationId)
 
         if (response.error !== null) {
+            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()

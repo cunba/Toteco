@@ -34,14 +34,14 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const [errorMessage, setErrorMessage] = useState('');
     const [addProduct, setAddProduct] = useState(false)
     const [editProduct, setEditProduct] = useState(false)
-    const [newProduct, setNewProduct] = useState(new ProductDTO('', false, 0, ''))
-    const [productModified, setProductModified] = useState(new ProductDTO('', false, 0, ''))
+    const [newProduct, setNewProduct] = useState(new ProductDTO('', 0, ''))
+    const [productModified, setProductModified] = useState(new ProductDTO('', 0, ''))
     const [indexProductModified, setIndexProductModified] = useState(0)
     const [optionsVisible, setOptionsVisible] = useState(false)
     const [scroll, setScroll] = useState<any>()
     const [swipableRowRef, setSwipableRowRef] = useState<Swipeable[]>([])
     const [addEstablishment, setAddEstablishment] = useState(false)
-    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDTO('', '', false, false, '', 0))
+    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDTO('', '', false, '', 0))
     const [establishmentErrorMessage, setEstablishmentErrorMessage] = useState('')
     const [hideEstablishmentErrorMessage, setHideEstablishmentErrorMessage] = useState(true)
     const [productErrorMessage, setProductErrorMessage] = useState('')
@@ -141,7 +141,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
             } else {
                 vm.addProduct(newProduct)
                 setAddProduct(!addProduct)
-                setNewProduct(new ProductDTO('', false, 0, ''))
+                setNewProduct(new ProductDTO('', 0, ''))
                 setProductErrorMessage('')
                 setHideProductErrorMessage(true)
                 setHideErrorMessage(true)
@@ -154,8 +154,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         errorMessage: productErrorMessage,
         onNameChange: (name: string) => { newProduct.name = name },
         onPriceChange: (price: number) => { newProduct.price = Number(price) },
-        onScoreChange: (score: number) => { newProduct.score = Number(score) },
-        onInMenuChange: (inMenu: boolean) => { newProduct.inMenu = inMenu }
+        onScoreChange: (score: number) => { newProduct.score = Number(score) }
     }
 
     const editProductOptions: EditProductModalProps = {
@@ -186,15 +185,13 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         colorScheme: COLORS,
         animationType: AnimationType.FADE,
         name: productModified.name,
-        inMenu: productModified.inMenu,
         price: productModified.price,
         score: productModified.score,
         hideErrorMessage: hideProductErrorMessage,
         errorMessage: productErrorMessage,
         onNameChange: (name: string) => { productModified.name = name },
         onPriceChange: (price: number) => { productModified.price = Number(price) },
-        onScoreChange: (score: number) => { productModified.score = Number(score) },
-        onInMenuChange: (inMenu: boolean) => { productModified.inMenu = inMenu }
+        onScoreChange: (score: number) => { productModified.score = Number(score) }
     }
 
     const close = () => {
@@ -242,7 +239,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         hideErrorMessage: hideEstablishmentErrorMessage,
         errorMessage: establishmentErrorMessage,
         onPressOk: () => {
-            if (newEstablishment.mapsId === '') {
+            if (newEstablishment.maps_id === '') {
                 setEstablishmentErrorMessage(i18n.t('add_establishment.error.no_establishment'))
                 setHideEstablishmentErrorMessage(false)
                 setRefresh(true)
@@ -265,10 +262,10 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         onPlaceChange: (place: PlaceDetailsData) => {
             vm.setPlaceSelected(place)
             newEstablishment.name = place.displayName.text
-            newEstablishment.mapsId = place.id
+            newEstablishment.maps_id = place.id
             setRefresh(true)
         },
-        onIsComputerAllowedChange: (isComputerAllowed: boolean) => newEstablishment.isComputerAllowed = isComputerAllowed,
+        onIsComputerAllowedChange: (isComputerAllowed: boolean) => newEstablishment.is_computer_allowed = isComputerAllowed,
         onRegionChange: (region: any) => {
             vm.renderEstablishments(region)
             setRefresh(true)

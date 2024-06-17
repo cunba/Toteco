@@ -7,7 +7,7 @@ export interface IGlobalRepository<T, DTO> {
 
     delete: (id: string) => Promise<T | any>
 
-    getById: (id: string) => Promise<T>
+    getById: (id: string) => Promise<T | any>
 
     getAll: () => Promise<T[] | undefined>
 

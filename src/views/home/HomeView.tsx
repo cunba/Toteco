@@ -7,7 +7,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { AuthContext } from "../../App";
 import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/MultiLevelFabButton";
-import Publication, { PublicationProps } from "../../components/Publication/Publication";
+import PublicationCard, { PublicationProps } from "../../components/Publication/PublicationCard";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
@@ -27,13 +27,14 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
     Appearance.addChangeListener(() => {
         setCurrentColor(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT)
     })
+    useEffect(() => { setRefresh(false) }, [refresh])
+
     const getPublications = async () => {
         await vm.getPublications();
         setRefresh(true);
     }
     useEffect(() => { getPublications() }, [])
 
-    useEffect(() => { setRefresh(false) }, [refresh])
 
     const [dataSource, setDataSource] = useState(
         new DataProvider((r1, r2) => {
@@ -83,10 +84,10 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        {vm.user?.user_metadata.photo === '' ?
-                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={vm.user.user_metadata.username ?? ''} />
+                        {vm.user?.photo === '' ?
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={vm.user.username ?? ''} />
                             :
-                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.user_metadata.photo }} alt={vm.user?.user_metadata.username ?? ''} />
+                            <Image size={10} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
                         }
                     </View>
                 ),
@@ -125,7 +126,7 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             publication: publication,
             onPressIcon: () => navigate(ROUTES.PROFILE, publication.user)
         }
-        return (<Publication {...props} />)
+        return (<PublicationCard {...props} />)
     }
 
     return (

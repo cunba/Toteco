@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { Publication } from "../data/model/toteco/Publication";
 import { UserData } from "../data/model/toteco/User";
 import { PublicationsRepository } from "../data/repositories/toteco/impl/PublicationsRepository";
-import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepository";
+import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class ProfileViewModel {
 
@@ -15,7 +15,7 @@ export class ProfileViewModel {
     }
 
     async getUser() {
-        this.user = await new UsersRepository().getUserLogged()
+        this.user = await SessionStoreFactory.getSessionStore().getUser()
     }
 
     async getPublications() {

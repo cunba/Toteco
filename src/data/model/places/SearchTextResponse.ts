@@ -1,4 +1,4 @@
-import { PlaceDetails, SearchTextResponse } from "../../../client/places"
+import { PlaceDetails, SearchTextResponse } from "../../../client"
 
 
 export class SearchTextResponseData implements SearchTextResponse {

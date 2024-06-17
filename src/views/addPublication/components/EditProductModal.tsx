@@ -1,8 +1,7 @@
-import { Checkbox, Input } from "native-base"
+import { Input } from "native-base"
 import { Modal, Text, TouchableOpacity, View } from "react-native"
 import i18n from "../../../infrastructure/localization/i18n"
 import { productModalStyles } from "./ProductModalStyles"
-import { commonStyles } from "../../../config/Styles"
 
 
 export enum AnimationType {
@@ -17,7 +16,6 @@ export interface EditProductModalProps {
     visible: boolean
     onPressOk?: () => void
     onRequestClose: () => void
-    inMenu?: boolean
     name?: string
     price?: number
     score?: number
@@ -26,7 +24,6 @@ export interface EditProductModalProps {
     onNameChange: (name: string) => void
     onPriceChange: (price: number) => void
     onScoreChange: (score: number) => void
-    onInMenuChange: (inMenu: boolean) => void
 }
 
 export const EditProductModal = (props: EditProductModalProps) => {
@@ -40,14 +37,6 @@ export const EditProductModal = (props: EditProductModalProps) => {
                     <Text style={[productModalStyles.title, { color: color.text_touchable }]}>{i18n.t("edit_product.title").toUpperCase()}</Text>
                 </View>
                 <View style={productModalStyles.productItems}>
-                    <Checkbox
-                        value={i18n.t("edit_product.in_menu")}
-                        colorScheme='pink'
-                        onChange={(isSelected) => props.onInMenuChange(isSelected)}
-                        defaultIsChecked={props.inMenu}
-                    >
-                        <Text style={[commonStyles.text, {color: color.text}]}>{i18n.t("edit_product.in_menu")}</Text>
-                    </Checkbox>
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}
                         w={{ base: "75%", md: "25%" }}

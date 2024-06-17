@@ -1,5 +1,5 @@
 import { Modal, Text, TouchableOpacity, View } from "react-native"
-import Publication, { PublicationProps } from "../../../components/Publication/Publication"
+import Publication, { PublicationProps } from "../../../components/Publication/PublicationCard"
 import i18n from "../../../infrastructure/localization/i18n"
 import { showPublicationModalStyles } from "./ShowPublicationModalStyles"
 

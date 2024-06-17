@@ -1,17 +1,16 @@
 import { makeAutoObservable } from "mobx";
 import { Location } from "react-native-location";
-import { geolocation } from "../App";
+import { firebaseStorage, geolocation } from "../App";
 import { LocationData, PlaceDetailsData } from "../data/model/places/PlaceDetails";
 import { CircleData, LocationRestrictionData, SearchNearbyRequestData } from "../data/model/places/SearchNearbyRequest";
 import { Establishment, EstablishmentDTO } from "../data/model/toteco/Establishment";
-import { Menu, MenuDTO } from "../data/model/toteco/Menu";
 import { ProductDTO } from "../data/model/toteco/Product";
 import { PublicationDTO } from "../data/model/toteco/Publication";
 import { SearchNearbyRepository } from "../data/repositories/places/impl/SearchNearbyRepository";
 import { EstablishmentsRepository } from "../data/repositories/toteco/impl/EstablishmentsRepository";
-import { MenusRepository } from "../data/repositories/toteco/impl/MenusRepository";
 import { ProductsRepository } from "../data/repositories/toteco/impl/ProductsRepository";
 import { PublicationsRepository } from "../data/repositories/toteco/impl/PublicationsRepository";
+import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class AddPublicationViewModel {
@@ -20,7 +19,6 @@ export class AddPublicationViewModel {
     newEstablishment?: EstablishmentDTO
     establishmentScore?: number
     products: ProductDTO[]
-    menus: MenuDTO[]
     totalScore: number
     totalPrice: number
     comment: string
@@ -32,7 +30,6 @@ export class AddPublicationViewModel {
     constructor() {
         makeAutoObservable(this)
         this.products = []
-        this.menus = []
         this.placesNearby = []
         this.totalScore = 0
         this.totalPrice = 0
@@ -44,20 +41,13 @@ export class AddPublicationViewModel {
     setTotalScore() {
         let productScore = 0
         this.products.map(product => productScore = productScore + product.score!)
-        let menusScore = 0
-        this.menus.map(menu => menusScore = menusScore + menu.score)
         let establishmentScore = this.establishmentScore ?? 0
-        this.totalScore = (establishmentScore + productScore + menusScore) / (this.products.length + this.menus.length + 1)
+        this.totalScore = (establishmentScore + productScore) / (this.products.length + 1)
     }
 
     setTotalPrice() {
         let price = 0
-        if (this.menus.length > 0) {
-            this.products.map(product => !product.inMenu ? (price = price + product.price!) : '')
-            this.menus.map(menu => price = price + menu.price)
-        } else {
-            this.products.map(product => price = price + product.price!)
-        }
+        this.products.map(product => price = price + product.price!)
         this.totalPrice = price
     }
 
@@ -66,7 +56,6 @@ export class AddPublicationViewModel {
     }
 
     addProduct(product: ProductDTO) {
-        product.inMenu = product.inMenu ?? false
         this.products.push(product)
         this.setTotalScore()
         this.setTotalPrice()
@@ -85,8 +74,8 @@ export class AddPublicationViewModel {
     }
 
     async addEstablishment(establishment: EstablishmentDTO) {
-        establishment.isComputerAllowed = establishment.isComputerAllowed ?? false
-        const existEstablishment = await new EstablishmentsRepository().getByMapsId(establishment.mapsId)
+        establishment.is_computer_allowed = establishment.is_computer_allowed ?? false
+        const existEstablishment = await new EstablishmentsRepository().getByMapsId(establishment.maps_id)
         console.log(existEstablishment)
         if (existEstablishment!.length > 0)
             this.establishment = existEstablishment![0]
@@ -101,7 +90,7 @@ export class AddPublicationViewModel {
 
     async renderEstablishments(region: any) {
         const center = new LocationData(region.latitude, region.longitude)
-        const circle = new CircleData(center, 5000)
+        const circle = new CircleData(center, 100)
         const locationRestriction = new LocationRestrictionData(circle)
         const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
         const response: PlaceDetailsData[] = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
@@ -112,7 +101,7 @@ export class AddPublicationViewModel {
 
     async getPlacesNearby() {
         const center = new LocationData(this.initialLocation!.latitude, this.initialLocation!.longitude)
-        const circle = new CircleData(center, 5000)
+        const circle = new CircleData(center, 100)
         const locationRestriction = new LocationRestrictionData(circle)
         const searchNearbyRequest = new SearchNearbyRequestData(locationRestriction)
         const response: PlaceDetailsData[] = await new SearchNearbyRepository().searchNearby(searchNearbyRequest)
@@ -123,8 +112,10 @@ export class AddPublicationViewModel {
         let establishmentId
         if (this.newEstablishment) {
             const establishmentExists = await new EstablishmentsRepository().getByMapsId(this.placeSelected?.id!)
-            if (establishmentExists instanceof Array && establishmentExists.length < 0) {
+            console.log(establishmentExists)
+            if (establishmentExists && establishmentExists.length > 0) {
                 establishmentId = establishmentExists[0].id
+                await new EstablishmentsRepository().updateScore(establishmentExists[0].score + this.establishmentScore!, establishmentId)
             } else {
                 const newEstablishment = await this.createEstablihment()
                 establishmentId = newEstablishment?.id
@@ -134,11 +125,12 @@ export class AddPublicationViewModel {
         else
             establishmentId = this.establishment.id
 
-        let menus: Menu[] = []
-        if (this.menus.length > 0)
-            menus = this.createMenus()
-
         const user = await SessionStoreFactory.getSessionStore().getUser()
+
+        const imageName = this.image!.substring(this.image!.lastIndexOf('/') + 1)
+        const response = await firebaseStorage.ref(imageName).putFile(this.image!)
+        if (response.state === 'success')
+            this.image = await firebaseStorage.ref(imageName).getDownloadURL()
 
         const newPublication = new PublicationDTO(
             this.totalScore!,
@@ -150,34 +142,21 @@ export class AddPublicationViewModel {
         )
 
         const publication = await new PublicationsRepository().save(newPublication)
+        await new UsersRepository().updateMoneySpentAndPublicationsNumber(this.totalPrice, user!.id)
 
         if (this.products.length > 0)
-            if (menus.length > 0)
-                this.createProducts(publication!.id, menus[0].id)
-            else
-                this.createProducts(publication!.id)
+            this.createProducts(publication!.id)
     }
 
     async createEstablihment() {
-        this.newEstablishment!.location = `{"latitude": ${this.placeSelected?.location.latitude}, "longitude": ${this.placeSelected?.location.longitude}}`
+        this.newEstablishment!.location = `{'latitude': ${this.placeSelected?.location.latitude}, 'longitude': ${this.placeSelected?.location.longitude}}`
+        this.newEstablishment!.score = this.totalScore
         const establishment = await new EstablishmentsRepository().save(this.newEstablishment!)
         return establishment
     }
 
-    createMenus() {
-        const menus: Menu[] = []
-        this.menus.map(async menu => {
-            const newMenu = await new MenusRepository().save(menu)
-            if (newMenu !== undefined)
-                menus.push(newMenu)
-        })
-
-        return menus
-    }
-
     createProducts(publicationId: string, menuId?: string) {
         this.products.map(async product => {
-            if (product.inMenu) product.menu_id = menuId
             product.publication_id = publicationId
             await new ProductsRepository().save(product)
         })

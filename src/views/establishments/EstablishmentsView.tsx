@@ -19,7 +19,7 @@ import { ShowEstablishmentModal, ShowEstablishmentModalProps } from "./component
 export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [showEstablishment, setShowEstablishment] = useState(false)
-    const [establishmentSelected, setEstablishmentSelected] = useState<Establishment>(new Establishment('', '', '', false, false, '', 0))
+    const [establishmentSelected, setEstablishmentSelected] = useState<Establishment>(new Establishment('', '', '', false, '', 0))
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
@@ -74,7 +74,7 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                                     return <Marker
                                         key={establishment.id}
                                         title={establishment.name}
-                                        coordinate={JSON.parse(establishment.location)}
+                                        coordinate={JSON.parse(establishment.location.replaceAll("'", '"'))}
                                         pinColor={COLORS.touchable}
                                         onPress={() => { setEstablishmentSelected(establishment); setShowEstablishment(true) }}
                                     />

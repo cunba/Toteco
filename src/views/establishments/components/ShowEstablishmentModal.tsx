@@ -1,7 +1,7 @@
 import { Checkbox } from "native-base";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Publication, { PublicationProps } from "../../../components/Publication/Publication";
+import PublicationCard, { PublicationProps } from "../../../components/Publication/PublicationCard";
 import { commonStyles } from "../../../config/Styles";
 import { Establishment } from "../../../data/model/toteco/Establishment";
 import { Publication } from "../../../data/model/toteco/Publication";
@@ -39,19 +39,19 @@ export const ShowEstablishmentModal = (props: ShowEstablishmentModalProps) => {
                         value={i18n.t("add_establishment.is_computer_allowed")}
                         colorScheme='pink'
                         isDisabled={true}
-                        isChecked={props.establishment.isComputerAllowed}
+                        isChecked={props.establishment.is_computer_allowed}
                     >
                         <Text style={[commonStyles.text, { color: color.text }]}>{i18n.t("show_establishment.is_computer_allowed")}</Text>
                     </Checkbox>
                     <Text style={[commonStyles.text, { color: color.text, paddingTop: 5 }]}>{props.establishment.score.toString() + '/5 ☆'}</Text>
                 </View>
                 <ScrollView style={showEstablishmentModalStyles.productItems}>
-                    {props.publications.map(publication => {
+                    {props.publications?.map(publication => {
                         const publicationProps: PublicationProps = {
                             colorScheme: color,
                             publication: publication
                         }
-                        return <Publication {...publicationProps} />
+                        return <PublicationCard {...publicationProps} />
                     })}
                 </ScrollView>
                 <View style={showEstablishmentModalStyles.containerOkCancel}>

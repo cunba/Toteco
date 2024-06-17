@@ -47,11 +47,11 @@
     "recovery_email.title": "Recuperar contraseña",
     "recovery_email.email.label": "Correo",
     "recovery_email.error": "El correo no es correcto",
+    "recovery_email.success": "Comprueba el correo para continuar",
 
     "recovery.code": "Código de recuperación",
     "recovery.password": "Contraseña",
     "recovery.repeat_password": "Repite contraseña",
-    "recover_email.success": "Comprueba el correo para continuar",
 
     "add_publication.title": "Añadir publicación",
     "add_publication.establishment.label": "Establecimiento",
@@ -73,7 +73,6 @@
     "add_publication.error.price_error": "El precio debe ser mayor que 0",
 
     "add_product.title": "Añadir producto",
-    "add_product.in_menu": "Es un producto de un menú",
     "add_product.name": "Nombre",
     "add_product.score": "Puntuación sobre 5",
     "add_product.price": "Precio",
@@ -82,7 +81,6 @@
     "add_product.error.no_price": "Error en el precio",
 
     "edit_product.title": "Editar producto",
-    "edit_product.in_menu": "Es un producto de un menú",
     "edit_product.name": "Nombre",
     "edit_product.score": "Puntuación sobre 5",
     "edit_product.price": "Precio",
