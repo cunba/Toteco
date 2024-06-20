@@ -10,7 +10,7 @@
 
     "login.title": "Inicio de sesión",
     "login.button" : "Iniciar sesión",
-    "login.label.email": "Correo",
+    "login.label.email": "Correo o usuario",
     "login.label.password": "Contraseña",
     "login.error.no_username": "El usuario es obligatorio",
     "login.error.no_password": "La contraseña es obligatoria",
@@ -43,6 +43,7 @@
     "sign_up.alert.camera": "Tomar foto",
     "sign_up.alert.gallery": "Elegir de la galería",
     "sign_up.alert.cancel": "Cancelar",
+    "sign_up.error.exists": "Email o usuario ya existe",
     
     "recovery_email.title": "Recuperar contraseña",
     "recovery_email.email.label": "Correo",
@@ -97,5 +98,10 @@
 
     "profile.title": "Perfil",
     "profile.money_spent": "Gastado",
-    "profile.total_publications": "Publicaciones"
+    "profile.total_publications": "Publicaciones",
+
+    "repositories.users.not_found": "Usuario no encontrado",
+    "repositories.establishments.not_found": "Establecimiento no encontrado",
+    "repositories.products.not_found": "Producto no encontrado",
+    "repositories.publications.not:found": "Publicación no encontrado"
 }

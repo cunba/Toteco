@@ -1,5 +1,6 @@
 import { supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
+import i18n from "../../../../infrastructure/localization/i18n";
 import { Publication, PublicationDTO } from "../../../model/toteco/Publication";
 import { IPublicationsApi } from "../IPublicationsApi";
 import { EstablishmentsRepository } from "./EstablishmentsRepository";
@@ -157,7 +158,7 @@ export class PublicationsRepository implements IPublicationsApi {
         } else if (response.count === 0) {
             throw {
                 code: 404,
-                message: 'Publication not found'
+                message: i18n.t('repositories.publications.not_found')
             }
         } else {
             PublicationsRepository.tries = 0

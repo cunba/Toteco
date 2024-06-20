@@ -11,19 +11,18 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
+import com.github.reactnativecommunity.location.RNLocationPackage
 import com.rnfs.RNFSPackage
-import com.github.reactnativecommunity.location.RNLocationPackage;
 
 class MainApplication : Application(), ReactApplication {
 
   override val reactNativeHost: ReactNativeHost =
       object : DefaultReactNativeHost(this) {
         override fun getPackages(): List<ReactPackage> {
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
-          packages.add(new RNFSPackage());
-          packages.add(new RNLocationPackage());
-          return PackageList(this).packages
+            val packages: MutableList<ReactPackage> = PackageList(this).packages
+            // Packages that cannot be autolinked yet can be added manually here, for example:
+            // Packages that cannot be autolinked yet can be added manually here, for example:
+            return packages
         }
 
         override fun getJSMainModuleName(): String = "index"

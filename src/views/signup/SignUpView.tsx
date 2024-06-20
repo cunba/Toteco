@@ -189,7 +189,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             keyboardType="numeric"
                             dataDetectorTypes={'calendarEvent'}
                             borderWidth={0}
-                            autoCapitalize="none"
+                            autoCapitalize="none"                            
                         />
                         <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
                         <Input

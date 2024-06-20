@@ -1,5 +1,6 @@
 import { firebaseStorage, supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
+import i18n from "../../../../infrastructure/localization/i18n";
 import { UserData } from "../../../model/toteco/User";
 import { IUsersApi } from "../IUsersApi";
 
@@ -18,6 +19,7 @@ export class UsersRepository implements IUsersApi {
 
             if (response.error !== null) {
                 console.log(response.error)
+                await firebaseStorage.ref(imageName).delete()
                 throw response.error
             }
             return response.data[0] as UserData
@@ -88,6 +90,105 @@ export class UsersRepository implements IUsersApi {
             UsersRepository.tries = 0
             return response.data[0] as UserData
         }
+    }
+
+    async getByUsername(username: string) {
+        const response = await supabase.from(this.tableName).select().eq('username', username)
+        console.log(response)
+
+        if (response.error !== undefined && response.error !== null) {
+            console.log(response.error)
+            if (UsersRepository.tries < 1) {
+                UsersRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log(response.error)
+                    throw response.error
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getByUsername(username)
+                }
+            } else {
+                UsersRepository.tries = 0
+                console.log(response.error)
+                throw response.error
+            }
+        } else if (response.data.length === 0) {
+            throw {
+                code: 404,
+                message: i18n.t('repositories.users.not_found')
+            }
+        } else {
+            UsersRepository.tries = 0
+            console.log(response)
+            return response.data[0] as UserData
+        }
+    }
+
+    async userExists(username: string, email: string) {
+        let response = await supabase.from(this.tableName).select().eq('username', username)
+
+        if (response.error !== null) {
+            console.log('error', response.error)
+            if (UsersRepository.tries < 1) {
+                UsersRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log(response.error)
+                    throw response.error
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getByUsername(username)
+                }
+            } else {
+                UsersRepository.tries = 0
+                console.log(response.error)
+                throw response.error
+            }
+        } else {
+            if (response.data.length !== 0) {
+                UsersRepository.tries = 0
+                return true
+            } else {
+                response = await supabase.from(this.tableName).select().eq('email', email)
+
+                if (response.error !== null) {
+                    console.log('error', response.error)
+                    if (UsersRepository.tries < 1) {
+                        UsersRepository.tries++
+                        const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                        const token = await SessionStoreFactory.getSessionStore().getToken()
+                        const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                        if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                            console.log(response.error)
+                            throw response.error
+                        } else {
+                            SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                            this.getByUsername(username)
+                        }
+                    } else {
+                        UsersRepository.tries = 0
+                        console.log(response.error)
+                        throw response.error
+                    }
+                }
+
+                if (response.data?.length !== 0) {
+                    UsersRepository.tries = 0
+                    return true
+                }
+                UsersRepository.tries = 0
+                return false
+            }
+        }
+        return false
     }
 
     // async updatePassword(password: string) {

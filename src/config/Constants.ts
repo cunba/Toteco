@@ -30,6 +30,6 @@ export const MAX_PHOTOS = 10
 
 export const DAY_TIMESTAMP = 86400000
 
-export const SUPABASE_URL = 'https://dopdqjdjuiwnpuwcihbi.supabase.co'
-export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvcGRxamRqdWl3bnB1d2NpaGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg1OTM2MDMsImV4cCI6MjAzNDE2OTYwM30.UO-5O2ALgm-NIIRNPKS5vh1yO1A4iXMP0bbkob7Pi4o'
+export const SUPABASE_URL = 'https://exgdhustquxonoujqwen.supabase.co'
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4Z2RodXN0cXV4b25vdWpxd2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg4ODIwODUsImV4cCI6MjAzNDQ1ODA4NX0.VVE-aiLEz24P5tRVkNcSO9LEOZQvnpvmJtiXeF0rPho'
 export const GOOGLE_MAPS_KEY = 'AIzaSyAa0XCtkG9q59pBSR7DLsgdMa9CR-jyAJw'

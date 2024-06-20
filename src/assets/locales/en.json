@@ -9,7 +9,7 @@
 
     "login.title": "Sign in",
     "login.button": "Sign in",
-    "login.label.email": "Email",
+    "login.label.email": "Email or username",
     "login.label.password": "Password",
     "login.error.no_username": "The username is mandatory",
     "login.error.no_password": "The password is mandatory",
@@ -42,6 +42,7 @@
     "sign_up.alert.camera": "Take picture",
     "sign_up.alert.gallery": "Take from the gallery",
     "sign_up.alert.cancel": "Cancel",
+    "sign_up.error.exists": "Email or username exists",
     
     "recovery_email.title": "Recovery password",
     "recovery_email.email.label": "Email",
@@ -96,5 +97,10 @@
     
     "profile.title": "Profile",
     "profile.money_spent": "Spent",
-    "profile.total_publications": "Publications"
+    "profile.total_publications": "Publications",
+
+    "repositories.users.not_found": "User not found",
+    "repositories.establishments.not_found": "Establishment not found",
+    "repositories.products.not_found": "Product not found",
+    "repositories.publications.not:found": "Publication not found"
 }

@@ -13,7 +13,9 @@
     "start": "react-native start",
     "test": "jest",
     "pod": "rm -rf ios/Pods && bundle exec pod install --project-directory=ios",
-    "clean": "cd android && ./gradlew clean && cd .. && watchman watch-del-all"
+    "clean": "cd android && ./gradlew clean && cd .. && watchman watch-del-all",
+    "android-release": "npx react-native build-android --mode=release",
+    "release": "cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",

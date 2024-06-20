@@ -1,5 +1,6 @@
 import { supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
+import i18n from "../../../../infrastructure/localization/i18n";
 import { Product, ProductDTO } from "../../../model/toteco/Product";
 import { IProductsApi } from "../IProductsApi";
 
@@ -145,7 +146,7 @@ export class ProductsRepository implements IProductsApi {
         } else if (response.count === 0) {
             throw {
                 code: 404,
-                message: 'Publication not found'
+                message: i18n.t('repositories.products.not_found')
             }
         } else {
             ProductsRepository.tries = 0

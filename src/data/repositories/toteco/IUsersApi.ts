@@ -9,6 +9,10 @@ export interface IUsersApi {
 
     getById: (id: string) => Promise<UserData | undefined>
 
+    getByUsername: (username: string) => Promise<UserData | undefined>
+
+    userExists: (username: string, email: string) => Promise<boolean>
+
     // updatePassword(password: string): Promise<UserData | undefined>
 
 }

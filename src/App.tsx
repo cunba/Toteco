@@ -208,20 +208,33 @@ function App(): JSX.Element {
                     email: email,
                     password: password
                 }
-                const response = await supabase.auth.signInWithPassword({
+                let response = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password
                 })
                 if (response.error !== null) {
+                    try {
+                        const user = await new UsersRepository().getByUsername(email)
+                        credentials.email = user?.email!
+                        response = await supabase.auth.signInWithPassword(credentials)
+
+                        if (response.error !== null) {
+                            console.log('error', response.error)
                             throw response.error
+                        }
+                    } catch (e) {
+                        console.log(e)
+                        throw e
+                    }
                 }
 
-                const user = await new UsersRepository().getById(response.data.user.id)
+                const user = await new UsersRepository().getById(response.data.user!.id)
 
-                SessionStoreFactory.getSessionStore().setToken(response.data.session.access_token);
+                SessionStoreFactory.getSessionStore().setToken(response.data.session!.access_token);
                 SessionStoreFactory.getSessionStore().setCredentials(credentials)
                 SessionStoreFactory.getSessionStore().setUser(user)
-                dispatch({ type: 'SIGN_IN', token: response.data.session.access_token });
+                dispatch({ type: 'SIGN_IN', token: response.data.session!.access_token });
+
             },
             signOut: async () => {
                 await supabase.auth.signOut()
@@ -232,15 +245,23 @@ function App(): JSX.Element {
             },
             signUp: async (user: UserData, password: string) => {
                 try {
+                    const userExists = await new UsersRepository().userExists(user.username, user.email)
+                    if (userExists) {
+                        throw {
+                            code: 400,
+                            message: i18n.t('sign_up.error.exists')
+                        }
+                    }
                     const response = await supabase.auth.signUp({
                         email: user.email,
                         password: password
                     })
 
                     if (response.error !== null) {
-                        console.log(response.error)
+                        console.log('error sign_up', response.error)
                         throw response.error
                     }
+
                     user.id = response.data.user!.id
                     await new UsersRepository().save(user)
                     dispatch({ type: 'SIGN_UP' });
@@ -259,23 +280,7 @@ function App(): JSX.Element {
     useEffect(() => {
 
         RNLocation.configure({
-            distanceFilter: 1, // Meters
-            desiredAccuracy: {
-                ios: "best",
-                android: "balancedPowerAccuracy"
-            },
-            // Android only
-            androidProvider: "auto",
-            interval: 5000, // Milliseconds
-            fastestInterval: 10000, // Milliseconds
-            maxWaitTime: 5000, // Milliseconds
-            // iOS Only
-            activityType: "other",
-            allowsBackgroundLocationUpdates: true,
-            headingFilter: 1, // Degrees
-            headingOrientation: "portrait",
-            pausesLocationUpdatesAutomatically: false,
-            showsBackgroundLocationIndicator: false,
+            distanceFilter: 10, // Meters
         })
 
         RNLocation.requestPermission({
