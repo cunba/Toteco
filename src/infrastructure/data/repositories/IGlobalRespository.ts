@@ -1,9 +1,9 @@
 
-export interface IGlobalRepository<T, DTO> {
+export interface IGlobalRepository<T, DTO, Update> {
 
     save: (body: DTO) => Promise<T | any>
 
-    update: (id: string, body: T) => Promise<T | any>
+    update: (id: string, body: Update) => Promise<T | any>
 
     delete: (id: string) => Promise<T | any>
 

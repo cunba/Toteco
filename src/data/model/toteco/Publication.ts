@@ -53,3 +53,27 @@ export class PublicationDTO {
         this.user_id = user_id
     }
 }
+
+export class PublicationUpdate {
+    id: string
+    created: number
+    total_price: number
+    total_score: number
+    photo: string
+    comment?: string
+    establishment_id: string
+    user_id: string
+    updated: number
+
+    constructor(publication: Publication) {
+        this.id = publication.id!
+        this.created = publication.created!
+        this.total_price = publication.total_price
+        this.total_score = publication.total_score
+        this.photo = publication.photo
+        this.comment = publication.comment
+        this.establishment_id = publication.establishment!.id
+        this.user_id = publication.user!.id
+        this.updated = new Date().getTime()
+    }
+}

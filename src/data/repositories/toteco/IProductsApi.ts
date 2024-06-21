@@ -2,7 +2,7 @@ import { IGlobalRepository } from "../../../infrastructure/data/repositories/IGl
 import { Product, ProductDTO } from "../../model/toteco/Product"
 
 
-export interface IProductsApi extends IGlobalRepository<Product, ProductDTO> {
+export interface IProductsApi extends IGlobalRepository<Product, ProductDTO, Product> {
 
     getByMenuId(menuId: string): Promise<Product[] | undefined>
 

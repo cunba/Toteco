@@ -1,7 +1,7 @@
 import { supabase } from "../../../../App";
 import { SessionStoreFactory } from "../../../../infrastructure/data/SessionStoreFactory";
 import i18n from "../../../../infrastructure/localization/i18n";
-import { Establishment, EstablishmentDTO } from "../../../model/toteco/Establishment";
+import { Establishment, EstablishmentDTO, EstablishmentUpdate } from "../../../model/toteco/Establishment";
 import { IEstablishmentsApi } from "../IEstablishmentsApi";
 import { PublicationsRepository } from "./PublicationsRepository";
 
@@ -39,7 +39,7 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         }
     }
 
-    async update(id: string, body: Establishment) {
+    async update(id: string, body: EstablishmentUpdate) {
         const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
 
         if (response.error !== null) {
