@@ -99,9 +99,13 @@
     "profile.title": "Perfil",
     "profile.money_spent": "Gastado",
     "profile.total_publications": "Publicaciones",
+    "profile.friends": "Siguiendo",
+    "profile.button.follow": "Seguir",
+    "profile.button.unfollow": "Dejar de seguir",
 
     "repositories.users.not_found": "Usuario no encontrado",
     "repositories.establishments.not_found": "Establecimiento no encontrado",
     "repositories.products.not_found": "Producto no encontrado",
-    "repositories.publications.not:found": "Publicación no encontrado"
+    "repositories.publications.not_found": "Publicación no encontrado",
+    "repositories.friends.not_found": "Amigo no encontrado"
 }

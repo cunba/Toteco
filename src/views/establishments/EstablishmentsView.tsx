@@ -60,8 +60,8 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                             initialRegion={{
                                 latitude: location.latitude,
                                 longitude: location.longitude,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
+                                latitudeDelta: 0.03,
+                                longitudeDelta: 0.03
                             }}
                             onRegionChange={(region) => { setRefresh(true) }}
                             provider={PROVIDER_GOOGLE}

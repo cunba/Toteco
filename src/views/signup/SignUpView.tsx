@@ -1,6 +1,7 @@
 import { Icon, Image, Input, NativeBaseProvider, Stack } from "native-base";
 import React, { useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -145,106 +146,108 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             <Image size={150} borderRadius={100} source={{ uri: imageUri }} alt="Alternate Text" />
                         }
                     </TouchableOpacity>
-                    <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
-                        <Input
-                            style={[formStyles.input, { color: COLORS.text }]}
-                            w={{ base: "75%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.username.label').toString()}
-                            onChangeText={(username) => vm.setUsername(username)}
-                            borderRadius={10}
-                            autoCapitalize="none"
-                        />
-                        <Input
-                            style={[formStyles.input, { color: COLORS.text }]}
-                            w={{ base: "75%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.name.label').toString()}
-                            onChangeText={(name) => vm.setName(name)}
-                            borderRadius={10}
-                            autoCapitalize="none"
-                        />
-                        <Input
-                            style={[formStyles.input, { color: COLORS.text }]}
-                            w={{ base: "75%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.surname.label').toString()}
-                            onChangeText={(surname) => vm.setSurname(surname)}
-                            borderRadius={10}
-                            autoCapitalize="none"
-                        />
-                        <Input
-                            style={[formStyles.input, { color: COLORS.text }]}
-                            w={{ base: "75%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.email.label').toString()}
-                            onChangeText={(email) => vm.setEmail(email)}
-                            borderRadius={10}
-                            autoCapitalize="none"
-                        />
-                    </Stack>
-                    <View style={signUpStyles.containerInputDate}>
-                        <Input
-                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.day.label').toString()}
-                            onChangeText={(day) => setDay(day)}
-                            borderRadius={10}
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                            autoCapitalize="none"                            
-                        />
-                        <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
-                        <Input
-                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.month.label').toString()}
-                            onChangeText={(month) => setMonth(month)}
-                            borderRadius={10}
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                        />
-                        <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
-                        <Input
-                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.year.label').toString()}
-                            onChangeText={(year) => setYear(year)}
-                            borderRadius={10}
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                        />
-                        <Text ></Text>
-                    </View>
-                    <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
-                        <Input
-                            style={[formStyles.input, { color: COLORS.text }]}
-                            w={{ base: "75%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.password.label').toString()}
-                            onChangeText={(password) => vm.setPassword(password)}
-                            borderRadius={10}
-                            type={showPassword ? "text" : "password"}
-                            autoCapitalize="none"
-                            InputRightElement={
-                                <Pressable onPress={() => setShowPassword(!showPassword)}>
-                                    <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
-                                </Pressable>
-                            }
-                        />
-                        <Input
-                            style={[formStyles.input, { color: COLORS.text }]}
-                            w={{ base: "75%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.repeat_password.label').toString()}
-                            onChangeText={(password) => vm.setRepeatPassword(password)}
-                            borderRadius={10}
-                            type={showRepeatPassword ? "text" : "password"}
-                            autoCapitalize="none"
-                            InputRightElement={
-                                <Pressable onPress={() => setShowRepeatPassword(!showRepeatPassword)}>
-                                    <Icon as={<MaterialIcons name={showRepeatPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
-                                </Pressable>
-                            }
-                        />
-                    </Stack>
+                    <ScrollView >
+                        <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
+                            <Input
+                                style={[formStyles.input, { color: COLORS.text }]}
+                                w={{ base: "75%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.username.label').toString()}
+                                onChangeText={(username) => vm.setUsername(username)}
+                                borderRadius={10}
+                                autoCapitalize="none"
+                            />
+                            <Input
+                                style={[formStyles.input, { color: COLORS.text }]}
+                                w={{ base: "75%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.name.label').toString()}
+                                onChangeText={(name) => vm.setName(name)}
+                                borderRadius={10}
+                                autoCapitalize="none"
+                            />
+                            <Input
+                                style={[formStyles.input, { color: COLORS.text }]}
+                                w={{ base: "75%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.surname.label').toString()}
+                                onChangeText={(surname) => vm.setSurname(surname)}
+                                borderRadius={10}
+                                autoCapitalize="none"
+                            />
+                            <Input
+                                style={[formStyles.input, { color: COLORS.text }]}
+                                w={{ base: "75%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.email.label').toString()}
+                                onChangeText={(email) => vm.setEmail(email)}
+                                borderRadius={10}
+                                autoCapitalize="none"
+                            />
+                        </Stack>
+                        <View style={signUpStyles.containerInputDate}>
+                            <Input
+                                style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                                w={{ base: "25%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.day.label').toString()}
+                                onChangeText={(day) => setDay(day)}
+                                borderRadius={10}
+                                keyboardType="numeric"
+                                dataDetectorTypes={'calendarEvent'}
+                                borderWidth={0}
+                                autoCapitalize="none"
+                            />
+                            <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
+                            <Input
+                                style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                                w={{ base: "25%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.month.label').toString()}
+                                onChangeText={(month) => setMonth(month)}
+                                borderRadius={10}
+                                keyboardType="numeric"
+                                dataDetectorTypes={'calendarEvent'}
+                                borderWidth={0}
+                            />
+                            <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
+                            <Input
+                                style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                                w={{ base: "25%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.year.label').toString()}
+                                onChangeText={(year) => setYear(year)}
+                                borderRadius={10}
+                                keyboardType="numeric"
+                                dataDetectorTypes={'calendarEvent'}
+                                borderWidth={0}
+                            />
+                            <Text ></Text>
+                        </View>
+                        <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
+                            <Input
+                                style={[formStyles.input, { color: COLORS.text }]}
+                                w={{ base: "75%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.password.label').toString()}
+                                onChangeText={(password) => vm.setPassword(password)}
+                                borderRadius={10}
+                                type={showPassword ? "text" : "password"}
+                                autoCapitalize="none"
+                                InputRightElement={
+                                    <Pressable onPress={() => setShowPassword(!showPassword)}>
+                                        <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                    </Pressable>
+                                }
+                            />
+                            <Input
+                                style={[formStyles.input, { color: COLORS.text }]}
+                                w={{ base: "75%", md: "25%" }}
+                                placeholder={i18n.t('sign_up.repeat_password.label').toString()}
+                                onChangeText={(password) => vm.setRepeatPassword(password)}
+                                borderRadius={10}
+                                type={showRepeatPassword ? "text" : "password"}
+                                autoCapitalize="none"
+                                InputRightElement={
+                                    <Pressable onPress={() => setShowRepeatPassword(!showRepeatPassword)}>
+                                        <Icon as={<MaterialIcons name={showRepeatPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                    </Pressable>
+                                }
+                            />
+                        </Stack>
+                    </ScrollView>
 
                     {!hideErrorMessage ? (
                         <View style={{ alignItems: 'center' }}>

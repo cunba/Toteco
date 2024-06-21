@@ -8,6 +8,7 @@ import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles } from "../../config/Styles";
 import { Publication } from "../../data/model/toteco/Publication";
+import { SessionStoreFactory } from "../../infrastructure/data/SessionStoreFactory";
 import i18n from "../../infrastructure/localization/i18n";
 import { back } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -19,6 +20,8 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [showPublication, setShowPublication] = useState(false)
     const [publicationSelected, setPublicationSelected] = useState(new Publication(0, 0, '', ''))
+    const [isUserLogged, setIsUserLogged] = useState(true)
+    const [isFollowing, setIsFollowing] = useState(false)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     const route = useRoute()
@@ -31,12 +34,22 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     useEffect(() => { setRefresh(false) }, [refresh])
 
     const getPublications = async () => {
+        const userLogged = await SessionStoreFactory.getSessionStore().getUser()
         if (user === null) {
             await vm.getUser();
             setRefresh(true)
         } else
             vm.setUser(user)
+
+        if (userLogged!.id === vm.user!.id)
+            setIsUserLogged(true)
+
         await vm.getPublications();
+        await vm.getFriends()
+
+        if (!isUserLogged && vm.friends?.findIndex(friend => friend.following.id === vm.user!.id) !== -1)
+            setIsFollowing(true)
+
         setRefresh(true);
     }
     useEffect(() => { getPublications() }, [])
@@ -55,7 +68,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
 
     const rowRender = (publication: Publication) => {
         return (
-            <TouchableOpacity style={{borderWidth: 1, borderColor: COLORS.background}} onPress={() => { setPublicationSelected(publication); setShowPublication(true) }}>
+            <TouchableOpacity style={{ borderWidth: 1, borderColor: COLORS.background }} onPress={() => { setPublicationSelected(publication); setShowPublication(true) }}>
                 <Image size={Dimensions.get('screen').width / 3} source={{ uri: publication.photo }} alt={vm.user?.username ?? ''} />
             </TouchableOpacity>
         )
@@ -74,15 +87,23 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <View style={[profileStyles.headerContainer, { borderBottomColor: COLORS.shadowToolbar }]}>
-                        <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
-                        <View style={{ paddingTop: 15 }}>
-                            <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number}</Text>
-                            <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
+                        <View style={profileStyles.profileInfoContainer}>
+                            <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
+                            <View style={{ paddingTop: 15 }}>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
+                            </View>
+                            <View style={{ paddingTop: 15 }}>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.friends?.length ?? 0}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.friends')}</Text>
+                            </View>
                         </View>
-                        <View style={{ paddingTop: 15 }}>
-                            <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.money_spent}</Text>
-                            <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.money_spent')}</Text>
-                        </View>
+                        {isUserLogged ?
+                            null :
+                            <TouchableOpacity >
+                                <Text>{isFollowing ? i18n.t('profile.button.unfollow') : i18n.t('profile.button.follow')}</Text>
+                            </TouchableOpacity>
+                        }
                     </View>
                     {(vm.publications && vm.publications!.length > 0) ?
                         <FlatList

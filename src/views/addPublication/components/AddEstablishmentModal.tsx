@@ -79,8 +79,8 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                     initialRegion={{
                         latitude: props.location.latitude!,
                         longitude: props.location.longitude!,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitudeDelta: 0.005,
+                        longitudeDelta: 0.005
                     }}
                     onRegionChange={(region) => props.onRegionChange(region)}
                     provider={PROVIDER_GOOGLE}

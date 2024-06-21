@@ -8,7 +8,7 @@ export class SearchNearbyRequestData implements SearchNearbyRequest {
         public locationRestriction: LocationRestrictionData,
         public includedTypes?: Array<string>,
     ) {
-        this.includedTypes = ["bar", "cafe", "meal_delivery", "meal_takeaway", "restaurant", "coffee_shop", "breakfast_restaurant", "bakery"]
+        this.includedTypes = ["bar", "cafe", "restaurant", "coffee_shop", "breakfast_restaurant", "bakery"]
         this.locationRestriction = locationRestriction
     }
 }

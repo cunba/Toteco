@@ -1,6 +1,7 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Appearance, Dimensions, RefreshControl, Text, View } from "react-native";
+import { Appearance, Dimensions, Text, View } from "react-native";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -153,7 +154,13 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                                 )
                             }}
                         />
-                        : null
+                        :
+                        <ScrollView refreshControl=
+                            {<RefreshControl
+                                refreshing={refresh}
+                                onRefresh={getPublications}
+                            />}
+                        />
                     }
                 </View>
                 <MultiLevelFabButton {...options} />
