@@ -6,7 +6,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { SIZES } from "../../config/Sizes";
-import { commonStyles } from "../../config/Styles";
+import { commonStyles, formStyles } from "../../config/Styles";
 import { Publication } from "../../data/model/toteco/Publication";
 import { SessionStoreFactory } from "../../infrastructure/data/SessionStoreFactory";
 import i18n from "../../infrastructure/localization/i18n";
@@ -100,8 +100,8 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                         </View>
                         {isUserLogged ?
                             null :
-                            <TouchableOpacity >
-                                <Text>{isFollowing ? i18n.t('profile.button.unfollow') : i18n.t('profile.button.follow')}</Text>
+                            <TouchableOpacity style={[formStyles.button, profileStyles.followButton, { backgroundColor: COLORS.touchable }]} >
+                                <Text style={[commonStyles.text, { color: COLORS.text_touchable, fontSize: SIZES.text }]}>{isFollowing ? i18n.t('profile.button.unfollow') : i18n.t('profile.button.follow')}</Text>
                             </TouchableOpacity>
                         }
                     </View>

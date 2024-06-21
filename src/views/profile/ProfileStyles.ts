@@ -6,7 +6,8 @@ export const profileStyles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-around',
-        alignContent: 'center'
+        alignContent: 'center',
+        marginBottom: 10
     },
     card: {
         fontSize: SIZES.icons
@@ -16,5 +17,12 @@ export const profileStyles = StyleSheet.create({
         paddingBottom: 20,
         borderBottomWidth: 1,
         width: '100%'
+    },
+    followButton: {
+        width: '70%',
+        alignSelf: 'center',
+        height: 30,
+        paddingVertical: 5,
+        marginBottom: 0
     }
 })
