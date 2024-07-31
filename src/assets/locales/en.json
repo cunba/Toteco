@@ -71,6 +71,7 @@
     "add_publication.error.no_image": "No image provided",
     "add_publication.error.score_error": "Score must be over 0",
     "add_publication.error.price_error": "Price must be over 0",
+    "add_publication.title.products": "Products",
 
     "add_product.title": "Add product",
     "add_product.name": "Name",
@@ -98,7 +99,8 @@
     "profile.title": "Profile",
     "profile.money_spent": "Spent",
     "profile.total_publications": "Publications",
-    "profile.friends": "Following",
+    "profile.followers": "Followers",
+    "profile.following": "Following",
     "profile.button.follow": "Follow",
     "profile.button.unfollow": "Unfollow",
 

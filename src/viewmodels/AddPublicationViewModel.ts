@@ -133,8 +133,8 @@ export class AddPublicationViewModel {
             this.image = await firebaseStorage.ref(imageName).getDownloadURL()
 
         const newPublication = new PublicationDTO(
-            this.totalScore!,
             this.totalPrice!,
+            this.totalScore!,
             this.image!,
             this.comment,
             establishmentId,

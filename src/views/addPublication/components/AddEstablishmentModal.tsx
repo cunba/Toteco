@@ -1,8 +1,8 @@
 import { Checkbox, Input } from "native-base";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Button, InputAccessoryView, Keyboard, Modal, Text, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Location } from "../../../client";
-import { commonStyles } from "../../../config/Styles";
+import { commonStyles, formStyles } from "../../../config/Styles";
 import { PlaceDetailsData } from "../../../data/model/places/PlaceDetails";
 import i18n from "../../../infrastructure/localization/i18n";
 import { mapStyle } from "../../mapStyle";
@@ -57,16 +57,34 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                         borderRadius={10}
                         defaultValue={props.name}
                         editable={false}
+                        inputAccessoryViewID="name"
                     />
+                    <InputAccessoryView nativeID="name">
+                        <View style={[formStyles.keyboardOptions, { backgroundColor: color.keyboard }]}>
+                            <Button
+                                onPress={() => Keyboard.dismiss()}
+                                title={i18n.t('ok').toString()}
+                            />
+                        </View>
+                    </InputAccessoryView>
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}
                         w={{ base: "75%", md: "25%" }}
                         placeholder={i18n.t('add_establishment.score').toString()}
-                        onChangeText={(score) => props.onScoreChange(Number(score))}
+                        onChangeText={(score) => props.onScoreChange(Number(score.replace(',', '.')))}
                         borderRadius={10}
-                        inputMode="numeric"
-                        keyboardType="number-pad"
+                        inputMode="decimal"
+                        keyboardType="numeric"
+                        inputAccessoryViewID="score"
                     />
+                    <InputAccessoryView nativeID="score">
+                        <View style={[formStyles.keyboardOptions, { backgroundColor: color.keyboard }]}>
+                            <Button
+                                onPress={() => Keyboard.dismiss()}
+                                title={i18n.t('ok').toString()}
+                            />
+                        </View>
+                    </InputAccessoryView>
                 </View>
                 {!props.hideErrorMessage ? (
                     <View style={{ alignItems: 'center' }}>

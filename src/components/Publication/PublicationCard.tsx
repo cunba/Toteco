@@ -1,5 +1,5 @@
 
-import { Image, View } from 'native-base';
+import { Image, Input, View } from 'native-base';
 import React from 'react';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -18,6 +18,7 @@ export interface PublicationProps {
 
 export default function PublicationCard(props: PublicationProps) {
     const color = props.colorScheme
+    let comment = ''
 
     return <>
         <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, props.styles, {
@@ -43,15 +44,31 @@ export default function PublicationCard(props: PublicationProps) {
                         <Image size={200} borderRadius={5} source={{ uri: props.publication.photo }} alt={props.publication.establishment?.name ?? ''} />
                     </View>
                     <View style={publicationStyles.productsContainer}>
-                        {props.publication.products!.map(product => {
-                            return <Text style={[commonStyles.text, { color: color.text, paddingBottom: 20 }]}>
-                                {`- ${product.name}\n  (${Math.round(product.price! * 100) / 100} €, ${Math.round(product.score * 100) / 100} ☆)`}
-                            </Text>
+                        {props.publication.products!.map((product, index) => {
+                            if (index === props.publication.products!.length - 1) {
+                                comment = comment + `- ${product.name}\n  (${Math.round(product.price! * 100) / 100} €, ${Math.round(product.score * 100) / 100} ☆)`
+                                return (
+                                    <Input
+                                        style={[commonStyles.text, { color: color.text, paddingBottom: 20, maxHeight: 200}]}
+                                        defaultValue={comment}
+                                        multiline={true}
+                                        editable={false}
+                                        borderWidth={0}
+                                    />
+                                )
+                            }
+                            comment = comment + `- ${product.name}\n  (${Math.round(product.price! * 100) / 100} €, ${Math.round(product.score * 100) / 100} ☆)\n\n`
                         })}
                     </View>
                 </View>
                 {(props.publication.comment !== undefined && props.publication.comment !== '') ?
-                    <Text style={{ paddingVertical: 10, fontSize: SIZES.text, color: color.text }}>{props.publication.comment}</Text>
+                    <Input
+                        style={{ height: 35, fontSize: SIZES.text, color: color.text }}
+                        defaultValue={props.publication.comment}
+                        multiline={true}
+                        editable={false}
+                        borderWidth={0}
+                    />
                     : null
                 }
                 <View style={[publicationStyles.totalContainer, { borderColor: color.shadowToolbar }]}>

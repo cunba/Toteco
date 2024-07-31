@@ -72,6 +72,7 @@
     "add_publication.error.no_image": "Ninguna foto adjunta",
     "add_publication.error.score_error": "La puntuación tiene que ser mayor que 0",
     "add_publication.error.price_error": "El precio debe ser mayor que 0",
+    "add_publication.title.products": "Productos",
 
     "add_product.title": "Añadir producto",
     "add_product.name": "Nombre",
@@ -99,7 +100,8 @@
     "profile.title": "Perfil",
     "profile.money_spent": "Gastado",
     "profile.total_publications": "Publicaciones",
-    "profile.friends": "Siguiendo",
+    "profile.followers": "Seguidores",
+    "profile.following": "Siguiendo",
     "profile.button.follow": "Seguir",
     "profile.button.unfollow": "Dejar de seguir",
 

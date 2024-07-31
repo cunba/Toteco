@@ -2,12 +2,12 @@ import { UserData } from "./User"
 
 export class Friend {
     id: string
-    follower: string
+    follower: UserData
     following: UserData
 
     constructor(
         id: string,
-        follower: string,
+        follower: UserData,
         following: UserData
     ) {
         this.id = id
@@ -17,16 +17,13 @@ export class Friend {
 }
 
 export class FriendDTO {
-    id: string
     follower: string
     following: string
 
     constructor(
-        id: string,
         follower: string,
         following: string
     ) {
-        this.id = id
         this.follower = follower
         this.following = following
     }

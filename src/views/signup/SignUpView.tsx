@@ -1,7 +1,6 @@
 import { Icon, Image, Input, NativeBaseProvider, Stack } from "native-base";
 import React, { useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Pressable, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from "react-native-gesture-handler";
+import { ActivityIndicator, Alert, Appearance, Button, InputAccessoryView, Keyboard, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -131,7 +130,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     return (
         <>
             <NativeBaseProvider>
-                <View style={[commonStyles.container, { backgroundColor: COLORS.background }]}>
+                <View style={[commonStyles.container, { backgroundColor: COLORS.background, paddingBottom: 20 }]}>
                     <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
                         <TouchableOpacity onPress={() => back()} style={commonStyles.toolbarButton}>
                             <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
@@ -146,108 +145,191 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             <Image size={150} borderRadius={100} source={{ uri: imageUri }} alt="Alternate Text" />
                         }
                     </TouchableOpacity>
-                    <ScrollView >
-                        <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
-                            <Input
-                                style={[formStyles.input, { color: COLORS.text }]}
-                                w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.username.label').toString()}
-                                onChangeText={(username) => vm.setUsername(username)}
-                                borderRadius={10}
-                                autoCapitalize="none"
-                            />
-                            <Input
-                                style={[formStyles.input, { color: COLORS.text }]}
-                                w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.name.label').toString()}
-                                onChangeText={(name) => vm.setName(name)}
-                                borderRadius={10}
-                                autoCapitalize="none"
-                            />
-                            <Input
-                                style={[formStyles.input, { color: COLORS.text }]}
-                                w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.surname.label').toString()}
-                                onChangeText={(surname) => vm.setSurname(surname)}
-                                borderRadius={10}
-                                autoCapitalize="none"
-                            />
-                            <Input
-                                style={[formStyles.input, { color: COLORS.text }]}
-                                w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.email.label').toString()}
-                                onChangeText={(email) => vm.setEmail(email)}
-                                borderRadius={10}
-                                autoCapitalize="none"
-                            />
-                        </Stack>
-                        <View style={signUpStyles.containerInputDate}>
-                            <Input
-                                style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                                w={{ base: "25%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.day.label').toString()}
-                                onChangeText={(day) => setDay(day)}
-                                borderRadius={10}
-                                keyboardType="numeric"
-                                dataDetectorTypes={'calendarEvent'}
-                                borderWidth={0}
-                                autoCapitalize="none"
-                            />
-                            <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
-                            <Input
-                                style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                                w={{ base: "25%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.month.label').toString()}
-                                onChangeText={(month) => setMonth(month)}
-                                borderRadius={10}
-                                keyboardType="numeric"
-                                dataDetectorTypes={'calendarEvent'}
-                                borderWidth={0}
-                            />
-                            <Text style={[commonStyles.title, { textAlign: 'center', color: COLORS.text }]}>/</Text>
-                            <Input
-                                style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                                w={{ base: "25%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.year.label').toString()}
-                                onChangeText={(year) => setYear(year)}
-                                borderRadius={10}
-                                keyboardType="numeric"
-                                dataDetectorTypes={'calendarEvent'}
-                                borderWidth={0}
-                            />
-                            <Text ></Text>
-                        </View>
-                        <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
-                            <Input
-                                style={[formStyles.input, { color: COLORS.text }]}
-                                w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.password.label').toString()}
-                                onChangeText={(password) => vm.setPassword(password)}
-                                borderRadius={10}
-                                type={showPassword ? "text" : "password"}
-                                autoCapitalize="none"
-                                InputRightElement={
-                                    <Pressable onPress={() => setShowPassword(!showPassword)}>
-                                        <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
-                                    </Pressable>
-                                }
-                            />
-                            <Input
-                                style={[formStyles.input, { color: COLORS.text }]}
-                                w={{ base: "75%", md: "25%" }}
-                                placeholder={i18n.t('sign_up.repeat_password.label').toString()}
-                                onChangeText={(password) => vm.setRepeatPassword(password)}
-                                borderRadius={10}
-                                type={showRepeatPassword ? "text" : "password"}
-                                autoCapitalize="none"
-                                InputRightElement={
-                                    <Pressable onPress={() => setShowRepeatPassword(!showRepeatPassword)}>
-                                        <Icon as={<MaterialIcons name={showRepeatPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
-                                    </Pressable>
-                                }
-                            />
-                        </Stack>
-                    </ScrollView>
+                    <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
+                            w={{ base: "75%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.username.label').toString()}
+                            onChangeText={(username) => vm.setUsername(username)}
+                            borderRadius={10}
+                            autoCapitalize="none"
+                            inputAccessoryViewID="username"
+                        />
+                        <InputAccessoryView nativeID="username">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
+                            w={{ base: "75%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.name.label').toString()}
+                            onChangeText={(name) => vm.setName(name)}
+                            borderRadius={10}
+                            autoCapitalize="none"
+                            inputAccessoryViewID="name"
+                        />
+                        <InputAccessoryView nativeID="name">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
+                            w={{ base: "75%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.surname.label').toString()}
+                            onChangeText={(surname) => vm.setSurname(surname)}
+                            borderRadius={10}
+                            autoCapitalize="none"
+                            inputAccessoryViewID="surname"
+                        />
+                        <InputAccessoryView nativeID="surname">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
+                            w={{ base: "75%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.email.label').toString()}
+                            onChangeText={(email) => vm.setEmail(email)}
+                            borderRadius={10}
+                            autoCapitalize="none"
+                            inputAccessoryViewID="email"
+                            inputMode="email"
+                        />
+                        <InputAccessoryView nativeID="email">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                    </Stack>
+                    <View style={signUpStyles.containerInputDate}>
+                        <Input
+                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                            w={{ base: "25%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.day.label').toString()}
+                            onChangeText={(day) => setDay(day)}
+                            borderRadius={10}
+                            inputMode="numeric"
+                            keyboardType="numeric"
+                            dataDetectorTypes={'calendarEvent'}
+                            borderWidth={0}
+                            autoCapitalize="none"
+                            inputAccessoryViewID="day"
+                        />
+                        <InputAccessoryView nativeID="day">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Text style={[commonStyles.title, { textAlign: 'center', color: 'grey' }]}>/</Text>
+                        <Input
+                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                            w={{ base: "25%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.month.label').toString()}
+                            onChangeText={(month) => setMonth(month)}
+                            borderRadius={10}
+                            inputMode="numeric"
+                            keyboardType="numeric"
+                            dataDetectorTypes={'calendarEvent'}
+                            borderWidth={0}
+                            inputAccessoryViewID="month"
+                        />
+                        <InputAccessoryView nativeID="month">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Text style={[commonStyles.title, { textAlign: 'center', color: 'grey' }]}>/</Text>
+                        <Input
+                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
+                            w={{ base: "25%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.year.label').toString()}
+                            onChangeText={(year) => setYear(year)}
+                            borderRadius={10}
+                            inputMode="numeric"
+                            keyboardType="numeric"
+                            dataDetectorTypes={'calendarEvent'}
+                            borderWidth={0}
+                            inputAccessoryViewID="year"
+                        />
+                        <InputAccessoryView nativeID="year">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Text ></Text>
+                    </View>
+                    <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
+                            w={{ base: "75%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.password.label').toString()}
+                            onChangeText={(password) => vm.setPassword(password)}
+                            borderRadius={10}
+                            type={showPassword ? "text" : "password"}
+                            autoCapitalize="none"
+                            InputRightElement={
+                                <Pressable onPress={() => setShowPassword(!showPassword)}>
+                                    <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                </Pressable>
+                            }
+                            inputAccessoryViewID="password"
+                        />
+                        <InputAccessoryView nativeID="password">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                        <Input
+                            style={[formStyles.input, { color: COLORS.text }]}
+                            w={{ base: "75%", md: "25%" }}
+                            placeholder={i18n.t('sign_up.repeat_password.label').toString()}
+                            onChangeText={(password) => vm.setRepeatPassword(password)}
+                            borderRadius={10}
+                            type={showRepeatPassword ? "text" : "password"}
+                            autoCapitalize="none"
+                            InputRightElement={
+                                <Pressable onPress={() => setShowRepeatPassword(!showRepeatPassword)}>
+                                    <Icon as={<MaterialIcons name={showRepeatPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
+                                </Pressable>
+                            }
+                            inputAccessoryViewID="password2"
+                        />
+                        <InputAccessoryView nativeID="password2">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
+                    </Stack>
 
                     {!hideErrorMessage ? (
                         <View style={{ alignItems: 'center' }}>
@@ -258,7 +340,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                     ) : null}
 
                     {showSpinner ?
-                        <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
+                        <ActivityIndicator style={[commonStyles.spinner, { backgroundColor: COLORS.background }]} size='large' animating={true} color={COLORS.touchable} />
                         :
                         <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={doSignUp} >
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('sign_up.title')}</Text>

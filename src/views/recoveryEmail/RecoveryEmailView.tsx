@@ -1,6 +1,6 @@
 import { Icon, Input, NativeBaseProvider, Stack } from "native-base";
 import { useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Appearance, Button, InputAccessoryView, Keyboard, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
@@ -53,7 +53,17 @@ export const RecoveryEmailView: FunctionalView<RecoveryEmailViewModel> = ({ vm }
                             onChangeText={(email) => vm.setEmail(email)}
                             borderRadius={10}
                             autoCapitalize="none"
+                            inputMode="email"
+                            inputAccessoryViewID="email"
                         />
+                        <InputAccessoryView nativeID="email">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
                     </Stack>
 
                     {!hideErrorMessage ? (
@@ -65,7 +75,7 @@ export const RecoveryEmailView: FunctionalView<RecoveryEmailViewModel> = ({ vm }
                     ) : null}
 
                     {showSpinner ?
-                        <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
+                        <ActivityIndicator style={[commonStyles.spinner, { backgroundColor: COLORS.background }]} size='large' animating={true} color={COLORS.touchable} />
                         :
                         <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={onPressOk} >
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('ok')}</Text>

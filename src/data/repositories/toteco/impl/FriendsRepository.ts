@@ -22,6 +22,7 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('save frined error')
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -29,11 +30,15 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
+                console.log('save frined error')
                 throw response.error
             }
         } else {
             FriendsRepository.tries = 0
-            return response.data[0]
+            const following = await new UsersRepository().getById(response.data[0].following)
+            const follower = await new UsersRepository().getById(response.data[0].follower)
+            const friend = new Friend(response.data[0].id, follower!, following!)
+            return friend
         }
     }
 
@@ -41,7 +46,6 @@ export class FriendsRepository implements IFriendsApi {
         const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (FriendsRepository.tries < 1) {
                 FriendsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -49,6 +53,7 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('update friend error')
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -56,11 +61,11 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
+                console.log('update friend error')
                 throw response.error
             }
         } else {
             FriendsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -77,6 +82,7 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('delete friend error')
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -84,11 +90,11 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
+                console.log('delete friend error')
                 throw response.error
             }
         } else {
             FriendsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -97,7 +103,6 @@ export class FriendsRepository implements IFriendsApi {
         const response = await supabase.from(this.tableName).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (FriendsRepository.tries < 1) {
                 FriendsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -105,6 +110,7 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('get all friends error')
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -112,12 +118,18 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
+                console.log('get all friends error')
                 throw response.error
             }
         } else {
             FriendsRepository.tries = 0
-            console.log(response.data)
-            return response.data
+            const friends = [] as Friend[]
+            for (let i = 0; i < friends.length; i++) {
+                const following = await new UsersRepository().getById(response.data[i].following)
+                const follower = await new UsersRepository().getById(response.data[i].follower)
+                friends.push(new Friend(response.data[i].id, follower!, following!))
+            }
+            return friends
         }
     }
 
@@ -125,13 +137,13 @@ export class FriendsRepository implements IFriendsApi {
         const response = await supabase.from(this.tableName).select().eq('id', id)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (FriendsRepository.tries < 1) {
                 FriendsRepository.tries++
                 const token = await SessionStoreFactory.getSessionStore().getToken()
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('get friend by id error')
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -139,27 +151,30 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
+                console.log('get friend by id error')
                 throw response.error
             }
         } else if (response.count === 0) {
+            console.log('get friend by id error')
             throw {
                 code: 404,
                 message: i18n.t('repositories.friends.not_found')
             }
         } else {
             FriendsRepository.tries = 0
-            const friend = response.data[0] as Friend
             const following = await new UsersRepository().getById(response.data[0].following)
-            friend.following = following!
+            const follower = await new UsersRepository().getById(response.data[0].follower)
+            const friend = new Friend(response.data[0].id, follower!, following!)
             return friend
         }
     }
 
     async getByFollower(follower: string) {
         const response = await supabase.from(this.tableName).select().eq('follower', follower)
+        console.log('follower')
+        console.log(response)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (FriendsRepository.tries < 1) {
                 FriendsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -167,6 +182,7 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('get friend by follower error')
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -174,16 +190,53 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
+                console.log('get friend by follower error')
                 throw response.error
             }
         } else {
             FriendsRepository.tries = 0
-            const friends = response.data as Friend[]
-            for (let i = 0; i < friends.length; i++) {
-                const following = await new UsersRepository().getById(response.data[i].following.id)
-                friends[i].following = following!
+            const friends = [] as Friend[]
+            const followerData = await new UsersRepository().getById(follower)
+            for (let i = 0; i < response.data.length; i++) {
+                const following = await new UsersRepository().getById(response.data[i].following)
+                friends.push(new Friend(response.data[i].id, followerData!, following!))
             }
-            console.log(friends)
+            return friends
+        }
+    }
+
+    async getByFollowing(following: string) {
+        const response = await supabase.from(this.tableName).select().eq('following', following)
+        console.log('following')
+        console.log(response)
+
+        if (response.error !== null) {
+            if (FriendsRepository.tries < 1) {
+                FriendsRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('get friend by following error')
+                    throw response.error
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getByFollowing(following)
+                }
+            } else {
+                FriendsRepository.tries = 0
+                console.log('get friend by following error')
+                throw response.error
+            }
+        } else {
+            FriendsRepository.tries = 0
+            const friends = [] as Friend[]
+            const followingData = await new UsersRepository().getById(following)
+            for (let i = 0; i < response.data.length; i++) {
+                const follower = await new UsersRepository().getById(response.data[i].follower)
+                friends.push(new Friend(response.data[i].id, follower!, followingData!))
+            }
             return friends
         }
     }

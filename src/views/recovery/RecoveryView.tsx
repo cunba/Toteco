@@ -1,6 +1,6 @@
 import { Icon, Input, NativeBaseProvider, Stack } from "native-base";
 import { useState } from "react";
-import { ActivityIndicator, Appearance, Pressable, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Appearance, Button, InputAccessoryView, Keyboard, Pressable, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
@@ -42,7 +42,16 @@ export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
                             onChangeText={(code) => vm.setCode(Number(code))}
                             borderRadius={10}
                             keyboardType="numeric"
+                            inputAccessoryViewID="code"
                         />
+                        <InputAccessoryView nativeID="code">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
@@ -55,7 +64,16 @@ export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
                                     <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
                                 </Pressable>
                             }
+                            inputAccessoryViewID="password"
                         />
+                        <InputAccessoryView nativeID="password">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
                             w={{ base: "75%", md: "25%" }}
@@ -68,7 +86,16 @@ export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
                                     <Icon as={<MaterialIcons name={showPassword ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" />
                                 </Pressable>
                             }
+                            inputAccessoryViewID="password2"
                         />
+                        <InputAccessoryView nativeID="password2">
+                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <Button
+                                    onPress={() => Keyboard.dismiss()}
+                                    title={i18n.t('ok').toString()}
+                                />
+                            </View>
+                        </InputAccessoryView>
                     </Stack>
 
                     {!hideErrorMessage ? (
@@ -80,7 +107,7 @@ export const RecoveryView: FunctionalView<RecoveryViewModel> = ({ vm }) => {
                     ) : null}
 
                     {showSpinner ?
-                        <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
+                        <ActivityIndicator style={[commonStyles.spinner, { backgroundColor: COLORS.background }]} size='large' animating={true} color={COLORS.touchable} />
                         :
                         <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={() => { }} >
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('sign_up.title')}</Text>

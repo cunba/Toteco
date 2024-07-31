@@ -1,6 +1,6 @@
 import { Icon, Image, Input, NativeBaseProvider } from "native-base";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Appearance, Button, Dimensions, InputAccessoryView, Keyboard, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { Location } from "react-native-location";
@@ -361,7 +361,28 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                                 </Text>
                             </View>
                         </View>
+                        <View style={{ marginVertical: 10 }}>
+                            <Input
+                                style={[formStyles.input, { height: 60, color: COLORS.text }]}
+                                w={{ base: "90%", md: "25%" }}
+                                placeholder={i18n.t('add_publication.comment').toString()}
+                                onChangeText={(comment) => vm.setComment(comment)}
+                                borderRadius={10}
+                                maxLength={500}
+                                multiline={true}
+                                inputAccessoryViewID="comment"
+                            />
+                            <InputAccessoryView nativeID="comment">
+                                <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                    <Button
+                                        onPress={() => Keyboard.dismiss()}
+                                        title={i18n.t('ok').toString()}
+                                    />
+                                </View>
+                            </InputAccessoryView>
+                        </View>
                         <View style={{ flex: 1 }}>
+                            <Text style={[commonStyles.subtitle, { color: COLORS.text }]}>{i18n.t('add_publication.title.products')}</Text>
                             {vm.products.length !== 0 ?
                                 <RecyclerListView
                                     ref={(c) => { setScroll(c) }}
@@ -373,17 +394,6 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                                 />
                                 : null
                             }
-                        </View>
-                        <View style={{ marginBottom: 20 }}>
-                            <Input
-                                style={[formStyles.input, { height: 60, color: COLORS.text }]}
-                                w={{ base: "90%", md: "25%" }}
-                                placeholder={i18n.t('add_publication.comment').toString()}
-                                onChangeText={(comment) => vm.setComment(comment)}
-                                borderRadius={10}
-                                maxLength={500}
-                                multiline={true}
-                            />
                         </View>
                         <View style={addPublicationStyles.buttonsContainer}>
                             <TouchableOpacity onPress={onAddEstablishmentClick} style={[formStyles.button, { width: '45%', backgroundColor: COLORS.background_second }]}>
@@ -403,7 +413,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             ) : null}
 
                             {showSpinner ?
-                                <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
+                                <ActivityIndicator style={[commonStyles.spinner, { backgroundColor: COLORS.background }]} size='large' animating={true} color={COLORS.touchable} />
                                 :
                                 <TouchableOpacity style={[formStyles.button, { width: '100%', backgroundColor: COLORS.touchable }]} onPress={onAddPublicationClick} >
                                     <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.title')}</Text>

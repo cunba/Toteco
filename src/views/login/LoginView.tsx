@@ -1,6 +1,6 @@
 import { Heading, Icon, Input, NativeBaseProvider, Pressable, Stack } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Appearance, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Appearance, Button, InputAccessoryView, Keyboard, Text, TouchableOpacity, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
@@ -106,7 +106,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                         <Heading style={[loginStyles.header, { color: COLORS.text }]}>{i18n.t('login.title')}</Heading>
                     </View>
                     <View style={loginStyles.formView}>
-                        <Stack space={4} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
+                        <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                             <Input
                                 style={[formStyles.input, { color: COLORS.text }]}
                                 w={{ base: "75%", md: "25%" }}
@@ -114,7 +114,16 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                                 onChangeText={(username) => vm.setUsername(username)}
                                 borderRadius={10}
                                 autoCapitalize="none"
+                                inputAccessoryViewID="email"
                             />
+                            <InputAccessoryView nativeID="email" style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                    <Button
+                                        onPress={() => Keyboard.dismiss()}
+                                        title={i18n.t('ok').toString()}
+                                    />
+                                </View>
+                            </InputAccessoryView>
                             <Input
                                 style={[formStyles.input, { color: COLORS.text }]}
                                 w={{ base: "75%", md: "25%" }}
@@ -127,7 +136,16 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                                 placeholder={i18n.t("login.label.password").toString()}
                                 onChangeText={(password) => vm.setPassword(password)}
                                 borderRadius={10}
+                                inputAccessoryViewID="password"
                             />
+                            <InputAccessoryView nativeID="password">
+                                <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                    <Button
+                                        onPress={() => Keyboard.dismiss()}
+                                        title={i18n.t('ok').toString()}
+                                    />
+                                </View>
+                            </InputAccessoryView>
                         </Stack>
                         <TouchableOpacity onPress={recover}>
                             <Text style={[loginStyles.textRecover, { textDecorationLine: 'underline', color: COLORS.text }]}>
@@ -150,7 +168,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                         ) : null}
 
                         {showSpinner ?
-                            <ActivityIndicator style={commonStyles.spinner} size='large' animating={true} color={COLORS.touchable} />
+                            <ActivityIndicator style={[commonStyles.spinner, { backgroundColor: COLORS.background }]} size='large' animating={true} color={COLORS.touchable} />
                             :
                             <TouchableOpacity
                                 style={[formStyles.button, { backgroundColor: COLORS.touchable }]}
@@ -161,7 +179,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                         }
                     </View>
                 </View>
-            </NativeBaseProvider>
+            </NativeBaseProvider >
         </>
     )
 }

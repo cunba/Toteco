@@ -20,7 +20,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [showPublication, setShowPublication] = useState(false)
     const [publicationSelected, setPublicationSelected] = useState(new Publication(0, 0, '', ''))
-    const [isUserLogged, setIsUserLogged] = useState(true)
+    const [isUserLogged, setIsUserLogged] = useState(false)
     const [isFollowing, setIsFollowing] = useState(false)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
@@ -43,11 +43,13 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
 
         if (userLogged!.id === vm.user!.id)
             setIsUserLogged(true)
+        else
+            setIsUserLogged(false)
 
         await vm.getPublications();
         await vm.getFriends()
 
-        if (!isUserLogged && vm.friends?.findIndex(friend => friend.following.id === vm.user!.id) !== -1)
+        if (!isUserLogged && vm.followers?.findIndex(friend => friend.following.id === vm.user!.id) !== -1)
             setIsFollowing(true)
 
         setRefresh(true);
@@ -74,6 +76,15 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
         )
     }
 
+    const onPressFollow = async () => {
+        await vm.follow()
+        setIsFollowing(true)
+    }
+
+    const onPressUnfollow = async () => {
+        await vm.unfollow()
+        setIsFollowing(false)
+    }
 
     return (
         <>
@@ -90,17 +101,24 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                         <View style={profileStyles.profileInfoContainer}>
                             <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
                             <View style={{ paddingTop: 15 }}>
-                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number ?? 0}</Text>
                                 <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
                             </View>
                             <View style={{ paddingTop: 15 }}>
-                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.friends?.length ?? 0}</Text>
-                                <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.friends')}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.followers?.length ?? 0}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.followers')}</Text>
+                            </View>
+                            <View style={{ paddingTop: 15 }}>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.following?.length ?? 0}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.following')}</Text>
                             </View>
                         </View>
                         {isUserLogged ?
                             null :
-                            <TouchableOpacity style={[formStyles.button, profileStyles.followButton, { backgroundColor: isFollowing ? COLORS.background_second : COLORS.touchable }]} >
+                            <TouchableOpacity
+                                style={[formStyles.button, profileStyles.followButton, { backgroundColor: isFollowing ? COLORS.background_second : COLORS.touchable }]}
+                                onPress={isFollowing ? onPressUnfollow : onPressFollow}
+                            >
                                 <Text style={[commonStyles.text, { color: COLORS.text_touchable, fontSize: SIZES.text }]}>{isFollowing ? i18n.t('profile.button.unfollow') : i18n.t('profile.button.follow')}</Text>
                             </TouchableOpacity>
                         }

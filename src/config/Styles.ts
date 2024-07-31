@@ -15,6 +15,10 @@ export const commonStyles = StyleSheet.create({
         textAlign: 'center',
         fontSize: SIZES.title
     },
+    subtitle: {
+        textAlign: 'center',
+        fontSize: SIZES.subtitle
+    },
     text: {
         textAlign: 'center',
         fontSize: SIZES.text
@@ -87,6 +91,11 @@ export const formStyles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginBottom: 10
+    },
+    keyboardOptions: {
+        alignItems: 'flex-end',
+        fontSize: SIZES.text_touchables,
+        paddingRight: 10
     }
 })
 

@@ -30,10 +30,9 @@ export class UsersRepository implements IUsersApi {
 
     async updateMoneySpentAndPublicationsNumber(money: number, id: string) {
         const user = await SessionStoreFactory.getSessionStore().getUser()
-        const response = await supabase.from(this.tableName).update({ money_spent: user?.money_spent! + money, publications_number: user!.publications_number++ }).eq('id', id).select()
+        const response = await supabase.from(this.tableName).update({ money_spent: user?.money_spent! + money, publications_number: user!.publications_number + 1 }).eq('id', id).select()
 
         if (response.error !== undefined && response.error !== null) {
-            console.log(response.error)
             if (UsersRepository.tries < 1) {
                 UsersRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -41,6 +40,7 @@ export class UsersRepository implements IUsersApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error update money spent and publications number')
                     console.log(response.error)
                     throw response.error
                 } else {
@@ -49,6 +49,7 @@ export class UsersRepository implements IUsersApi {
                 }
             } else {
                 UsersRepository.tries = 0
+                console.log('error update money spent and publications number')
                 console.log(response.error)
                 throw response.error
             }
@@ -62,7 +63,6 @@ export class UsersRepository implements IUsersApi {
         const response = await supabase.from(this.tableName).select().eq('id', id)
 
         if (response.error !== undefined && response.error !== null) {
-            console.log(response.error)
             if (UsersRepository.tries < 1) {
                 UsersRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -70,6 +70,7 @@ export class UsersRepository implements IUsersApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get user by id', id)
                     console.log(response.error)
                     throw response.error
                 } else {
@@ -78,10 +79,12 @@ export class UsersRepository implements IUsersApi {
                 }
             } else {
                 UsersRepository.tries = 0
+                console.log('error get user by id', id)
                 console.log(response.error)
                 throw response.error
             }
         } else if (response.count === 0) {
+            console.log('error get user by id', id)
             throw {
                 code: 404,
                 message: 'User not found'
@@ -94,10 +97,8 @@ export class UsersRepository implements IUsersApi {
 
     async getByUsername(username: string) {
         const response = await supabase.from(this.tableName).select().eq('username', username)
-        console.log(response)
 
         if (response.error !== undefined && response.error !== null) {
-            console.log(response.error)
             if (UsersRepository.tries < 1) {
                 UsersRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -132,7 +133,6 @@ export class UsersRepository implements IUsersApi {
         let response = await supabase.from(this.tableName).select().eq('username', username)
 
         if (response.error !== null) {
-            console.log('error', response.error)
             if (UsersRepository.tries < 1) {
                 UsersRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -140,6 +140,7 @@ export class UsersRepository implements IUsersApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error user exists')
                     console.log(response.error)
                     throw response.error
                 } else {
@@ -148,6 +149,7 @@ export class UsersRepository implements IUsersApi {
                 }
             } else {
                 UsersRepository.tries = 0
+                console.log('error user exists')
                 console.log(response.error)
                 throw response.error
             }
@@ -159,7 +161,6 @@ export class UsersRepository implements IUsersApi {
                 response = await supabase.from(this.tableName).select().eq('email', email)
 
                 if (response.error !== null) {
-                    console.log('error', response.error)
                     if (UsersRepository.tries < 1) {
                         UsersRepository.tries++
                         const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -167,6 +168,7 @@ export class UsersRepository implements IUsersApi {
                         const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                         if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                            console.log('error user exists')
                             console.log(response.error)
                             throw response.error
                         } else {
@@ -175,6 +177,7 @@ export class UsersRepository implements IUsersApi {
                         }
                     } else {
                         UsersRepository.tries = 0
+                        console.log('error user exists')
                         console.log(response.error)
                         throw response.error
                     }

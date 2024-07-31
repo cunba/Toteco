@@ -22,5 +22,13 @@ export class HomeViewModel {
 
     async getPublications() {
         this.publications = await new PublicationsRepository().getAll()
+        this.publications?.sort((a: Publication, b: Publication) => {
+            if (a.created! < b.created!)
+                return 1
+            else if (a.created! > b.created!)
+                return -1
+            else
+                return 0
+        })
     }
 }

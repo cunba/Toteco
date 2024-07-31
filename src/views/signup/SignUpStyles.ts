@@ -16,12 +16,13 @@ export const signUpStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: 1,
         borderRadius: 10,
-        borderColor: 'grey',
+        borderColor: 'light-grey',
         width: 300,
         marginBottom: 15,
-        marginTop: 5
+        marginTop: 5,
+        paddingBottom: 3
     },
     toolbar: {
         flexDirection: 'row',

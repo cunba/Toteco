@@ -1,5 +1,6 @@
 import { Input } from "native-base"
-import { Modal, Text, TouchableOpacity, View } from "react-native"
+import { Button, InputAccessoryView, Keyboard, Modal, Text, TouchableOpacity, View } from "react-native"
+import { formStyles } from "../../../config/Styles"
 import i18n from "../../../infrastructure/localization/i18n"
 import { productModalStyles } from "./ProductModalStyles"
 
@@ -40,25 +41,52 @@ export const AddProductModal = (props: AddProductModalProps) => {
                         placeholder={i18n.t('add_product.name').toString()}
                         onChangeText={(name) => props.onNameChange(name)}
                         borderRadius={10}
+                        inputAccessoryViewID="name"
                     />
+                    <InputAccessoryView nativeID="name">
+                        <View style={[formStyles.keyboardOptions, { backgroundColor: color.keyboard }]}>
+                            <Button
+                                onPress={() => Keyboard.dismiss()}
+                                title={i18n.t('ok').toString()}
+                            />
+                        </View>
+                    </InputAccessoryView>
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}
                         w={{ base: "75%", md: "25%" }}
                         placeholder={i18n.t('add_product.score').toString()}
-                        onChangeText={(score) => props.onScoreChange(Number(score))}
+                        onChangeText={(score) => props.onScoreChange(Number(score.replace(',', '.')))}
                         borderRadius={10}
-                        inputMode="numeric"
-                        keyboardType="number-pad"
+                        inputMode="decimal"
+                        keyboardType="numeric"
+                        inputAccessoryViewID="score"
                     />
+                    <InputAccessoryView nativeID="score">
+                        <View style={[formStyles.keyboardOptions, { backgroundColor: color.keyboard }]}>
+                            <Button
+                                onPress={() => Keyboard.dismiss()}
+                                title={i18n.t('ok').toString()}
+                            />
+                        </View>
+                    </InputAccessoryView>
                     <Input
                         style={[productModalStyles.input, { color: color.text }]}
                         w={{ base: "75%", md: "25%" }}
                         placeholder={i18n.t('add_product.price').toString()}
-                        onChangeText={(price) => props.onPriceChange(Number(price))}
+                        onChangeText={(price) => props.onPriceChange(Number(price.replace(',', '.')))}
                         borderRadius={10}
-                        keyboardType="number-pad"
-                        inputMode="numeric"
+                        keyboardType="numeric"
+                        inputMode="decimal"
+                        inputAccessoryViewID="price"
                     />
+                    <InputAccessoryView nativeID="price">
+                        <View style={[formStyles.keyboardOptions, { backgroundColor: color.keyboard }]}>
+                            <Button
+                                onPress={() => Keyboard.dismiss()}
+                                title={i18n.t('ok').toString()}
+                            />
+                        </View>
+                    </InputAccessoryView>
                 </View>
                 {!props.hideErrorMessage ? (
                     <View style={{ alignItems: 'center' }}>
