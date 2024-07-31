@@ -171,8 +171,6 @@ export class FriendsRepository implements IFriendsApi {
 
     async getByFollower(follower: string) {
         const response = await supabase.from(this.tableName).select().eq('follower', follower)
-        console.log('follower')
-        console.log(response)
 
         if (response.error !== null) {
             if (FriendsRepository.tries < 1) {
@@ -182,7 +180,8 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
-                    console.log('get friend by follower error')
+                    console.log('error get friends by follower')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -190,7 +189,8 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
-                console.log('get friend by follower error')
+                console.log('error get friends by follower')
+                console.log(response.error)
                 throw response.error
             }
         } else {
@@ -218,7 +218,8 @@ export class FriendsRepository implements IFriendsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
-                    console.log('get friend by following error')
+                    console.log('error get friends by following')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -226,7 +227,8 @@ export class FriendsRepository implements IFriendsApi {
                 }
             } else {
                 FriendsRepository.tries = 0
-                console.log('get friend by following error')
+                console.log('error get friends by following')
+                console.log(response.error)
                 throw response.error
             }
         } else {

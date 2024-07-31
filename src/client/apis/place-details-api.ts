@@ -45,7 +45,7 @@ export const PlaceDetailsApiAxiosParamCreator = function (configuration?: Config
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
             localVarHeaderParameter['X-Goog-Api-Key'] = GOOGLE_MAPS_KEY;
-            localVarHeaderParameter['X-Goog-FieldMask'] = 'places.displayName,places.id,places.location,places.formattedAddress';
+            localVarHeaderParameter['X-Goog-FieldMask'] = 'places.displayName,places.id,places.location,places.formattedAddress,places.googleMapsUri';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {

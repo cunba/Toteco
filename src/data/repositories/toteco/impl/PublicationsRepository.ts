@@ -36,7 +36,7 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
+            
             return response.data[0]
         }
     }
@@ -64,7 +64,7 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
+            
             return response.data[0]
         }
     }
@@ -92,7 +92,7 @@ export class PublicationsRepository implements IPublicationsApi {
             }
         } else {
             PublicationsRepository.tries = 0
-            console.log(response.data)
+            
             return response.data[0]
         }
     }
@@ -234,7 +234,7 @@ export class PublicationsRepository implements IPublicationsApi {
             PublicationsRepository.tries = 0
             const publications = response.data as Publication[]
             for (let i = 0; i < publications.length; i++) {
-                const establishment = await new EstablishmentsRepository().getById(response.data[i].establishment_id)
+                const establishment = await new EstablishmentsRepository().getByIdRaw(response.data[i].establishment_id)
                 const products = await new ProductsRepository().getByPublicationId(publications[i].id!)
                 const user = await new UsersRepository().getById(response.data[i].user_id)
                 publications[i].establishment = establishment

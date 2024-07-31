@@ -14,7 +14,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).insert(product).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -22,6 +21,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error save product')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -29,11 +30,12 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error save product')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -42,7 +44,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -50,6 +51,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error update product')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -57,11 +60,12 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error update product')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -70,7 +74,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).delete().eq('id', id).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -78,6 +81,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error delete product')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -85,11 +90,12 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error delete product')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -98,7 +104,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -106,6 +111,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get all products')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -113,11 +120,12 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error get all products')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data
         }
     }
@@ -126,7 +134,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select().eq('id', id)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -134,6 +141,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get products by id')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -141,16 +150,19 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error get products by id')
+                console.log(response.error)
                 throw response.error
             }
         } else if (response.count === 0) {
+            console.log('error get products by id')
+            console.log(response.error)
             throw {
                 code: 404,
                 message: i18n.t('repositories.products.not_found')
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -159,7 +171,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select().eq('menu_id', menuId)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -167,6 +178,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get products by menu id')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -174,11 +187,12 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error get products by menu id')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data
         }
     }
@@ -187,7 +201,6 @@ export class ProductsRepository implements IProductsApi {
         const response = await supabase.from(this.tableName).select().eq('publication_id', publicationId)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (ProductsRepository.tries < 1) {
                 ProductsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -195,6 +208,8 @@ export class ProductsRepository implements IProductsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get products by publication id')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -202,11 +217,12 @@ export class ProductsRepository implements IProductsApi {
                 }
             } else {
                 ProductsRepository.tries = 0
+                console.log('error get products by publication id')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             ProductsRepository.tries = 0
-            console.log(response.data)
             return response.data
         }
     }

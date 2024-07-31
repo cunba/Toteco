@@ -8,13 +8,15 @@ export class PlaceDetailsData implements PlaceDetails {
         public location: LocationData,
         public displayName: DisplayNameData,
         public formattedAddress: string,
-        public regularOpeningHours: string
+        public regularOpeningHours: string,
+        public googleMapsUri: string
     ) {
         this.id = id
         this.location = location
         this.displayName = displayName
         this.formattedAddress = formattedAddress
         this.regularOpeningHours = regularOpeningHours
+        this.googleMapsUri = googleMapsUri
     }
 }
 

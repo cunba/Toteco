@@ -41,7 +41,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
     const [scroll, setScroll] = useState<any>()
     const [swipableRowRef, setSwipableRowRef] = useState<Swipeable[]>([])
     const [addEstablishment, setAddEstablishment] = useState(false)
-    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDTO('', '', false, '', 0))
+    const [newEstablishment, setNewEstablishment] = useState(new EstablishmentDTO('', '', false, '', 0, ''))
     const [establishmentErrorMessage, setEstablishmentErrorMessage] = useState('')
     const [hideEstablishmentErrorMessage, setHideEstablishmentErrorMessage] = useState(true)
     const [productErrorMessage, setProductErrorMessage] = useState('')
@@ -263,6 +263,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
             vm.setPlaceSelected(place)
             newEstablishment.name = place.displayName.text
             newEstablishment.maps_id = place.id
+            newEstablishment.maps_url = place.googleMapsUri
             setRefresh(true)
         },
         onIsComputerAllowedChange: (isComputerAllowed: boolean) => newEstablishment.is_computer_allowed = isComputerAllowed,

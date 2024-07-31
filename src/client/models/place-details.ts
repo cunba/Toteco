@@ -43,6 +43,12 @@ export interface PlaceDetails {
      * @memberof PlacesDetails
      */
     regularOpeningHours?: string;
+
+    /**
+     * @type {string}
+     * @memberof PlacesDetails
+     */
+    googleMapsUri?: string;
 }
 
 export interface RegularOpeningHours {

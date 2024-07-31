@@ -15,7 +15,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).insert(body).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -23,6 +22,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error save establishment')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -30,11 +31,12 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error save establishment')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             EstablishmentsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -43,7 +45,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).update(body).eq('id', id).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -51,6 +52,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error update establishment')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -58,11 +61,12 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error update establishment')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             EstablishmentsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -71,7 +75,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).delete().eq('id', id).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -79,6 +82,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error delete establishment')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -86,11 +91,12 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error delete establishment')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             EstablishmentsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }
@@ -99,7 +105,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
@@ -107,6 +112,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get all establishments')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -114,6 +121,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error get all establishments')
+                console.log(response.error)
                 throw response.error
             }
         } else {
@@ -124,7 +133,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 publications?.map(publication => publication.establishment = establishments[i])
                 establishments[i].publications = publications
             }
-            console.log(establishments)
             return establishments
         }
     }
@@ -133,13 +141,14 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).select().eq('id', id)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const token = await SessionStoreFactory.getSessionStore().getToken()
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
 
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get establishment by id')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -147,9 +156,13 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error get establishment by id')
+                console.log(response.error)
                 throw response.error
             }
         } else if (response.count === 0) {
+            console.log('error get establishment by id')
+            console.log(response.error)
             throw {
                 code: 404,
                 message: i18n.t('repositories.establishments.not_found')
@@ -164,18 +177,57 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         }
     }
 
+    async getByIdRaw(id: string) {
+        const response = await supabase.from(this.tableName).select().eq('id', id)
+
+        if (response.error !== null) {
+            if (EstablishmentsRepository.tries < 1) {
+                EstablishmentsRepository.tries++
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get establishment by id')
+                    console.log(response.error)
+                    throw response.error
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getById(id)
+                }
+            } else {
+                EstablishmentsRepository.tries = 0
+                console.log('error get establishment by id')
+                console.log(response.error)
+                throw response.error
+            }
+        } else if (response.count === 0) {
+            console.log('error get establishment by id')
+            console.log(response.error)
+            throw {
+                code: 404,
+                message: i18n.t('repositories.establishments.not_found')
+            }
+        } else {
+            EstablishmentsRepository.tries = 0
+            const establishment = response.data[0] as Establishment
+            establishment.publications = []
+            return establishment
+        }
+    }
+
     async getByName(name: string) {
         const response = await supabase.from(this.tableName).select().eq('name', name)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
                 const token = await SessionStoreFactory.getSessionStore().getToken()
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
-
+                
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get establishment by name')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -183,6 +235,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error get establishment by name')
+                console.log(response.error)
                 throw response.error
             }
         } else {
@@ -193,7 +247,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 publications?.map(publication => publication.establishment = establishments[i])
                 establishments[i].publications = publications
             }
-            console.log(establishments)
             return establishments
         }
     }
@@ -202,14 +255,15 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).select().eq('maps_id', mapsId)
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
                 const token = await SessionStoreFactory.getSessionStore().getToken()
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
-
+                
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error get establishment by maps id')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -217,6 +271,8 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error get establishment by maps id')
+                console.log(response.error)
                 throw response.error
             }
         } else {
@@ -227,7 +283,6 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 publications?.map(publication => publication.establishment = establishments[i])
                 establishments[i].publications = publications
             }
-            console.log(establishments)
             return establishments
         }
     }
@@ -236,14 +291,15 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
         const response = await supabase.from(this.tableName).update({ score: score }).eq('id', id).select()
 
         if (response.error !== null) {
-            console.log(response.error)
             if (EstablishmentsRepository.tries < 1) {
                 EstablishmentsRepository.tries++
                 const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
                 const token = await SessionStoreFactory.getSessionStore().getToken()
                 const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
-
+                
                 if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log('error update establishments score')
+                    console.log(response.error)
                     throw response.error
                 } else {
                     SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
@@ -251,11 +307,12 @@ export class EstablishmentsRepository implements IEstablishmentsApi {
                 }
             } else {
                 EstablishmentsRepository.tries = 0
+                console.log('error update establishments score')
+                console.log(response.error)
                 throw response.error
             }
         } else {
             EstablishmentsRepository.tries = 0
-            console.log(response.data)
             return response.data[0]
         }
     }

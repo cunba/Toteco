@@ -76,7 +76,7 @@ export class AddPublicationViewModel {
     async addEstablishment(establishment: EstablishmentDTO) {
         establishment.is_computer_allowed = establishment.is_computer_allowed ?? false
         const existEstablishment = await new EstablishmentsRepository().getByMapsId(establishment.maps_id)
-        console.log(existEstablishment)
+        
         if (existEstablishment!.length > 0)
             this.establishment = existEstablishment![0]
         else
@@ -112,7 +112,7 @@ export class AddPublicationViewModel {
         let establishmentId
         if (this.newEstablishment) {
             const establishmentExists = await new EstablishmentsRepository().getByMapsId(this.placeSelected?.id!)
-            console.log(establishmentExists)
+
             if (establishmentExists && establishmentExists.length > 0) {
                 establishmentId = establishmentExists[0].id
                 await new EstablishmentsRepository().updateScore(establishmentExists[0].score + this.establishmentScore!, establishmentId)

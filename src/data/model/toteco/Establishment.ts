@@ -8,6 +8,7 @@ export class Establishment {
     is_computer_allowed: boolean
     maps_id: string
     score: number
+    maps_url: string
     updated?: number
     publications?: Publication[]
 
@@ -17,7 +18,8 @@ export class Establishment {
         location: string,
         is_computer_allowed: boolean,
         maps_id: string,
-        score: number
+        score: number,
+        maps_url: string
     ) {
         this.id = id
         this.name = name
@@ -25,6 +27,7 @@ export class Establishment {
         this.is_computer_allowed = is_computer_allowed
         this.maps_id = maps_id
         this.score = score
+        this.maps_url = maps_url
     }
 }
 
@@ -35,13 +38,15 @@ export class EstablishmentDTO {
     is_computer_allowed: boolean
     maps_id: string
     score: number
+    maps_url: string
 
     constructor(
         name: string,
         location: string,
         is_computer_allowed: boolean,
         maps_id: string,
-        score: number
+        score: number,
+        maps_url: string
     ) {
         this.name = name
         this.created = new Date().getTime()
@@ -49,6 +54,7 @@ export class EstablishmentDTO {
         this.is_computer_allowed = is_computer_allowed
         this.maps_id = maps_id
         this.score = score
+        this.maps_url = maps_url
     }
 }
 
@@ -61,6 +67,7 @@ export class EstablishmentUpdate {
     maps_id: string
     score: number
     updated: number
+    maps_url: string
 
     constructor(establishment: Establishment) {
         this.id = establishment.id
@@ -71,5 +78,6 @@ export class EstablishmentUpdate {
         this.maps_id = establishment.maps_id
         this.score = establishment.score
         this.updated = new Date().getTime()
+        this.maps_url = establishment.maps_url
     }
 }

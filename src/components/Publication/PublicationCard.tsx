@@ -1,7 +1,7 @@
 
 import { Image, Input, View } from 'native-base';
 import React from 'react';
-import { Text } from 'react-native';
+import { Linking, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Title } from 'react-native-paper';
 import { SIZES } from '../../config/Sizes';
@@ -37,7 +37,12 @@ export default function PublicationCard(props: PublicationProps) {
                             <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={props.publication.user?.username ?? ''} />
                         }
                     </TouchableOpacity>
-                    <Title style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}>{props.publication.establishment?.name ?? ''}</Title>
+                    <Title
+                        style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}
+                        onPress={() => Linking.openURL(props.publication.establishment!.maps_url)}
+                    >
+                        {props.publication.establishment?.name ?? ''}
+                    </Title>
                 </View>
                 <View style={publicationStyles.card}>
                     <View style={{ height: 200, width: 150 }}>
@@ -49,7 +54,7 @@ export default function PublicationCard(props: PublicationProps) {
                                 comment = comment + `- ${product.name}\n  (${Math.round(product.price! * 100) / 100} €, ${Math.round(product.score * 100) / 100} ☆)`
                                 return (
                                     <Input
-                                        style={[commonStyles.text, { color: color.text, paddingBottom: 20, maxHeight: 200}]}
+                                        style={[commonStyles.text, { color: color.text, paddingBottom: 20, maxHeight: 200 }]}
                                         defaultValue={comment}
                                         multiline={true}
                                         editable={false}
