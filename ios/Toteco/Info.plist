@@ -45,17 +45,17 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Capture Image</string>
+	<string>The app give the user the possibility to capture a new image using the camera when creating a new user with a personalize image and to add an image to new publications</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This is the plist item for NSLocationAlwaysAndWhenInUseUsageDescription</string>
+	<string>The app need the location to search establishments around the user and help them to find the correct establishment</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This is the plist item for NSLocationAlwaysUsageDescription</string>
+	<string>The app need the location to search establishments around the user and help them to find the correct establishment</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Add image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Select image</string>
+	<string>The app give the user the possibility to get a new image from the library when creating a new user with a personalize image and to add an image to new publications</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

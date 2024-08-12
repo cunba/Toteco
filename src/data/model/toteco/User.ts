@@ -4,7 +4,7 @@ export class UserData {
     email: string
     name: string
     surname: string
-    birth_date: number
+    // birth_date: number
     photo: string
     is_active: boolean
     money_spent: number
@@ -16,7 +16,7 @@ export class UserData {
         email: string,
         name: string,
         surname: string,
-        birth_date: number,
+        // birth_date: number,
         photo: string,
         is_active: boolean,
         money_spent: number,
@@ -27,7 +27,7 @@ export class UserData {
         this.email = email
         this.name = name
         this.surname = surname
-        this.birth_date = birth_date
+        // this.birth_date = birth_date
         this.photo = photo
         this.is_active = is_active
         this.money_spent = money_spent

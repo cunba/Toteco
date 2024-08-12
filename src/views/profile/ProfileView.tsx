@@ -49,7 +49,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
         await vm.getPublications();
         await vm.getFriends()
 
-        if (!isUserLogged && vm.followers?.findIndex(friend => friend.following.id === vm.user!.id) !== -1)
+        if (!isUserLogged && vm.followers?.findIndex(friend => friend.following.id === userLogged!.id) !== -1)
             setIsFollowing(true)
 
         setRefresh(true);

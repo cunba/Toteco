@@ -59,7 +59,7 @@ export class SignUpViewModel {
             this.email!,
             this.name!,
             this.surname!,
-            this.birthDate!,
+            // this.birthDate!,
             this.profileImage!,
             true,
             0,

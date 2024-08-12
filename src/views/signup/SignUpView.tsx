@@ -216,7 +216,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             </View>
                         </InputAccessoryView>
                     </Stack>
-                    <View style={signUpStyles.containerInputDate}>
+                    {/* <View style={signUpStyles.containerInputDate}>
                         <Input
                             style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
                             w={{ base: "25%", md: "25%" }}
@@ -281,7 +281,7 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             </View>
                         </InputAccessoryView>
                         <Text ></Text>
-                    </View>
+                    </View> */}
                     <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
