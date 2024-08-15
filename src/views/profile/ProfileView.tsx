@@ -49,7 +49,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
         await vm.getPublications();
         await vm.getFriends()
 
-        if (!isUserLogged && vm.followers?.findIndex(friend => friend.following.id === userLogged!.id) !== -1)
+        if (!isUserLogged && vm.followers?.findIndex(friend => friend.follower.id === userLogged!.id) !== -1)
             setIsFollowing(true)
 
         setRefresh(true);
@@ -101,7 +101,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                         <View style={profileStyles.profileInfoContainer}>
                             <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
                             <View style={{ paddingTop: 15 }}>
-                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number ?? 0}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.publications?.length ?? 0}</Text>
                                 <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
                             </View>
                             <View style={{ paddingTop: 15 }}>

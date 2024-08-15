@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "pod": "rm -rf ios/Pods && bundle exec pod install --project-directory=ios",
+    "pod": "rm -rf ios/Pods ios/Podfile.lock && bundle exec pod install --project-directory=ios --repo-update",
     "clean": "cd android && ./gradlew clean && cd .. && watchman watch-del-all",
     "android-release": "npx react-native build-android --mode=release",
     "release": "cd android && ./gradlew assembleRelease && cd .."

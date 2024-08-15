@@ -47,9 +47,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>The app give the user the possibility to capture a new image using the camera when creating a new user with a personalize image and to add an image to new publications</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>The app need the location to search establishments around the user and help them to find the correct establishment</string>
+	<string>The app do not save the user location, the app only consult the location to improve the map view. For example, the app get the current location and when the user wants to create a new publication we get the location to locate the user in the map and search for establishemnts around them. In the establishments view we also get the location to display the establishemtns around the user.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app need the location to search establishments around the user and help them to find the correct establishment</string>
+	<string>The app do not save the user location, the app only consult the location to improve the map view. For example, the app get the current location and when the user wants to create a new publication we get the location to locate the user in the map and search for establishemnts around them. In the establishments view we also get the location to display the establishemtns around the user.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

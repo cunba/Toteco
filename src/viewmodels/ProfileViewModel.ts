@@ -25,7 +25,14 @@ export class ProfileViewModel {
 
     async getPublications() {
         this.publications = await new PublicationsRepository().getByUserId(this.user!.id!)
-        console.log(this.publications)
+        this.publications?.sort((a: Publication, b: Publication) => {
+            if (a.created! < b.created!)
+                return 1
+            else if (a.created! > b.created!)
+                return -1
+            else
+                return 0
+        })
     }
 
     async getFriends() {
