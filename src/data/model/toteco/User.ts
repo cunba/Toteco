@@ -5,7 +5,7 @@ export class UserData {
     name: string
     surname: string
     // birth_date: number
-    photo: string
+    photo?: string
     is_active: boolean
     money_spent: number
     publications_number: number
@@ -17,10 +17,10 @@ export class UserData {
         name: string,
         surname: string,
         // birth_date: number,
-        photo: string,
         is_active: boolean,
         money_spent: number,
-        publications_number: number
+        publications_number: number,
+        photo?: string
     ) {
         this.id = id
         this.username = username

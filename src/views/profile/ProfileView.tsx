@@ -99,9 +99,9 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                     </View>
                     <View style={[profileStyles.headerContainer, { borderBottomColor: COLORS.shadowToolbar }]}>
                         <View style={profileStyles.profileInfoContainer}>
-                            <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
+                            <Image size={20} borderRadius={100} source={{ uri: vm.user?.photo ?? require("../../assets/images/default-user.png") }} alt={vm.user?.username ?? ''} />
                             <View style={{ paddingTop: 15 }}>
-                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.publications?.length ?? 0}</Text>
+                                <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number ?? 0}</Text>
                                 <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
                             </View>
                             <View style={{ paddingTop: 15 }}>

@@ -11,20 +11,30 @@ export class UsersRepository implements IUsersApi {
     tableName = 'users_public'
 
     async save(body: UserData) {
-        const imageName = body.photo.substring(body.photo.lastIndexOf('/') + 1)
-        const response = await firebaseStorage.ref(imageName).putFile(body.photo)
-        if (response.state === 'success') {
-            body.photo = await firebaseStorage.ref(imageName).getDownloadURL()
+        if (body.photo) {
+            const imageName = body.photo.substring(body.photo.lastIndexOf('/') + 1)
+            const response = await firebaseStorage.ref(imageName).putFile(body.photo)
+            if (response.state === 'success') {
+                body.photo = await firebaseStorage.ref(imageName).getDownloadURL()
+                const response = await supabase.from(this.tableName).insert(body).select()
+
+                if (response.error !== null) {
+                    console.log(response.error)
+                    await firebaseStorage.ref(imageName).delete()
+                    throw response.error
+                }
+                return response.data[0] as UserData
+            } else {
+                throw response.error
+            }
+        } else {
             const response = await supabase.from(this.tableName).insert(body).select()
 
             if (response.error !== null) {
                 console.log(response.error)
-                await firebaseStorage.ref(imageName).delete()
                 throw response.error
             }
             return response.data[0] as UserData
-        } else {
-            throw response.error
         }
     }
 

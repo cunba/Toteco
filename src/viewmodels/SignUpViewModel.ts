@@ -60,10 +60,10 @@ export class SignUpViewModel {
             this.name!,
             this.surname!,
             // this.birthDate!,
-            this.profileImage!,
             true,
             0,
-            0
+            0,
+            this.profileImage
         )
 
         this.user = user
