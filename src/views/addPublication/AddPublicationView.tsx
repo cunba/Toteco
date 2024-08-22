@@ -273,10 +273,12 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         }
     }
 
-    const onAddPublicationClick = () => {
+    const onAddPublicationClick = async () => {
         if (vm.isValid()) {
             setHideErrorMessage(true)
-            vm.createPublication()
+            setShowSpinner(true)
+            await vm.createPublication()
+            setShowSpinner(false)
             back()
         } else {
             if (!vm.isEstablishmentValid()) {

@@ -85,8 +85,8 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-                        {vm.user?.photo === '' ?
-                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={vm.user.username ?? ''} />
+                        {vm.user?.photo === null || vm.user?.photo === undefined ?
+                            <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={''} />
                             :
                             <Image size={10} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
                         }
@@ -94,7 +94,6 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 ),
                 title: 'profile',
                 color: COLORS.touchable,
-                // onPress: () => console.log('profile')
                 onPress: () => navigate(ROUTES.PROFILE, null)
             },
             // {

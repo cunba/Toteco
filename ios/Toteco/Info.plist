@@ -51,7 +51,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The app do not save the user location, the app only consult the location to improve the map view. For example, the app get the current location and when the user wants to create a new publication we get the location to locate the user in the map and search for establishemnts around them. In the establishments view we also get the location to display the establishemtns around the user.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This is the plist item for NSLocationWhenInUseUsageDescription</string>
+	<string>The app do not save the user location, the app only consult the location to improve the map view. For example, the app get the current location and when the user wants to create a new publication we get the location to locate the user in the map and search for establishemnts around them. In the establishments view we also get the location to display the establishemtns around the user.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Add image</string>
 	<key>NSPhotoLibraryUsageDescription</key>
