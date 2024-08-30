@@ -1,7 +1,7 @@
 
 import { Image, Input, View } from 'native-base';
 import React from 'react';
-import { Linking, Text } from 'react-native';
+import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Title } from 'react-native-paper';
 import { SIZES } from '../../config/Sizes';
@@ -14,11 +14,25 @@ export interface PublicationProps {
     publication: Publication
     styles?: any
     onPressIcon?: () => void
+    onPressLink?: () => void
 }
 
 export default function PublicationCard(props: PublicationProps) {
     const color = props.colorScheme
     let comment = ''
+    let establishmentFontSize = 0
+    let establishmentPaddingSize = 0
+
+    if (props.publication.establishment!.name!.length <= 25) {
+        establishmentFontSize = SIZES.subtitle
+        establishmentPaddingSize = 15
+    } else if (props.publication.establishment!.name!.length <= 35) {
+        establishmentFontSize = SIZES.subtitleMini
+        establishmentPaddingSize = 10
+    } else {
+        establishmentFontSize = SIZES.text
+        establishmentPaddingSize = 5
+    }
 
     return <>
         <Card elevation={3} mode={"elevated"} style={[stylesRicyclerList.card, props.styles, {
@@ -38,8 +52,8 @@ export default function PublicationCard(props: PublicationProps) {
                         }
                     </TouchableOpacity>
                     <Title
-                        style={[commonStyles.title, { color: color.text, fontSize: SIZES.subtitle, paddingBottom: 10 }]}
-                        onPress={() => Linking.openURL(props.publication.establishment!.maps_url)}
+                        style={[commonStyles.title, publicationStyles.title, { color: color.text, fontSize: establishmentFontSize, paddingTop: establishmentPaddingSize }]}
+                        onPress={props.onPressLink}
                     >
                         {props.publication.establishment?.name ?? ''}
                     </Title>
@@ -54,6 +68,7 @@ export default function PublicationCard(props: PublicationProps) {
                                 comment = comment + `- ${product.name}\n  (${Math.round(product.price! * 100) / 100} €, ${Math.round(product.score * 100) / 100} ☆)`
                                 return (
                                     <Input
+                                        key={'products'}
                                         style={[commonStyles.text, { color: color.text, paddingBottom: 20, maxHeight: 200 }]}
                                         defaultValue={comment}
                                         multiline={true}
@@ -68,6 +83,7 @@ export default function PublicationCard(props: PublicationProps) {
                 </View>
                 {(props.publication.comment !== undefined && props.publication.comment !== '') ?
                     <Input
+                        key={'comment'}
                         style={{ height: 35, fontSize: SIZES.text, color: color.text }}
                         defaultValue={props.publication.comment}
                         multiline={true}
@@ -77,10 +93,11 @@ export default function PublicationCard(props: PublicationProps) {
                     : null
                 }
                 <View style={[publicationStyles.totalContainer, { borderColor: color.shadowToolbar }]}>
-                    <Text style={[commonStyles.text, { color: color.text }]}>{`PRICE: ${props.publication.total_price} €`}</Text>
-                    <Text style={[commonStyles.text, { color: color.text }]}>{`SCORE: ${props.publication.total_score} ☆`}</Text>
+                    <Text style={[commonStyles.text, { color: color.text }]}>{`PRICE: ${Math.round(props.publication.total_price * 100) / 100} €`}</Text>
+                    <Text style={[commonStyles.text, { color: color.text }]}>{`SCORE: ${Math.round(props.publication.total_score * 100) / 100} ☆`}</Text>
                 </View>
             </Card.Content>
         </Card>
     </>
+
 }

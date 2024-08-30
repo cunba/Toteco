@@ -109,5 +109,7 @@
     "repositories.establishments.not_found": "Establecimiento no encontrado",
     "repositories.products.not_found": "Producto no encontrado",
     "repositories.publications.not_found": "Publicación no encontrado",
-    "repositories.friends.not_found": "Amigo no encontrado"
+    "repositories.friends.not_found": "Amigo no encontrado",
+
+    "open_link": "Abrir link con"
 }

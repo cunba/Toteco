@@ -238,6 +238,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
         name: newEstablishment.name,
         hideErrorMessage: hideEstablishmentErrorMessage,
         errorMessage: establishmentErrorMessage,
+        user: vm.user!,
         onPressOk: () => {
             if (newEstablishment.maps_id === '') {
                 setEstablishmentErrorMessage(i18n.t('add_establishment.error.no_establishment'))

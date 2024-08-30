@@ -129,7 +129,6 @@ export class PublicationsRepository implements IPublicationsApi {
                 publications[i].products = products
                 publications[i].user = user
             }
-            console.log(publications)
             return publications
         }
     }
@@ -169,7 +168,6 @@ export class PublicationsRepository implements IPublicationsApi {
             publication.establishment = establishment
             publication.products = products
             publication.user = user
-            console.log(publication)
             return publication
         }
     }
@@ -204,7 +202,6 @@ export class PublicationsRepository implements IPublicationsApi {
                 publications[i].products = products
                 publications[i].user = user
             }
-            console.log(publications)
             return publications
         }
     }
@@ -241,7 +238,6 @@ export class PublicationsRepository implements IPublicationsApi {
                 publications[i].products = products
                 publications[i].user = user
             }
-            console.log(publications)
             return publications
         }
     }

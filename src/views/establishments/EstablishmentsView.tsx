@@ -1,4 +1,4 @@
-import { Icon, NativeBaseProvider } from "native-base";
+import { Icon, Image, NativeBaseProvider } from "native-base";
 import { useEffect, useState } from "react";
 import { Appearance, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Location } from "react-native-location";
@@ -19,7 +19,7 @@ import { ShowEstablishmentModal, ShowEstablishmentModalProps } from "./component
 export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [showEstablishment, setShowEstablishment] = useState(false)
-    const [establishmentSelected, setEstablishmentSelected] = useState<Establishment>(new Establishment('', '', '', false, '', 0))
+    const [establishmentSelected, setEstablishmentSelected] = useState<Establishment>(new Establishment('', '', '', false, '', 0, ''))
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
 
     Appearance.addChangeListener(() => {
@@ -69,6 +69,17 @@ export const EstablishmentsView: FunctionalView<EstablishmentsViewModel> = ({ vm
                             mapType="standard"
                             style={StyleSheet.absoluteFillObject}
                         >
+                            <Marker
+                                key={'user'}
+                                title={vm.user?.username}
+                                coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+                            >
+                                {vm.user?.photo === null || vm.user?.photo === undefined ?
+                                    <Image size={8} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={''} />
+                                    :
+                                    <Image size={8} borderRadius={100} source={{ uri: vm.user?.photo }} alt={vm.user?.username ?? ''} />
+                                }
+                            </Marker>
                             {vm.establishments!.length > 0 ?
                                 vm.establishments!.map(establishment => {
                                     return <Marker

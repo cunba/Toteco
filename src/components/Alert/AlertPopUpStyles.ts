@@ -7,6 +7,11 @@ export const alertPopUpStyles = StyleSheet.create({
         fontSize: SIZES.subtitle,
         padding: 10
     },
+    menuTitle: {
+        textAlign: 'center',
+        fontSize: SIZES.subtitleMini,
+        padding: 10
+    },
     alertContainer: {
         justifyContent: 'center',
         alignContent: 'center',

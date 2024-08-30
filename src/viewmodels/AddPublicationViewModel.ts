@@ -12,6 +12,7 @@ import { ProductsRepository } from "../data/repositories/toteco/impl/ProductsRep
 import { PublicationsRepository } from "../data/repositories/toteco/impl/PublicationsRepository";
 import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
+import { UserData } from "../data/model/toteco/User";
 
 export class AddPublicationViewModel {
 
@@ -26,9 +27,11 @@ export class AddPublicationViewModel {
     initialLocation?: Location
     placesNearby: PlaceDetailsData[]
     placeSelected?: PlaceDetailsData
+    user?: UserData | null
 
     constructor() {
         makeAutoObservable(this)
+        this.getUser()
         this.products = []
         this.placesNearby = []
         this.totalScore = 0
@@ -38,17 +41,21 @@ export class AddPublicationViewModel {
         this.getPlacesNearby()
     }
 
+    async getUser() {
+        this. user = await SessionStoreFactory.getSessionStore().getUser()
+    }
+
     setTotalScore() {
         let productScore = 0
         this.products.map(product => productScore = productScore + product.score!)
         let establishmentScore = this.establishmentScore ?? 0
-        this.totalScore = (establishmentScore + productScore) / (this.products.length + 1)
+        this.totalScore = Math.round((establishmentScore + productScore) / (this.products.length + 1) * 100) / 100
     }
 
     setTotalPrice() {
         let price = 0
         this.products.map(product => price = price + product.price!)
-        this.totalPrice = price
+        this.totalPrice = Math.round(price * 100) / 100
     }
 
     setImage(imageUri: string) {
@@ -76,7 +83,7 @@ export class AddPublicationViewModel {
     async addEstablishment(establishment: EstablishmentDTO) {
         establishment.is_computer_allowed = establishment.is_computer_allowed ?? false
         const existEstablishment = await new EstablishmentsRepository().getByMapsId(establishment.maps_id)
-        
+
         if (existEstablishment!.length > 0)
             this.establishment = existEstablishment![0]
         else

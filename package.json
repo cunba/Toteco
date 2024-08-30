@@ -1,6 +1,6 @@
 {
-  "name": "Toteco",
-  "version": "1.2.5",
+  "name": "toteco",
+  "version": "1.2.6",
   "private": true,
   "platforms": [
     "ios",

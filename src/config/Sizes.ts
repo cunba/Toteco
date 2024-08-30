@@ -1,6 +1,7 @@
 export const SIZES = {
     title: 32,
     subtitle: 25,
+    subtitleMini: 19,
     app_name: 50,
     text: 15,
     text_input: 15,

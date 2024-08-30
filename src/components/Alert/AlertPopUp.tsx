@@ -141,17 +141,18 @@ export const AlertPopUp = (config?: AlertProps) => {
     const renderMenu = () => <Modal animationType={props.animationType} transparent={true} visible={props.visible} onRequestClose={props.onRequestClose} >
         <View style={alertPopUpStyles.alertContainer} />
         <View style={[alertPopUpStyles.containerAlertNoMessage, { backgroundColor: color.background }]}>
+            <Text style={[alertPopUpStyles.menuTitle, { color: color.text }]}>{props.title}</Text>
             {props.options?.map((item, index) => {
                 return (<TouchableOpacity
                     key={'item-' + index}
-                    style={{
+                    style={[{
                         backgroundColor: item.bgColor,
                         justifyContent: 'center',
                         alignItems: 'center',
                         padding: SIZES.padding_buttons,
                         paddingRight: 0,
-                        paddingLeft: 0,
-                    }}
+                        paddingLeft: 0
+                    }, item.style]}
                     onPress={item.onPress}>
                     <Text style={{ color: item.color, fontSize: SIZES.text, }}>{item.text}</Text>
                 </TouchableOpacity>)

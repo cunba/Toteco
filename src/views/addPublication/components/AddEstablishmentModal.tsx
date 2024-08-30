@@ -1,4 +1,4 @@
-import { Checkbox, Input } from "native-base";
+import { Checkbox, Image, Input } from "native-base";
 import { Button, InputAccessoryView, Keyboard, Modal, Text, TouchableOpacity, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Location } from "../../../client";
@@ -7,6 +7,7 @@ import { PlaceDetailsData } from "../../../data/model/places/PlaceDetails";
 import i18n from "../../../infrastructure/localization/i18n";
 import { mapStyle } from "../../mapStyle";
 import { productModalStyles } from "./ProductModalStyles";
+import { UserData } from "../../../data/model/toteco/User";
 
 export enum AnimationType {
     NONE = 'none',
@@ -23,6 +24,7 @@ export interface AddEstablishmentModalProps {
     name: string
     errorMessage: string
     hideErrorMessage: boolean
+    user: UserData
     onPressOk?: () => void
     onRequestClose: () => void
     onNameChange: (name: string) => void
@@ -106,6 +108,17 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                     mapType="standard"
                     style={{ width: '100%', height: '65%' }}
                 >
+                    <Marker
+                        key={'user'}
+                        title={props.user?.username ?? ''}
+                        coordinate={{ latitude: props.location.latitude!, longitude: props.location.longitude! }}
+                    >
+                        {props.user?.photo === null || props.user?.photo === undefined ?
+                            <Image size={8} borderRadius={100} source={require("../../../assets/images/default-user.png")} alt={''} />
+                            :
+                            <Image size={8} borderRadius={100} source={{ uri: props.user.photo }} alt={props.user.username ?? ''} />
+                        }
+                    </Marker>
                     {props.places.length > 0 ?
                         props.places.map(place => {
                             return <Marker

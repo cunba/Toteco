@@ -178,6 +178,9 @@ function App(): JSX.Element {
                         throw response.error
                     }
                     userToken = response.data.session.access_token
+
+                    const user = await new UsersRepository().getById(response.data.user!.id)
+                    SessionStoreFactory.getSessionStore().setUser(user)
                 }
                 dispatch({ type: 'RESTORE_TOKEN', token: userToken });
             }
