@@ -111,5 +111,9 @@
     "repositories.publications.not_found": "Publicación no encontrado",
     "repositories.friends.not_found": "Amigo no encontrado",
 
-    "open_link": "Abrir link con"
+    "open_link": "Abrir link con",
+
+    "user_list.search_user": "Buscar cuenta",
+    "user_list.following": "Siguiendo",
+    "user_list.followers": "Seguidores"
 }

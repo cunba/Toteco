@@ -207,8 +207,6 @@ export class FriendsRepository implements IFriendsApi {
 
     async getByFollowing(following: string) {
         const response = await supabase.from(this.tableName).select().eq('following', following)
-        console.log('following')
-        console.log(response)
 
         if (response.error !== null) {
             if (FriendsRepository.tries < 1) {

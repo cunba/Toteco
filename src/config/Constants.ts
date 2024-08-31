@@ -11,7 +11,8 @@ export enum ROUTES {
     ESTABLISHMENTS = 'Establishments',
     ADD_PUBLICATION = 'Add publication',
     PROFILE = 'Profile',
-    SEND_EMAIL = 'Send email'
+    SEND_EMAIL = 'Send email',
+    USER_LIST = 'User list'
 }
 
 export const PLATFORM = Platform.OS

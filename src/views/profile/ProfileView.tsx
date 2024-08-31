@@ -5,12 +5,14 @@ import { Appearance, Dimensions, FlatList, RefreshControl, Text, TouchableOpacit
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
+import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, formStyles } from "../../config/Styles";
+import { UserListData } from "../../data/model/UserListData";
 import { Publication } from "../../data/model/toteco/Publication";
 import { SessionStoreFactory } from "../../infrastructure/data/SessionStoreFactory";
 import i18n from "../../infrastructure/localization/i18n";
-import { back } from "../../infrastructure/navigation/RootNavigation";
+import { addScreen, back } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { ProfileViewModel } from "../../viewmodels/ProfileViewModel";
 import { profileStyles } from "./ProfileStyles";
@@ -108,14 +110,14 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                                 <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.user?.publications_number ?? 0}</Text>
                                 <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.total_publications')}</Text>
                             </View>
-                            <View style={{ paddingTop: 15 }}>
+                            <TouchableOpacity style={{ paddingTop: 15 }} onPress={() => addScreen(ROUTES.USER_LIST, new UserListData(i18n.t('user_list.followers'), vm.followers!))}>
                                 <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.followers?.length ?? 0}</Text>
                                 <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.followers')}</Text>
-                            </View>
-                            <View style={{ paddingTop: 15 }}>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ paddingTop: 15 }} onPress={() => addScreen(ROUTES.USER_LIST, new UserListData(i18n.t('user_list.following'), vm.following!))}>
                                 <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{vm.following?.length ?? 0}</Text>
                                 <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('profile.following')}</Text>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                         {isUserLogged ?
                             null :

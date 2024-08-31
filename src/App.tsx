@@ -30,6 +30,7 @@ import { ProfileViewModel } from './viewmodels/ProfileViewModel';
 import { RecoveryEmailViewModel } from './viewmodels/RecoveryEmailViewModel';
 import { RecoveryViewModel } from './viewmodels/RecoveryViewModel';
 import { SignUpViewModel } from './viewmodels/SignUpViewModel';
+import { UserListViewModel } from './viewmodels/UserListViewModel';
 import { AddPublicationView } from './views/addPublication/AddPublicationView';
 import { EstablishmentsView } from './views/establishments/EstablishmentsView';
 import { HomeView } from './views/home/HomeView';
@@ -38,6 +39,7 @@ import { ProfileView } from './views/profile/ProfileView';
 import { RecoveryView } from './views/recovery/RecoveryView';
 import { RecoveryEmailView } from './views/recoveryEmail/RecoveryEmailView';
 import { SignUpView } from './views/signup/SignUpView';
+import { UserListView } from './views/userList/UserListView';
 
 // PLACES API
 PlacesApiClient.register(PlacesApi.PlaceDetailsApi, new PlaceDetailsApi)
@@ -84,6 +86,7 @@ const HomeScreen = () => <HomeView vm={new HomeViewModel()} />
 const AddPublicationScreen = () => <AddPublicationView vm={new AddPublicationViewModel()} />
 const EstablishmentsScreen = () => <EstablishmentsView vm={new EstablishmentsViewModel()} />
 const ProfileScreen = () => <ProfileView vm={new ProfileViewModel()} />
+const UserListScreen = () => <UserListView vm={new UserListViewModel()} />
 
 const Stack = createStackNavigator();
 
@@ -191,7 +194,27 @@ function App(): JSX.Element {
     useEffect(() => {
         supabase.auth.onAuthStateChange(async (event, session) => {
             console.log(event)
-            if (event == "PASSWORD_RECOVERY") {
+            if (event === "SIGNED_OUT") {
+                // const isLogged = await SessionStoreFactory.getSessionStore().isLoggedIn()
+
+                // if (isLogged) {
+                //     const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                //     let userToken = ''
+                //     if (credentials !== undefined && credentials !== null) {
+                //         const response = await supabase.auth.signInWithPassword(credentials)
+                //         if (response.error !== null) {
+                //             console.log(response.error)
+                //             throw response.error
+                //         }
+                //         userToken = response.data.session.access_token
+
+                //         const user = await new UsersRepository().getById(response.data.user!.id)
+                //         SessionStoreFactory.getSessionStore().setUser(user)
+                //         SessionStoreFactory.getSessionStore().setToken(response.data.session!.access_token);
+                //     }
+                //     dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+                // }
+            } else if (event == "PASSWORD_RECOVERY") {
                 console.log(session?.user)
                 console.log('password recovery')
                 // const newPassword = prompt("What would you like your new password to be?");
@@ -240,10 +263,10 @@ function App(): JSX.Element {
 
             },
             signOut: async () => {
-                await supabase.auth.signOut()
                 SessionStoreFactory.getSessionStore().setToken('');
                 SessionStoreFactory.getSessionStore().setCredentials(undefined)
                 SessionStoreFactory.getSessionStore().setUser(undefined);
+                await supabase.auth.signOut()
                 dispatch({ type: 'SIGN_OUT' });
             },
             signUp: async (user: UserData, password: string) => {
@@ -358,6 +381,11 @@ function App(): JSX.Element {
                                     <Stack.Screen
                                         name={ROUTES.PROFILE}
                                         component={ProfileScreen}
+                                        options={{ headerShown: false }}
+                                    />
+                                    <Stack.Screen
+                                        name={ROUTES.USER_LIST}
+                                        component={UserListScreen}
                                         options={{ headerShown: false }}
                                     />
                                 </>

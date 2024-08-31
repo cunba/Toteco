@@ -18,7 +18,6 @@ export class HomeViewModel {
 
     async getUser() {
         this.user = await SessionStoreFactory.getSessionStore().getUser()
-        console.log(this.user?.photo)
     }
 
     async getPublications() {

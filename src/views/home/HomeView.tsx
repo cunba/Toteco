@@ -4,6 +4,7 @@ import { Appearance, Dimensions, Linking, Text, View } from "react-native";
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { AuthContext } from "../../App";
@@ -14,6 +15,7 @@ import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
 import { commonStyles, stylesRicyclerList } from "../../config/Styles";
+import { UserListData } from "../../data/model/UserListData";
 import i18n from "../../infrastructure/localization/i18n";
 import { navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
@@ -89,6 +91,16 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
+                        <MaterialCommunityIcons name='account-search' size={SIZES.icons} color={COLORS.text_touchable} />
+                    </View>
+                ),
+                title: 'settings',
+                color: COLORS.touchable,
+                onPress: () => navigate(ROUTES.USER_LIST, new UserListData(i18n.t('user_list.search_user'), []))
+            },
+            {
+                icon: (
+                    <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
                         {vm.user?.photo === null || vm.user?.photo === undefined ?
                             <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={''} />
                             :
@@ -100,17 +112,6 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                 color: COLORS.touchable,
                 onPress: () => navigate(ROUTES.PROFILE, null)
             },
-            // {
-            //     icon: (
-            //         <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
-            //             <Ionicons name='settings-outline' size={SIZES.icons} color={COLORS.text_touchable} />
-            //         </View>
-            //     ),
-            //     title: 'settings',
-            //     onPress: () => console.log('entra a settings'),
-            //     color: COLORS.touchable
-            //     // onPress: () => navigate(ROUTES.SETTINGS, null)
-            // },
             {
                 icon: (
                     <View style={[homeStyles.iconContainer, { borderColor: COLORS.touchable, backgroundColor: COLORS.background_second }]}>
@@ -224,7 +225,9 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                                 refreshing={refresh}
                                 onRefresh={getPublications}
                             />}
-                        />
+                        >
+                            <Text style={{ fontSize: 200, color: COLORS.background }}>No data</Text>
+                        </ScrollView>
                     }
                 </View>
                 <MultiLevelFabButton {...options} />

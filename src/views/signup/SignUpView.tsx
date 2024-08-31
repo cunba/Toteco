@@ -12,7 +12,6 @@ import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { SignUpViewModel } from "../../viewmodels/SignUpViewModel";
-import { signUpStyles } from "./SignUpStyles";
 
 export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -87,7 +86,6 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
             setImageUri(result.assets[0].uri!)
             vm.setImage(result.assets[0].uri!)
         }
-        console.log(result)
     }
 
     const gallery = async () => {

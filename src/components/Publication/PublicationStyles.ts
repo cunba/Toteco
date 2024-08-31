@@ -33,7 +33,8 @@ export const publicationStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         gap: 10,
-        paddingBottom: 5
+        paddingBottom: 5,
+        alignItems: 'center'
     },
     title: {
         lineHeight: 15,
