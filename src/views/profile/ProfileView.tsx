@@ -1,9 +1,9 @@
 import { useRoute } from "@react-navigation/native";
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Appearance, Dimensions, FlatList, RefreshControl, Text, TouchableOpacity, View } from "react-native";
+import { Appearance, Dimensions, FlatList, Linking, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { AnimationType } from "../../components/Alert";
+import { AlertPopUp, AlertProps, AlertType, AnimationType } from "../../components/Alert";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
 import { SIZES } from "../../config/Sizes";
@@ -25,6 +25,9 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     const [isUserLogged, setIsUserLogged] = useState(false)
     const [isFollowing, setIsFollowing] = useState(false)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
+    const [popUpVisible, setPopUpVisible] = useState(false)
+    const [iosLink, setIosLink] = useState('')
+    const [androidLink, setAndroidLink] = useState('')
 
     const route = useRoute()
     const user = route.params
@@ -65,7 +68,14 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
         publicationProps: {
             colorScheme: COLORS,
             publication: publicationSelected,
-            styles: { width: "100%", marginVertical: 0 }
+            styles: { width: "100%", marginVertical: 0 },
+            onPressLink: () => {
+                const establishmentLocation = JSON.parse(publicationSelected.establishment!.location.replaceAll("'", '"'))
+                setIosLink(`maps://${establishmentLocation.latitude},${establishmentLocation.longitude}?q=${publicationSelected.establishment!.name.replaceAll(' ', '%20').replaceAll('&', '%26')}`)
+                setAndroidLink(publicationSelected.establishment!.maps_url)
+                setShowPublication(false)
+                setPopUpVisible(true)
+            }
         },
         onRequestClose: () => setShowPublication(false)
     }
@@ -86,6 +96,61 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
     const onPressUnfollow = async () => {
         await vm.unfollow()
         setIsFollowing(false)
+    }
+
+    const alertPopUp: AlertProps = {
+        type: AlertType.MENU,
+        visible: popUpVisible,
+        title: i18n.t('open_link'),
+        onRequestClose: function (): void {
+            setPopUpVisible(false)
+            setIosLink('')
+            setAndroidLink('')
+        },
+        colorScheme: COLORS,
+        options: [
+            {
+                text: 'Apple Maps',
+                color: COLORS.text,
+                onPress: () => {
+                    setPopUpVisible(false)
+                    Linking.openURL(iosLink)
+                    setIosLink('')
+                    setAndroidLink('')
+                },
+                bgColor: 'transparent',
+                style: {
+                    width: '100%',
+                    borderTopWidth: 0.5
+                }
+            },
+            {
+                text: 'Google Maps',
+                color: COLORS.text,
+                onPress: () => {
+                    setPopUpVisible(false)
+                    Linking.openURL(androidLink)
+                    setIosLink('')
+                    setAndroidLink('')
+                },
+                bgColor: 'transparent'
+            },
+            {
+                text: i18n.t('cancel'),
+                color: COLORS.text_touchable,
+                onPress: () => {
+                    setPopUpVisible(false)
+                    setIosLink('')
+                    setAndroidLink('')
+                },
+                bgColor: COLORS.touchable,
+                style: {
+                    width: '100%',
+                    borderBottomLeftRadius: 5,
+                    borderBottomRightRadius: 5
+                }
+            }
+        ]
     }
 
     return (
@@ -145,6 +210,7 @@ export const ProfileView: FunctionalView<ProfileViewModel> = ({ vm }) => {
                     }
                 </View>
                 <ShowPublicationModal {...showPublicationProps} />
+                <AlertPopUp {...alertPopUp} />
             </NativeBaseProvider>
         </>
     )

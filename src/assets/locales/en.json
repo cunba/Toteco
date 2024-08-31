@@ -114,5 +114,6 @@
 
     "user_list.search_user": "Search account",
     "user_list.following": "Following",
-    "user_list.followers": "Followers"
+    "user_list.followers": "Followers",
+    "user_list.search_user.label": "Username"
 }

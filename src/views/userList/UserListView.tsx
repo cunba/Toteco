@@ -1,9 +1,10 @@
 import { useRoute } from "@react-navigation/native";
-import { Icon, NativeBaseProvider } from "native-base";
+import { Icon, Input, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Appearance, Dimensions, Text, TouchableOpacity, View } from "react-native";
+import { Appearance, Button, Dimensions, InputAccessoryView, Keyboard, Text, TouchableOpacity, View } from "react-native";
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
 import { ROUTES } from "../../config/Constants";
@@ -19,6 +20,7 @@ export const UserListView: FunctionalView<UserListViewModel> = ({ vm }) => {
     const [refresh, setRefresh] = useState(false)
     const [COLORS, setCurrentColor] = useState(Appearance.getColorScheme() === 'dark' ? COLORS_DARK : COLORS_LIGHT);
     const [scroll, setScroll] = useState<any>()
+    const [searchText, setSearchText] = useState('')
 
     const route = useRoute()
     const userList = route.params as UserListData
@@ -47,7 +49,7 @@ export const UserListView: FunctionalView<UserListViewModel> = ({ vm }) => {
     )
 
     const getDataSource = (): DataProvider => {
-        return dataSource.cloneWithRows(vm.userList)
+        return dataSource.cloneWithRows(vm.userList!)
     }
 
     const layoutProvider = new LayoutProvider(
@@ -78,8 +80,9 @@ export const UserListView: FunctionalView<UserListViewModel> = ({ vm }) => {
         return (<UserListRow {...props} />)
     }
 
-    const getUsers = async () => {
-
+    const searchUsers = async () => {
+        await vm.searchUsers(searchText)
+        setRefresh(true)
     }
 
     return (
@@ -94,7 +97,33 @@ export const UserListView: FunctionalView<UserListViewModel> = ({ vm }) => {
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <View style={formStyles.container}>
-                        {vm.userList.length > 0 ?
+                        {userList.title === i18n.t('user_list.search_user') ?
+                            <>
+                                <Input
+                                    style={[formStyles.input, { color: COLORS.text }]}
+                                    w={{ base: "100%", md: "25%" }}
+                                    placeholder={i18n.t('user_list.search_user.label').toString()}
+                                    onChangeText={(text) => setSearchText(text)}
+                                    autoCapitalize="none"
+                                    InputRightElement={
+                                        <TouchableOpacity onPress={searchUsers}>
+                                            <Icon as={<MaterialIcons name='search' />} size={10} mr="2" color="muted.400" />
+                                        </TouchableOpacity>
+                                    }
+                                    inputAccessoryViewID="search"
+                                />
+                                <InputAccessoryView nativeID="search">
+                                    <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
+                                        <Button
+                                            onPress={() => Keyboard.dismiss()}
+                                            title={i18n.t('ok').toString()}
+                                        />
+                                    </View>
+                                </InputAccessoryView>
+                            </>
+                            : null
+                        }
+                        {vm.userList!.length > 0 ?
                             <RecyclerListView
                                 ref={(c) => { setScroll(c) }}
                                 showsVerticalScrollIndicator={false}
@@ -102,21 +131,22 @@ export const UserListView: FunctionalView<UserListViewModel> = ({ vm }) => {
                                 layoutProvider={layoutProvider}
                                 dataProvider={getDataSource()}
                                 rowRenderer={rowRender}
-                                scrollViewProps={{
-                                    refreshControl: (
-                                        <RefreshControl
-                                            refreshing={refresh}
-                                            onRefresh={getUsers}
-                                        />
-                                    )
-                                }}
+                                // scrollViewProps={{
+                                //     refreshControl: (
+                                //         <RefreshControl
+                                //             refreshing={refresh}
+                                //             onRefresh={getUsers}
+                                //         />
+                                //     )
+                                // }}
                             />
                             :
-                            <ScrollView refreshControl=
-                                {<RefreshControl
-                                    refreshing={refresh}
-                                    onRefresh={getUsers}
-                                />}
+                            <ScrollView 
+                            // refreshControl=
+                            //     {<RefreshControl
+                            //         refreshing={refresh}
+                            //         onRefresh={getUsers}
+                            //     />}
                             >
                                 <Text style={{ fontSize: 200, color: COLORS.background }}>No data</Text>
                             </ScrollView>

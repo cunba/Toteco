@@ -139,6 +139,42 @@ export class UsersRepository implements IUsersApi {
         }
     }
 
+    async getLikeUsername(username: string) {
+        console.log('llega')
+        const response = await supabase.from(this.tableName).select().like('username', `%${username}%`)
+        console.log(response)
+
+        if (response.error !== undefined && response.error !== null) {
+            if (UsersRepository.tries < 1) {
+                UsersRepository.tries++
+                const credentials = await SessionStoreFactory.getSessionStore().getCredentials()
+                const token = await SessionStoreFactory.getSessionStore().getToken()
+                const loginResponse = await supabase.auth.refreshSession({ refresh_token: token! })
+
+                if (loginResponse.error !== undefined && loginResponse.error !== null) {
+                    console.log(response.error)
+                    throw response.error
+                } else {
+                    SessionStoreFactory.getSessionStore().setToken(loginResponse.data.session?.access_token)
+                    this.getByUsername(username)
+                }
+            } else {
+                UsersRepository.tries = 0
+                console.log(response.error)
+                throw response.error
+            }
+        } else if (response.data.length === 0) {
+            throw {
+                code: 404,
+                message: i18n.t('repositories.users.not_found')
+            }
+        } else {
+            UsersRepository.tries = 0
+            console.log(response)
+            return response.data as UserData[]
+        }
+    }
+
     async userExists(username: string, email: string) {
         let response = await supabase.from(this.tableName).select().eq('username', username)
 

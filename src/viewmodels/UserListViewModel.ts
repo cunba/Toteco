@@ -3,6 +3,7 @@ import { Friend, FriendDTO } from "../data/model/toteco/Friend";
 import { UserData } from "../data/model/toteco/User";
 import { UserRowData } from "../data/model/UserListData";
 import { FriendsRepository } from "../data/repositories/toteco/impl/FriendsRepository";
+import { UsersRepository } from "../data/repositories/toteco/impl/UsersRepository";
 import { SessionStoreFactory } from "../infrastructure/data/SessionStoreFactory";
 
 export class UserListViewModel {
@@ -33,7 +34,7 @@ export class UserListViewModel {
                         return v
                     }
                 })
-                this.userList.push(new UserRowData(value.follower, index >= 0, friend?.id))
+                this.userList!.push(new UserRowData(value.follower, index >= 0, friend?.id))
             })
         else
             list.map(value => {
@@ -44,25 +45,37 @@ export class UserListViewModel {
                         return v
                     }
                 })
-                this.userList.push(new UserRowData(value.following, index >= 0, friend?.id))
+                this.userList!.push(new UserRowData(value.following, index >= 0, friend?.id))
             })
     }
 
-    async getUsers() {
-
+    async searchUsers(text: string) {
+        this.userList = []
+        const users = await new UsersRepository().getLikeUsername(text)
+        users!.map(value => {
+            let index = -1
+            const friend = this.following?.find((v: Friend, i: number) => {
+                if (v.follower.id === this.user!.id && v.following.id === value.id) {
+                    index = i
+                    return v
+                }
+            })
+            this.userList!.push(new UserRowData(value, index >= 0, friend?.id))
+        })
+        console.log(this.userList)
     }
 
     async unfollow(rowData: UserRowData) {
         const response = await new FriendsRepository().delete(rowData.friendId!)
-        const index = this.userList.findIndex(value => value.friendId === rowData.friendId)
-        this.userList[index].following = false
+        const index = this.userList!.findIndex(value => value.friendId === rowData.friendId)
+        this.userList![index].following = false
     }
 
     async follow(user: UserRowData) {
         const friend = new FriendDTO(this.user!.id!, user.user.id!)
         const newFollower = await new FriendsRepository().save(friend)
-        const index = this.userList.findIndex(value => value === user)
-        this.userList[index].following = true
-        this.userList[index].friendId = newFollower!.id
+        const index = this.userList!.findIndex(value => value === user)
+        this.userList![index].following = true
+        this.userList![index].friendId = newFollower!.id
     }
 }
