@@ -51,12 +51,11 @@ export default function PublicationCard(props: PublicationProps) {
                             <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={props.publication.user?.username ?? ''} />
                         }
                     </TouchableOpacity>
-                    <Title
-                        style={[commonStyles.title, publicationStyles.title, { color: color.text, fontSize: establishmentFontSize, paddingTop: establishmentPaddingSize }]}
-                        onPress={props.onPressLink}
-                    >
-                        {props.publication.establishment?.name ?? ''}
-                    </Title>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={props.onPressLink}>
+                        <Title style={[commonStyles.title, publicationStyles.title, { color: color.text, fontSize: establishmentFontSize, paddingTop: establishmentPaddingSize }]}>
+                            {props.publication.establishment?.name ?? ''}
+                        </Title>
+                    </TouchableOpacity>
                 </View>
                 <View style={publicationStyles.card}>
                     <View style={{ height: 200, width: 150 }}>

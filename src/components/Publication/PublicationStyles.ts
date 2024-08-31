@@ -39,6 +39,5 @@ export const publicationStyles = StyleSheet.create({
     title: {
         lineHeight: 15,
         textAlign: 'left'
-        // paddingTop: 10
     }
 })

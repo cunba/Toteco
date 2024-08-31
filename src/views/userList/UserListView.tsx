@@ -131,22 +131,21 @@ export const UserListView: FunctionalView<UserListViewModel> = ({ vm }) => {
                                 layoutProvider={layoutProvider}
                                 dataProvider={getDataSource()}
                                 rowRenderer={rowRender}
-                                // scrollViewProps={{
-                                //     refreshControl: (
-                                //         <RefreshControl
-                                //             refreshing={refresh}
-                                //             onRefresh={getUsers}
-                                //         />
-                                //     )
-                                // }}
+                                scrollViewProps={{
+                                    refreshControl: (
+                                        <RefreshControl
+                                            refreshing={refresh}
+                                        // onRefresh={getUsers}
+                                        />
+                                    )
+                                }}
                             />
                             :
-                            <ScrollView 
-                            // refreshControl=
-                            //     {<RefreshControl
-                            //         refreshing={refresh}
-                            //         onRefresh={getUsers}
-                            //     />}
+                            <ScrollView refreshControl=
+                                {<RefreshControl
+                                    refreshing={refresh}
+                                // onRefresh={getUsers}
+                                />}
                             >
                                 <Text style={{ fontSize: 200, color: COLORS.background }}>No data</Text>
                             </ScrollView>

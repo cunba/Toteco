@@ -140,9 +140,7 @@ export class UsersRepository implements IUsersApi {
     }
 
     async getLikeUsername(username: string) {
-        console.log('llega')
-        const response = await supabase.from(this.tableName).select().like('username', `%${username}%`)
-        console.log(response)
+        const response = await supabase.from(this.tableName).select().ilike('username', `%${username}%`)
 
         if (response.error !== undefined && response.error !== null) {
             if (UsersRepository.tries < 1) {
