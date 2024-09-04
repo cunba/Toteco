@@ -42,7 +42,7 @@ export class AddPublicationViewModel {
     }
 
     async getUser() {
-        this. user = await SessionStoreFactory.getSessionStore().getUser()
+        this.user = await SessionStoreFactory.getSessionStore().getUser()
     }
 
     setTotalScore() {

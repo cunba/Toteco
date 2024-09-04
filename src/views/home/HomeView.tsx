@@ -1,6 +1,6 @@
 import { Icon, Image, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Appearance, Dimensions, Linking, Text, View } from "react-native";
+import { Appearance, Dimensions, Text, View } from "react-native";
 import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Foundation from "react-native-vector-icons/Foundation";
@@ -8,7 +8,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { DataProvider, LayoutProvider, RecyclerListView } from "recyclerlistview";
 import { AuthContext } from "../../App";
-import { AlertPopUp, AlertProps, AlertType } from "../../components/Alert";
 import { MultiLevelFabButton, MultiLevelFabButtonType } from "../../components/MultiLevelFabButton";
 import PublicationCard, { PublicationProps } from "../../components/Publication/PublicationCard";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
@@ -129,70 +128,9 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
         const props: PublicationProps = {
             colorScheme: COLORS,
             publication: publication,
-            onPressIcon: () => navigate(ROUTES.PROFILE, publication.user),
-            onPressLink: () => {
-                const establishmentLocation = JSON.parse(publication.establishment!.location.replaceAll("'", '"'))
-                setIosLink(`maps://${establishmentLocation.latitude},${establishmentLocation.longitude}?q=${publication.establishment!.name.replaceAll(' ', '%20').replaceAll('&', '%26')}`)
-                setAndroidLink(publication.establishment!.maps_url)
-                setPopUpVisible(true)
-            }
+            onPressIcon: () => navigate(ROUTES.PROFILE, publication.user)
         }
         return (<PublicationCard {...props} />)
-    }
-
-    const alertPopUp: AlertProps = {
-        type: AlertType.MENU,
-        visible: popUpVisible,
-        title: i18n.t('open_link'),
-        onRequestClose: function (): void {
-            setPopUpVisible(false)
-            setIosLink('')
-            setAndroidLink('')
-        },
-        colorScheme: COLORS,
-        options: [
-            {
-                text: 'Apple Maps',
-                color: COLORS.text,
-                onPress: () => {
-                    setPopUpVisible(false)
-                    Linking.openURL(iosLink)
-                    setIosLink('')
-                    setAndroidLink('')
-                },
-                bgColor: 'transparent',
-                style: {
-                    width: '100%',
-                    borderTopWidth: 0.5
-                }
-            },
-            {
-                text: 'Google Maps',
-                color: COLORS.text,
-                onPress: () => {
-                    setPopUpVisible(false)
-                    Linking.openURL(androidLink)
-                    setIosLink('')
-                    setAndroidLink('')
-                },
-                bgColor: 'transparent'
-            },
-            {
-                text: i18n.t('cancel'),
-                color: COLORS.text_touchable,
-                onPress: () => {
-                    setPopUpVisible(false)
-                    setIosLink('')
-                    setAndroidLink('')
-                },
-                bgColor: COLORS.touchable,
-                style: {
-                    width: '100%',
-                    borderBottomLeftRadius: 5,
-                    borderBottomRightRadius: 5
-                }
-            }
-        ]
     }
 
     return (
@@ -231,7 +169,6 @@ export const HomeView: FunctionalView<HomeViewModel> = ({ vm }) => {
                     }
                 </View>
                 <MultiLevelFabButton {...options} />
-                <AlertPopUp {...alertPopUp} />
             </NativeBaseProvider>
         </>
     )

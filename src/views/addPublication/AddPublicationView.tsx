@@ -340,7 +340,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         <Text style={{ flex: 1 }}></Text>
                     </View>
                     <View style={formStyles.container}>
-                        {newEstablishment.name !== '' ?
+                        {newEstablishment?.name !== '' ?
                             <View style={addPublicationStyles.establishmentContainer}>
                                 <Foundation name='marker' size={SIZES.icons} color={COLORS.text} />
                                 <Text style={[commonStyles.text, { color: COLORS.text, fontSize: SIZES.subtitle }]}>{'\t' + newEstablishment.name}</Text>
@@ -387,7 +387,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                         </View>
                         <View style={{ flex: 1 }}>
                             <Text style={[commonStyles.subtitle, { color: COLORS.text }]}>{i18n.t('add_publication.title.products')}</Text>
-                            {vm.products.length !== 0 ?
+                            {vm.products?.length !== 0 ?
                                 <RecyclerListView
                                     ref={(c) => { setScroll(c) }}
                                     showsVerticalScrollIndicator={false}

@@ -1,12 +1,14 @@
 
 import { Image, Input, View } from 'native-base';
 import React from 'react';
-import { Text } from 'react-native';
+import { Alert, Linking, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card, Title } from 'react-native-paper';
+import { Location } from '../../client';
 import { SIZES } from '../../config/Sizes';
 import { commonStyles, stylesRicyclerList } from '../../config/Styles';
 import { Publication } from '../../data/model/toteco/Publication';
+import i18n from '../../infrastructure/localization/i18n';
 import { publicationStyles } from './PublicationStyles';
 
 export interface PublicationProps {
@@ -14,11 +16,11 @@ export interface PublicationProps {
     publication: Publication
     styles?: any
     onPressIcon?: () => void
-    onPressLink?: () => void
 }
 
 export default function PublicationCard(props: PublicationProps) {
     const color = props.colorScheme
+    const establishmentLocation = JSON.parse(props.publication.establishment!.location.replaceAll("'", '"'))
     let comment = ''
     let establishmentFontSize = 0
     let establishmentPaddingSize = 0
@@ -32,6 +34,31 @@ export default function PublicationCard(props: PublicationProps) {
     } else {
         establishmentFontSize = SIZES.text
         establishmentPaddingSize = 5
+    }
+
+    const pickMap = () => {
+        Alert.alert(
+            i18n.t('open_link'),
+            '',
+            [
+                {
+                    text: 'Apple Maps',
+                    onPress: () => Linking.openURL(`maps://${establishmentLocation.latitude},${establishmentLocation.longitude}?q=${props.publication.establishment!.name.replaceAll(' ', '%20').replaceAll('&', '%26')}`),
+                    style: 'default'
+                },
+                {
+                    text: 'Google Maps',
+                    onPress: () => Linking.openURL(props.publication.establishment!.maps_url)
+                },
+                {
+                    text: i18n.t('cancel'),
+                    style: 'cancel'
+                },
+            ],
+            {
+                cancelable: true
+            }
+        )
     }
 
     return <>
@@ -51,7 +78,7 @@ export default function PublicationCard(props: PublicationProps) {
                             <Image size={10} borderRadius={100} source={require("../../assets/images/default-user.png")} alt={props.publication.user?.username ?? ''} />
                         }
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ width: '100%' }} onPress={props.onPressLink}>
+                    <TouchableOpacity style={{ width: '100%' }} onPress={pickMap}>
                         <Title style={[commonStyles.title, publicationStyles.title, { color: color.text, fontSize: establishmentFontSize, paddingTop: establishmentPaddingSize }]}>
                             {props.publication.establishment?.name ?? ''}
                         </Title>
