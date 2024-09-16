@@ -120,7 +120,6 @@ dependencies {
     implementation project(':react-native-fs')
     implementation project(':react-native-location')
     implementation "com.google.android.gms:play-services-base:16.0.1"
-    implementation "com.google.android.gms:play-services-location"
     implementation platform('com.google.firebase:firebase-bom:33.1.0')
 
     if (hermesEnabled.toBoolean()) {

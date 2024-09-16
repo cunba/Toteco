@@ -119,7 +119,7 @@ export const AddEstablishmentModal = (props: AddEstablishmentModalProps) => {
                             <Image size={8} borderRadius={100} source={{ uri: props.user.photo }} alt={props.user.username ?? ''} />
                         }
                     </Marker>
-                    {props.places.length > 0 ?
+                    {props.places?.length > 0 ?
                         props.places.map(place => {
                             return <Marker
                                 key={place.id}
