@@ -1,10 +1,10 @@
 import { Heading, Icon, Input, NativeBaseProvider, Pressable, Stack } from "native-base";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Appearance, Button, InputAccessoryView, Keyboard, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Appearance, Button, InputAccessoryView, Keyboard, KeyboardAvoidingView, Text, TouchableOpacity, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../App";
 import { COLORS_DARK, COLORS_LIGHT } from "../../config/Colors";
-import { ROUTES } from "../../config/Constants";
+import { PLATFORM, ROUTES } from "../../config/Constants";
 import { commonStyles, formStyles } from "../../config/Styles";
 import i18n from "../../infrastructure/localization/i18n";
 import { navigate } from "../../infrastructure/navigation/RootNavigation";
@@ -105,7 +105,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                     <View style={loginStyles.titleView}>
                         <Heading style={[loginStyles.header, { color: COLORS.text }]}>{i18n.t('login.title')}</Heading>
                     </View>
-                    <View style={loginStyles.formView}>
+                    <KeyboardAvoidingView behavior={PLATFORM === 'ios' ? 'padding' : 'height'} style={loginStyles.formView}>
                         <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                             <Input
                                 style={[formStyles.input, { color: COLORS.text }]}
@@ -157,7 +157,7 @@ export const LoginView: FunctionalView<LoginViewModel> = ({ vm }) => {
                             <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('login.sign_up')}</Text>
                             <Text style={[commonStyles.text, { textDecorationLine: 'underline', color: COLORS.text }]}>{i18n.t('login.here')}</Text>
                         </TouchableOpacity>
-                    </View>
+                    </KeyboardAvoidingView>
                     <View style={loginStyles.buttonView}>
                         {!hideErrorMessage ? (
                             <View style={{ alignItems: 'center' }}>

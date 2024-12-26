@@ -32,5 +32,20 @@ export const signUpStyles = StyleSheet.create({
     toolbarButton: {
         alignSelf: 'center',
         flex: 1
+    },
+    editText: { 
+        position: 'absolute', 
+        top: 111,
+        right: 30, 
+        backgroundColor: 'grey', 
+        opacity: 0.7,
+        width: 90,
+        height: 40,
+        borderRadius: 5,
+        borderBottomEndRadius: 90,
+        borderBottomStartRadius: 90,
+        textAlign: 'center',
+        fontSize: SIZES.text_touchables,
+        paddingTop: 10
     }
 })

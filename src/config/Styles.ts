@@ -67,8 +67,7 @@ export const commonStyles = StyleSheet.create({
 
 export const formStyles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'

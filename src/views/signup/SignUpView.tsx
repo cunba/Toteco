@@ -1,6 +1,6 @@
 import { Icon, Image, Input, NativeBaseProvider, Stack } from "native-base";
 import React, { useState } from "react";
-import { ActivityIndicator, Alert, Appearance, Button, InputAccessoryView, Keyboard, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Appearance, Button, InputAccessoryView, Keyboard, KeyboardAvoidingView, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -12,6 +12,7 @@ import i18n from "../../infrastructure/localization/i18n";
 import { back, navigate } from "../../infrastructure/navigation/RootNavigation";
 import { FunctionalView } from "../../infrastructure/views/FunctionalView";
 import { SignUpViewModel } from "../../viewmodels/SignUpViewModel";
+import { signUpStyles } from "./SignUpStyles";
 
 export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     const [showSpinner, setShowSpinner] = useState(false)
@@ -128,21 +129,26 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
     return (
         <>
             <NativeBaseProvider>
-                <View style={[commonStyles.container, { backgroundColor: COLORS.background, paddingBottom: 20 }]}>
-                    <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar }]}>
+                <KeyboardAvoidingView behavior='padding' style={[formStyles.container, { backgroundColor: COLORS.background }]}>
+                    <View style={[commonStyles.toolbar, { borderBottomColor: COLORS.shadowToolbar, marginTop: -50 }]}>
                         <TouchableOpacity onPress={() => back()} style={commonStyles.toolbarButton}>
                             <Icon as={<AntDesign name='left' />} size={7} mr="2" color={COLORS.touchable} />
                         </TouchableOpacity>
                         <Text style={[commonStyles.title, { color: COLORS.text }]}>{i18n.t('sign_up.title')}</Text>
                         <Text style={{ flex: 1 }}></Text>
                     </View>
+
                     <TouchableOpacity style={{ marginBottom: 20, marginTop: 10 }} onPress={pickImageAlert}>
                         {imageUri === '' ?
                             <Image size={150} borderRadius={100} source={require("../../assets/images/default-user.png")} alt="Default user" />
                             :
                             <Image size={150} borderRadius={100} source={{ uri: imageUri }} alt="Alternate Text" />
                         }
+                        <View style={[signUpStyles.editText]}>
+                            <Text style={[commonStyles.text, { color: COLORS.text }]}>{i18n.t('edit').toString()}</Text>
+                        </View>
                     </TouchableOpacity>
+
                     <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
@@ -214,72 +220,8 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             </View>
                         </InputAccessoryView>
                     </Stack>
-                    {/* <View style={signUpStyles.containerInputDate}>
-                        <Input
-                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.day.label').toString()}
-                            onChangeText={(day) => setDay(day)}
-                            borderRadius={10}
-                            inputMode="numeric"
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                            autoCapitalize="none"
-                            inputAccessoryViewID="day"
-                        />
-                        <InputAccessoryView nativeID="day">
-                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
-                                <Button
-                                    onPress={() => Keyboard.dismiss()}
-                                    title={i18n.t('ok').toString()}
-                                />
-                            </View>
-                        </InputAccessoryView>
-                        <Text style={[commonStyles.title, { textAlign: 'center', color: 'grey' }]}>/</Text>
-                        <Input
-                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.month.label').toString()}
-                            onChangeText={(month) => setMonth(month)}
-                            borderRadius={10}
-                            inputMode="numeric"
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                            inputAccessoryViewID="month"
-                        />
-                        <InputAccessoryView nativeID="month">
-                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
-                                <Button
-                                    onPress={() => Keyboard.dismiss()}
-                                    title={i18n.t('ok').toString()}
-                                />
-                            </View>
-                        </InputAccessoryView>
-                        <Text style={[commonStyles.title, { textAlign: 'center', color: 'grey' }]}>/</Text>
-                        <Input
-                            style={[formStyles.input, { paddingLeft: 5, textAlign: 'center', width: 50, color: COLORS.text }]}
-                            w={{ base: "25%", md: "25%" }}
-                            placeholder={i18n.t('sign_up.year.label').toString()}
-                            onChangeText={(year) => setYear(year)}
-                            borderRadius={10}
-                            inputMode="numeric"
-                            keyboardType="numeric"
-                            dataDetectorTypes={'calendarEvent'}
-                            borderWidth={0}
-                            inputAccessoryViewID="year"
-                        />
-                        <InputAccessoryView nativeID="year">
-                            <View style={[formStyles.keyboardOptions, { backgroundColor: COLORS.keyboard }]}>
-                                <Button
-                                    onPress={() => Keyboard.dismiss()}
-                                    title={i18n.t('ok').toString()}
-                                />
-                            </View>
-                        </InputAccessoryView>
-                        <Text ></Text>
-                    </View> */}
+                    {/* </KeyboardAvoidingView>
+                    <KeyboardAvoidingView behavior='padding' style={formStyles.container} > */}
                     <Stack space={2} w="100%" alignItems="center" style={{ marginBottom: 10 }}>
                         <Input
                             style={[formStyles.input, { color: COLORS.text }]}
@@ -344,8 +286,8 @@ export const SignUpView: FunctionalView<SignUpViewModel> = ({ vm }) => {
                             <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('sign_up.title')}</Text>
                         </TouchableOpacity>
                     }
-                </View>
-            </NativeBaseProvider>
+                </KeyboardAvoidingView>
+            </NativeBaseProvider >
         </>
     )
 }

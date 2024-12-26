@@ -1,5 +1,5 @@
 import { Icon, Image, Input, NativeBaseProvider } from "native-base";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Appearance, Button, Dimensions, InputAccessoryView, Keyboard, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
@@ -419,7 +419,7 @@ export const AddPublicationView: FunctionalView<AddPublicationViewModel> = ({ vm
                             {showSpinner ?
                                 <ActivityIndicator style={[commonStyles.spinner, { backgroundColor: COLORS.background }]} size='large' animating={true} color={COLORS.touchable} />
                                 :
-                                <TouchableOpacity style={[formStyles.button, { width: '100%', backgroundColor: COLORS.touchable }]} onPress={onAddPublicationClick} >
+                                <TouchableOpacity style={[formStyles.button, { backgroundColor: COLORS.touchable }]} onPress={onAddPublicationClick} >
                                     <Text style={[commonStyles.textButton, { color: COLORS.text_touchable }]}>{i18n.t('add_publication.title')}</Text>
                                 </TouchableOpacity>
                             }
